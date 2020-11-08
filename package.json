@@ -42,7 +42,7 @@
   "scripts": {
     "start": "node backend/app.js",
     "build": "webpack",
-    "postinstall": "npm run build"
+    "heroku-postbuild": "webpack --config webpack.config.prod.js"
   },
   "browserslist": {
     "production": [
