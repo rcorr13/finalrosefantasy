@@ -40,7 +40,7 @@
     "validator": "^13.1.17"
   },
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node backend/app.js",
     "build": "webpack"
   },
   "browserslist": {
