@@ -15,7 +15,6 @@ import ContestantScoreForm from "./components/ContestantScoreForm";
 import AdminPage from "./components/AdminPage";
 import ContestantsList from "./components/ContestantsList";
 import Standings from "./components/Standings";
-import TableTest from "./components/TableTest";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -47,7 +46,6 @@ class App extends Component {
                             <Route path="/standings" component={Standings} />
                             <Route path="/scoreform" component={ContestantScoreForm} />
                             <Route path="/admin" component={AdminPage} />
-                            <Route path="/tabletest" component={TableTest} />
                         </div>
                     </div>
                 </Router>
