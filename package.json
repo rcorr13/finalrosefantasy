@@ -37,7 +37,8 @@
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.2.0",
     "throttle-debounce": "^3.0.1",
-    "validator": "^13.1.17"
+    "validator": "^13.1.17",
+    "webpack-cli": "^4.2.0"
   },
   "scripts": {
     "start": "node backend/app.js",
