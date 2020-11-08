@@ -119,18 +119,7 @@ const LogisticsSchema = new Schema({
             }
         }
     },
-    week11eliminated: {
-        type: "array",
-        items: {
-            type: "object",
-            properties: {
-                name: {
-                    type: "string"
-                }
-            }
-        }
-    },
-    week12eliminated: {
+    alleliminated: {
         type: "array",
         items: {
             type: "object",
