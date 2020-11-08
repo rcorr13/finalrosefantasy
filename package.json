@@ -41,7 +41,8 @@
   },
   "scripts": {
     "start": "node backend/app.js",
-    "build": "webpack"
+    "build": "webpack",
+    "postinstall": "ng build"
   },
   "browserslist": {
     "production": [
