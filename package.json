@@ -1,5 +1,5 @@
 {
-  "name": "finalrose",
+  "name": "finalrosefantasy",
   "version": "0.1.0",
   "private": true,
   "engines": {
@@ -37,15 +37,13 @@
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.2.0",
     "throttle-debounce": "^3.0.1",
-    "use-double-click": "^1.0.5",
     "validator": "^13.1.17"
   },
   "scripts": {
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "start": "node backend/app.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install npm && run build"
+    "eject": "react-scripts eject"
   },
   "browserslist": {
     "production": [
