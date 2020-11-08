@@ -164,12 +164,16 @@ router.route('/update/:id').put((req, res, next) => {
 
 firstRun = false;
 if (firstRun) {
-    /*
+
     Contestants.deleteMany({ status: 'on' }, function (err) {
         if(err) console.log(err);
         console.log("Successful deletion");
     });
-     */
+
+    Logistics.deleteMany({ currentWeek: '1' }, function (err) {
+        if(err) console.log(err);
+        console.log("Successful deletion");
+    });
 
     Contestants.insertMany([
         {nameLink: 'AJ', name: 'AJ', age: '28', job: 'Software Salesman', city: 'Playa Del Rey', stateUS: 'CA', status: 'on', imageLink: 'https://cdn1.edgedatg.com/aws/v2/abc/TheBachelorette/person/3529328/d0031072d7e281e62ae8c458e1db7c8c/330x330-Q90_d0031072d7e281e62ae8c458e1db7c8c.jpg', totalpoints: '0', week1points: '0', week1actions:[], week2points: '0', week2actions: [], week3points: '0', week3actions:[], week4points: '0', week4actions: [], week5points: '0', week5actions:[], week6points: '0', week6actions: [], week7points: '0', week7actions:[], week8points: '0', week8actions: [], week9points: '0', week9actions:[], week10points: '0', week10actions: [], oneTimeActions: []},
@@ -210,7 +214,7 @@ if (firstRun) {
         console.log(error)      // Failure
     });
 
-    Logistics.create({currentWeek: 1, week1eliminated: [], week2eliminated: [], week3eliminated: [], week4eliminated: [], week5eliminated: [], week6eliminated: [], week7eliminated: [], week8eliminated: [], week9eliminated: [], week10eliminated: [], firstsOccurred: []})
+    Logistics.create({currentWeek: 1, week1eliminated: [], week2eliminated: [], week3eliminated: [], week4eliminated: [], week5eliminated: [], week6eliminated: [], week7eliminated: [], week8eliminated: [], week9eliminated: [], week10eliminated: [],  week11eliminated: [], week12eliminated: [], firstsOccurred: []})
         .then(function(){
             console.log("Logistics inserted")  // Success
         }).catch(function(error){
