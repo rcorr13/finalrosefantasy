@@ -42,7 +42,7 @@
   },
   "scripts": {
     "start": "node backend/app.js",
-    "build": "webpack",
+    "build": "webpack"
   },
   "browserslist": {
     "production": [
