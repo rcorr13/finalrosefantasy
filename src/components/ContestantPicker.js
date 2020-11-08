@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
-import {logoutUser} from "../actions/authentication";
 import {withRouter} from "react-router-dom";
 import axios from "axios";
 import Image from "react-bootstrap/Image";
@@ -47,13 +46,13 @@ const ContestantList = styled.div`
     min-height: 150px; 
     `;
 
-const Container1 = styled.div`
+const ContainerContestantPicture = styled.div`
     margin-left: 20px;
     display: flex;
     flex-direction: column;
 `;
 
-const Container2 = styled.div`
+const ContainerContestantName = styled.div`
     align-items: center;
     margin-left: 20px;
     margin-top: 15px;
@@ -73,7 +72,7 @@ const ContainerContestant = styled.div`
     flex-direction: row;
 `;
 
-class ContestantPicker4 extends React.Component {
+class ContestantPicker extends React.Component {
 
     componentDidMount() {
         this.fetchContestants();
@@ -81,23 +80,28 @@ class ContestantPicker4 extends React.Component {
 
     async fetchContestants() {
         let contestants = await this.allContestants();
+        contestants = contestants.filter(contestant => contestant.status === "on")
+
         let users = await this.allUsers();
         const {isAuthenticated, user} = this.props.auth;
-        user.contestants = (users.find(userID => userID._id==user.id)).contestants;
-        console.log(user);
+        const userFull = (users.find(userID => userID._id===user.id));
+
+        const pickedContestants = (userFull.picks);
         const unselectedContestants = contestants
             .map(contestantInfo => contestantInfo.nameLink)
-            .filter(contestantLink => !(user.contestants.includes(contestantLink)));
+            .filter(contestantLink => !(pickedContestants.includes(contestantLink)));
 
         this.setState({
             contestants: contestants,
-            user: user,
+            user: userFull,
         });
 
         const columnsUpdate = {...this.state.columns};
         columnsUpdate.column1.contestantIndices = unselectedContestants;
-        columnsUpdate.column2.contestantIndices = (users.find(userID => userID._id==user.id)).contestants;
-        this.setState({columnsUpdate})
+        columnsUpdate.column2.contestantIndices = pickedContestants;
+        this.setState({columnsUpdate});
+        console.log(this.state)
+
     }
 
     async allContestants() {
@@ -123,7 +127,7 @@ class ContestantPicker4 extends React.Component {
                 'column2': {
                     id: 'column2',
                     title: 'My Picks',
-                    contestantIndices: user.contestants,
+                    contestantIndices: [],
                 },
             },
             columnOrder: ['column1', 'column2'],
@@ -175,9 +179,7 @@ class ContestantPicker4 extends React.Component {
 
         // moving from one list to the other
         const startContestantIds = Array.from(start.contestantIndices);
-        //console.log(startContestantIds)
         startContestantIds.splice(startContestantIds.indexOf(draggableId), 1);
-        //console.log(startContestantIds)
 
         const newStart = {
             ...start,
@@ -210,31 +212,23 @@ class ContestantPicker4 extends React.Component {
 
     handleClick = () => {
         const contestantsPickedIds = this.state.columns["column2"].contestantIndices;
-        //let result3 = contestantsPickedIds
-        //    .map(contestant => `${contestant} is picked`)
-        //console.log(contestantsPickedIds)
+        const user = this.state.user;
 
-        const {isAuthenticated, user} = this.props.auth;
+        console.log(user)
 
         const updatedUser = {
             ...user,
-            contestants: contestantsPickedIds,
+            picks: contestantsPickedIds,
         };
+
         console.log(updatedUser)
 
-        /*
-        axios.put(('http://localhost:5000/helloworld'), {
-            updatedUser
-        }).then(res => console.log(res.data));
-
-        console.log(this.state)
-         */
-
-        axios.put(('http://localhost:5000/updateuser/'+user.id), {
+        axios.put(('http://localhost:5000/updateuser/'+user._id), {
             updatedUser
         })
             .then(res => console.log(res.data));
 
+        window.location.href = "/standings";
     }
 
     render() {
@@ -243,16 +237,12 @@ class ContestantPicker4 extends React.Component {
                 <Container>
                     {this.state.columnOrder.map(columnId => {
                         const column = this.state.columns[columnId];
-                        const contestantsColumn = column.contestantIndices.map(contestantIndex => (this.state.contestants.find(element => element.nameLink == contestantIndex)))
+                        const contestantsColumn = column.contestantIndices.map(contestantIndex => (this.state.contestants.find(element => element.nameLink === contestantIndex)))
                         const contestantNames = [];
-                        const contestantImages = [];
                         const userStr = JSON.stringify(contestantsColumn);
                         JSON.parse(userStr, (key, value) => {
                             if (key === 'nameLink') {
-                                //console.log(value);
                                 return contestantNames.push(value);
-                            } else if (key === 'imageLink') {
-                                return contestantImages.push(value);
                             }
                         });
                         return (
@@ -267,7 +257,11 @@ class ContestantPicker4 extends React.Component {
                                         >
                                             {contestantNames.map((nameLink,index) => {
                                                 return (
-                                                    <Draggable key={nameLink} draggableId={nameLink} index={index}>
+                                                    <Draggable
+                                                        key={nameLink}
+                                                        draggableId={nameLink}
+                                                        index={index}
+                                                    >
                                                         {(provided, snapshot) => (
                                                             <ContainerContestant
                                                                 isDragging={snapshot.isDragging}
@@ -275,8 +269,10 @@ class ContestantPicker4 extends React.Component {
                                                                 {...provided.draggableProps}
                                                                 {...provided.dragHandleProps}
                                                             >
-                                                                <Container1><Image src={((this.state.contestants.find(element => element.nameLink == nameLink))).imageLink} width="70" roundedCircle/></Container1>
-                                                                <Container2> {nameLink.replace('-', ' ')} </Container2>
+                                                                <ContainerContestantPicture><Image src={
+                                                                    ((this.state.contestants.find(element => element.nameLink === nameLink))).imageLink}
+                                                                                                   width="70" roundedCircle/></ContainerContestantPicture>
+                                                                <ContainerContestantName> {nameLink.replace('-', ' ')} </ContainerContestantName>
                                                             </ContainerContestant>)}
                                                     </Draggable>)})
                                             }
@@ -286,7 +282,6 @@ class ContestantPicker4 extends React.Component {
                             </ContainerColumn>
                         )
                     })}
-
                     <SmallButton variant="primary" onClick={this.handleClick}> Submit </SmallButton>
                 </Container>
             </DragDropContext>
@@ -295,7 +290,7 @@ class ContestantPicker4 extends React.Component {
     };
 }
 
-ContestantPicker4.propTypes = {
+ContestantPicker.propTypes = {
     auth: PropTypes.object.isRequired
 }
 
@@ -303,38 +298,4 @@ const mapStateToProps = (state) => ({
     auth: state.auth
 })
 
-export default connect(mapStateToProps, { logoutUser })(withRouter(ContestantPicker4));
-
-
-/*
-                                            {JSON.stringify(contestantsColumn.map(contestant => contestant))}
-
-<Droppable droppableId={column.id}>
-                                    {(provided,snapshot) => (
-                                        <ContestantList
-                                            ref={provided.innerRef}
-                                            {...provided.droppableProps}
-                                            isDraggingOver={snapshot.isDraggingOver}
-                                        >
-                                            return (
-                                            {contestants.map((contestant, index) => (
-                                                <Draggable draggableId={contestant._id} index={index}>
-                                                    {(provided, snapshot) => (
-                                                        <ContainerContestant
-                                                            isDragging={snapshot.isDragging}
-                                                            ref={provided.innerRef}
-                                                            {...provided.draggableProps}
-                                                            {...provided.dragHandleProps}
-                                                        >
-                                                            <Container1><Image src={contestant.imageLink} alt={contestant.nameLink} width="70" roundedCircle/></Container1>
-                                                            <Container2> {contestant.name} </Container2>
-                                                        </ContainerContestant>
-                                                    )}
-                                                </Draggable>
-                                            ))})
-                                            {provided.placeholder}
-                                        </ContestantList>
-                                    )}
-                                </Droppable>
-
- */
+export default connect(mapStateToProps)(withRouter(ContestantPicker));

@@ -10,17 +10,14 @@ import NavBar from './components/NavBar';
 import Register from './components/Register';
 import Login from './components/Login';
 import Home from './components/Home';
-import PickContestants from "./components/PickContestants";
-import CreateContestantComponent from "./components/create-contestant.component";
-import ContestantsList from "./components/ContestantListTest";
-
-//import {ContestantList} from "./contestants/ContestantList";
-import { SingleContestantPage } from './contestants/SingleContestantPage';
-import { EditContestantForm } from './contestants/EditContestantForm';
+import PickContestants from "./components/ContestantPicker";
+import ContestantUpdateTextInput from "./components/ContestantUpdateTextInput";
+import AdminPage from "./components/AdminPage";
+import ContestantsList from "./components/ContestantsList";
+import Standings from "./components/Standings";
+import TableTest from "./components/TableTest";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import UsersList from "./components/UsersTest";
-import ContestantList from "./components/ContestantTest";
 
 if(localStorage.jwtToken) {
     setAuthToken(localStorage.jwtToken);
@@ -47,11 +44,10 @@ class App extends Component {
                             <Route exact path="/login" component={ Login } />
                             <Route exact path="/pickcontestants" component={ PickContestants } />
                             <Route exact path="/contestants" component={ ContestantsList } />
-                            <Route exact path="/editContestant/:contestantId" component={ EditContestantForm } />
-                            <Route exact path="/contestants/:contestantId" component={SingleContestantPage} />
-                            <Route exact path="/create" component={CreateContestantComponent} />
-                            <Route path="/listcontestants" component={ContestantsList} />
-                            <Route path="/users" component={UsersList} />
+                            <Route path="/standings" component={Standings} />
+                            <Route path="/scoreform" component={ContestantUpdateTextInput} />
+                            <Route path="/admin" component={AdminPage} />
+                            <Route path="/tabletest" component={TableTest} />
                         </div>
                     </div>
                 </Router>

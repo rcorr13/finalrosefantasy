@@ -2,280 +2,231 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const ContestantBackendSchema = new Schema({
-    nameLink: {
+const UserSchema = new Schema({
+    firstname: {
         type: String,
         required: true
     },
-    name: {
+    lastname: {
         type: String,
         required: true
     },
-    age: {
+    email: {
         type: String,
         required: true
     },
-    job: {
+    password: {
         type: String,
         required: true
     },
-    city: {
-        type: String,
-        required: true
+    picks: {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string"
+                }
+            }
+        }
     },
-    stateUS: {
-        type: String,
-        required: true
+    week1team: {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string"
+                }
+            }
+        },
+        default: []
     },
-    status: {
+    week1total: {
         type: String,
-        required: true
+        default: '0'
     },
-    imageLink: {
+    week2team: {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string"
+                }
+            }
+        },
+        default: []
+    },
+    week2total: {
         type: String,
-        required: true
+        default: '0'
+    },
+    week3team: {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string"
+                }
+            }
+        },
+        default: []
+    },
+    week3total: {
+        type: String,
+        default: '0'
+    },
+    week4team: {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string"
+                }
+            }
+        },
+        default: []
+    },
+    week4total: {
+        type: String,
+        default: '0'
+    },
+    week5team: {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string"
+                }
+            }
+        },
+        default: []
+    },
+    week5total: {
+        type: String,
+        default: '0'
+    },
+    week6team: {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string"
+                }
+            }
+        },
+        default: []
+    },
+    week6total: {
+        type: String,
+        default: '0'
+    },
+    week7team: {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string"
+                }
+            }
+        },
+        default: []
+    },
+    week7total: {
+        type: String,
+        default: '0'
+    },
+    week8team: {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string"
+                }
+            }
+        },
+        default: []
+    },
+    week8total: {
+        type: String,
+        default: '0'
+    },
+    week9team: {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string"
+                }
+            }
+        },
+        default: []
+    },
+    week9total: {
+        type: String,
+        default: '0'
+    },
+    week10team: {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string"
+                }
+            }
+        },
+        default: []
+    },
+    week10total: {
+        type: String,
+        default: '0'
+    },
+    week11team: {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string"
+                }
+            }
+        },
+        default: []
+    },
+    week11total: {
+        type: String,
+        default: '0'
+    },
+    week12team: {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string"
+                }
+            }
+        },
+        default: []
+    },
+    week12total: {
+        type: String,
+        default: '0'
     },
     totalpoints: {
         type: String,
-        required: true
-    },
-    week1points: {
-        type: String,
-        required: true,
-        default: "0",
-    },
-    week1actions: {
-        type: "array",
-        items: {
-            type: "object",
-            properties: {
-                name: {
-                    type: "string"
-                }
-            }
-        }
-    },
-    week2points: {
-        type: String,
-        required: true,
-        default: "0",
-    },
-    week2actions: {
-        type: "array",
-        items: {
-            type: "object",
-            properties: {
-                name: {
-                    type: "string"
-                }
-            }
-        }
-    },
-    week3points: {
-        type: String,
-        required: true,
-        default: "0"
-    },
-    week3actions: {
-        type: "array",
-        items: {
-            type: "object",
-            properties: {
-                name: {
-                    type: "string"
-                }
-            }
-        }
-    },
-    week4points: {
-        type: String,
-        required: true,
-        default: "0"
-    },
-    week4actions: {
-        type: "array",
-        items: {
-            type: "object",
-            properties: {
-                name: {
-                    type: "string"
-                }
-            }
-        }
-    },
-    week5points: {
-        type: String,
-        required: true,
-        default: "0"
-    },
-    week5actions: {
-        type: "array",
-        items: {
-            type: "object",
-            properties: {
-                name: {
-                    type: "string"
-                }
-            }
-        }
-    },
-    week6points: {
-        type: String,
-        required: true,
-        default: "0"
-    },
-    week6actions: {
-        type: "array",
-        items: {
-            type: "object",
-            properties: {
-                name: {
-                    type: "string"
-                }
-            }
-        }
-    },
-    week7points: {
-        type: String,
-        required: true,
-        default: "0"
-    },
-    week7actions: {
-        type: "array",
-        items: {
-            type: "object",
-            properties: {
-                name: {
-                    type: "string"
-                }
-            }
-        }
-    },
-    week8points: {
-        type: String,
-        required: true,
-        default: "0"
-    },
-    week8actions: {
-        type: "array",
-        items: {
-            type: "object",
-            properties: {
-                name: {
-                    type: "string"
-                }
-            }
-        }
-    },
-    week9points: {
-        type: String,
-        required: true,
-        default: "0"
-    },
-    week9actions: {
-        type: "array",
-        items: {
-            type: "object",
-            properties: {
-                name: {
-                    type: "string"
-                }
-            }
-        }
-    },
-    week10points: {
-        type: String,
-        required: true,
-        default: "0"
-    },
-    week10actions: {
-        type: "array",
-        items: {
-            type: "object",
-            properties: {
-                name: {
-                    type: "string"
-                }
-            }
-        }
-    },
-    week11points: {
-        type: String,
-        required: true,
-        default: "0"
-    },
-    week11actions: {
-        type: "array",
-        items: {
-            type: "object",
-            properties: {
-                name: {
-                    type: "string"
-                }
-            }
-        }
-    },
-    week12points: {
-        type: String,
-        required: true,
-        default: "0"
-    },
-    week12actions: {
-        type: "array",
-        items: {
-            type: "object",
-            properties: {
-                name: {
-                    type: "string"
-                }
-            }
-        }
-    },
-    week13points: {
-        type: String,
-        required: true,
-        default: "0"
-    },
-    week13actions: {
-        type: "array",
-        items: {
-            type: "object",
-            properties: {
-                name: {
-                    type: "string"
-                }
-            }
-        }
-    },
-    week14points: {
-        type: String,
-        required: true,
-        default: "0"
-    },
-    week14actions: {
-        type: "array",
-        items: {
-            type: "object",
-            properties: {
-                name: {
-                    type: "string"
-                }
-            }
-        }
-    },
-    oneTimeActions: {
-        type: "array",
-        items: {
-            type: "object",
-            properties: {
-                name: {
-                    type: "string"
-                }
-            }
-        }
-    },
+        default: '0'
+    }
 });
 
-const Contestants = mongoose.model('contestants', ContestantBackendSchema);
-
-module.exports = ContestantBackendSchema
+const User = mongoose.model('users', UserSchema);
+module.exports = UserSchema;
