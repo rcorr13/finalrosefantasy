@@ -42,11 +42,8 @@ function makeNewConnection(uri) {
 
 //const mongooseConnection = makeNewConnection('mongodb://127.0.0.1:27017/finalrose');
 
-//const uri = "mongodb+srv://rlcorr:m4I7RnsHNdkHqSGj@finalrosefantasy.arty4.mongodb.net/finalrose?retryWrites=true&w=majority";
-//const mongooseConnection = makeNewConnection(uri);
-
-let dev_db_url = "mongodb+srv://rlcorr:m4I7RnsHNdkHqSGj@finalrosefantasy.arty4.mongodb.net/finalrose?retryWrites=true&w=majority";
-let mongooseConnection = process.env.MONGODB_URI || dev_db_url;
+const uri = "mongodb+srv://rlcorr:m4I7RnsHNdkHqSGj@finalrosefantasy.arty4.mongodb.net/finalrose?retryWrites=true&w=majority";
+const mongooseConnection = makeNewConnection(uri);
 
 const User = mongooseConnection.model('users', UserSchema);
 const Contestants = mongooseConnection.model('contestants', ContestantBackendSchema);
@@ -56,7 +53,6 @@ const app = express();
 app.use(cors());
 app.use(passport.initialize());
 require('./passport')(passport);
-//app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -287,14 +283,17 @@ app.put('/updatecontestant/:nameLink', (req, res) => {
 
 firstRun = false;
 if (firstRun) {
+
     Contestants.deleteMany({ status: 'on' }, function (err) {
         if(err) console.log(err);
         console.log("Successful deletion");
     });
+
     Logistics.deleteMany({ currentWeek: '1' }, function (err) {
         if(err) console.log(err);
         console.log("Successful deletion");
     });
+
     Contestants.insertMany([
         {nameLink: 'AJ', name: 'AJ', age: '28', job: 'Software Salesman', city: 'Playa Del Rey', stateUS: 'CA', status: 'on', imageLink: 'https://cdn1.edgedatg.com/aws/v2/abc/TheBachelorette/person/3529328/d0031072d7e281e62ae8c458e1db7c8c/330x330-Q90_d0031072d7e281e62ae8c458e1db7c8c.jpg', totalpoints: '0', week1points: '0', week1actions:[], week2points: '0', week2actions: [], week3points: '0', week3actions:[], week4points: '0', week4actions: [], week5points: '0', week5actions:[], week6points: '0', week6actions: [], week7points: '0', week7actions:[], week8points: '0', week8actions: [], week9points: '0', week9actions:[], week10points: '0', week10actions: [], oneTimeActions: []},
         {nameLink: 'Ben', name: 'Ben', age: '29', job: 'Army Ranger Veteran', city: 'Venice', stateUS: 'CA', status: 'on', imageLink: 'https://cdn1.edgedatg.com/aws/v2/abc/TheBachelorette/person/3529329/d39f47e0fc6cffac38608135517d6257/330x330-Q90_d39f47e0fc6cffac38608135517d6257.jpg', totalpoints: '0', week1points: '0', week1actions:[], week2points: '0', week2actions: [], week3points: '0', week3actions:[], week4points: '0', week4actions: [], week5points: '0', week5actions:[], week6points: '0', week6actions: [], week7points: '0', week7actions:[], week8points: '0', week8actions: [], week9points: '0', week9actions:[], week10points: '0', week10actions: [], oneTimeActions: []},
