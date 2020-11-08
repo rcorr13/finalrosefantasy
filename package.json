@@ -41,7 +41,7 @@
   },
   "scripts": {
     "start": "node backend/app.js",
-    "build": "webpack"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install npm && run build"
   },
   "browserslist": {
     "production": [
