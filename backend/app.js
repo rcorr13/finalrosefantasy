@@ -12,7 +12,6 @@ const jwt = require('jsonwebtoken');
 const ContestantBackendSchema = require('./models/ContestantBackend');
 const UserSchema = require('./models/User');
 const LogisticsSchema = require('./models/Logistics');
-const ObjectId = require("mongoose");
 
 function makeNewConnection(uri) {
     const db = mongoose.createConnection(uri, {
@@ -222,7 +221,7 @@ if (firstRun) {
     });
 };
 
-app.use('/8', router);
+app.use('/', router);
 
 app.get('/users', async (req, res) => {
     const users = await User.find({});
