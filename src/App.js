@@ -11,7 +11,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Home from './components/Home';
 import PickContestants from "./components/ContestantPicker";
-import ContestantUpdateTextInput from "./components/ContestantUpdateTextInput";
+import ContestantScoreForm from "./components/ContestantScoreForm";
 import AdminPage from "./components/AdminPage";
 import ContestantsList from "./components/ContestantsList";
 import Standings from "./components/Standings";
@@ -45,7 +45,7 @@ class App extends Component {
                             <Route exact path="/pickcontestants" component={ PickContestants } />
                             <Route exact path="/contestants" component={ ContestantsList } />
                             <Route path="/standings" component={Standings} />
-                            <Route path="/scoreform" component={ContestantUpdateTextInput} />
+                            <Route path="/scoreform" component={ContestantScoreForm} />
                             <Route path="/admin" component={AdminPage} />
                             <Route path="/tabletest" component={TableTest} />
                         </div>

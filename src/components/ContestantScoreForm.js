@@ -49,7 +49,7 @@ const ContainerAction = styled.button`
         (props.type === 'OncePerContestant' && 'green')};  
 `;
 
-export default class ContestantUpdateTextInput extends React.Component {
+export default class ContestantScoreForm extends React.Component {
     componentDidMount() {
         this.fetchContestants();
     }
