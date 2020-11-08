@@ -42,7 +42,8 @@
   },
   "scripts": {
     "start": "node backend/app.js",
-    "build": "webpack"
+    "build": "webpack",
+    "heroku-postbuild":"npm run build"
   },
   "browserslist": {
     "production": [
