@@ -6,7 +6,6 @@ import { logoutUser } from '../actions/authentication';
 import { withRouter } from 'react-router-dom';
 import styled from "styled-components";
 import { NavDropdown } from "react-bootstrap";
-import AdminPage from "AdminPage";
 
 const Container = styled.div`
     display: flex;
