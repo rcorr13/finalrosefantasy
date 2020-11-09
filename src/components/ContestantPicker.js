@@ -269,7 +269,7 @@ class ContestantPicker extends React.Component {
                                             isDraggingOver={snapshot.isDraggingOver}
                                         >
                                             {contestantNames.map((nameLink,index) => {
-                                                const isDragDisabled = (this.user['week' + (parseInt(this.state.currentWeek)-1).toString() + 'team']).contains(nameLink);
+                                                const isDragDisabled = (this.state.user['week' + (parseInt(this.state.currentWeek)-1).toString() + 'team']).contains(nameLink);
                                                 return (
                                                     <Draggable
                                                         key={nameLink}
