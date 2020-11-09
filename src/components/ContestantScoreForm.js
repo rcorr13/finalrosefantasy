@@ -73,11 +73,11 @@ export default class ContestantScoreForm extends React.Component {
     }
 
     async allContestants() {
-        return (await axios.get('http://localhost:5000/contestants')).data
+        return (await axios.get('/contestants')).data
     }
 
     async LogisticsInfo() {
-        return (await axios.get('http://localhost:5000/logistics')).data
+        return (await axios.get('/logistics')).data
     }
 
     constructor(props) {

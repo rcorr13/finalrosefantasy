@@ -140,7 +140,7 @@ export default function EnhancedTable() {
     useEffect(function() {
         async function getUsers() {
             try {
-                const response = await axios.get("http://localhost:5000/users");
+                const response = await axios.get("/users");
                 setUsers(response.data);
             } catch(error) {
                 console.log('error', error);
