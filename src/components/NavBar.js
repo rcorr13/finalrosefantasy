@@ -29,10 +29,10 @@ class NavBar extends Component {
     render() {
         const {isAuthenticated, user} = this.props.auth;
         const authLinks = (
-            <Nav>
+            <Nav className="ml-auto">
                 <Nav.Link href="/pickcontestants">Pick Contestants</Nav.Link>
                 <NavDropdown title={user.firstname} id="collasible-nav-dropdown">
-                    <NavDropdown.Item href="#action/3.1">Account Information</NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.1">Item To-do</NavDropdown.Item>
                     <NavDropdown.Item onClick={this.onLogout.bind(this)}>Logout</NavDropdown.Item>
                     {(user.id === "5fa847fc43f5b23b2c605fa2") && (
                         <NavDropdown.Item onClick={this.redirectAdmin.bind(this)}>
@@ -44,7 +44,7 @@ class NavBar extends Component {
         )
 
         const guestLinks = (
-            <Nav className="mr-auto">
+            <Nav className="ml-auto">
                 <Nav.Link href="/register">Sign Up</Nav.Link>
                 <Nav.Link href="/login">Sign In</Nav.Link>
             </Nav>
@@ -61,7 +61,7 @@ class NavBar extends Component {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link href="/users">Standings</Nav.Link>
+                        <Nav.Link href="/standings">Standings</Nav.Link>
                         <Nav.Link href="/contestantslist">Contestants</Nav.Link>
                     </Nav>
                     {isAuthenticated ? authLinks : guestLinks}
