@@ -110,9 +110,11 @@ export default class ContestantScoreForm extends React.Component {
     };
 
     _fetch = textInput => {
+        console.log(textInput)
         const regex = new RegExp(`${textInput}`, 'i');
         const newSuggestions = this.state.actionKey
             .filter(action => regex.test(action.key))
+        console.log(newSuggestions)
         this.setState( {suggestions: newSuggestions});
     };
 

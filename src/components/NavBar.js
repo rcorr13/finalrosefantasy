@@ -20,7 +20,6 @@ class NavBar extends Component {
 
     render() {
         const {isAuthenticated, user} = this.props.auth;
-        console.log(user)
         const authLinks = (
             <ul className="navbar-nav ml-auto">
                 <Container>
