@@ -165,6 +165,8 @@ export default function EnhancedTable() {
         (row.week12total = parseInt(row.week12total));
     })
 
+    console.log(rows)
+
     const classes = useStyles();
     const [order, setOrder] = React.useState("asc");
     const [orderBy, setOrderBy] = React.useState("firstname");
@@ -195,30 +197,30 @@ export default function EnhancedTable() {
                                         <TableRow hover key={row.firstname}>
                                             <TableCell align="left">{row.firstname}</TableCell>
                                             <TableCell align="left">{row.totalpoints}</TableCell>
+                                            <TableCell align="left">{(row.week1team).join(", ").replaceAll(/-/gi, ' ')}</TableCell>
                                             <TableCell align="left">{row.week1total}</TableCell>
-                                            <TableCell align="left">{((row.week1team).toString()).replaceAll("-"," ").replaceAll(",",", ")}</TableCell>
+                                            <TableCell align="left">{(row.week2team).join(", ").replaceAll(/-/gi, ' ')}</TableCell>
                                             <TableCell align="left">{row.week2total}</TableCell>
-                                            <TableCell align="left">{((row.week2team).toString()).replaceAll("-"," ").replaceAll(",",", ")}</TableCell>
+                                            <TableCell align="left">{(row.week3team).join(", ").replaceAll(/-/gi, ' ')}</TableCell>
                                             <TableCell align="left">{row.week3total}</TableCell>
-                                            <TableCell align="left">{((row.week3team).toString()).replaceAll("-"," ").replaceAll(",",", ")}</TableCell>
+                                            <TableCell align="left">{(row.week4team).join(", ").replaceAll(/-/gi, ' ')}</TableCell>
                                             <TableCell align="left">{row.week4total}</TableCell>
-                                            <TableCell align="left">{((row.week4team).toString()).replaceAll("-"," ").replaceAll(",",", ")}</TableCell>
+                                            <TableCell align="left">{(row.week5team).join(", ").replaceAll(/-/gi, ' ')}</TableCell>
                                             <TableCell align="left">{row.week5total}</TableCell>
-                                            <TableCell align="left">{((row.week5team).toString()).replaceAll("-"," ").replaceAll(",",", ")}</TableCell>
+                                            <TableCell align="left">{(row.week6team).join(", ").replaceAll(/-/gi, ' ')}</TableCell>
                                             <TableCell align="left">{row.week6total}</TableCell>
-                                            <TableCell align="left">{((row.week6team).toString()).replaceAll("-"," ").replaceAll(",",", ")}</TableCell>
+                                            <TableCell align="left">{(row.week7team).join(", ").replaceAll(/-/gi, ' ')}</TableCell>
                                             <TableCell align="left">{row.week7total}</TableCell>
-                                            <TableCell align="left">{((row.week7team).toString()).replaceAll("-"," ").replaceAll(",",", ")}</TableCell>
+                                            <TableCell align="left">{(row.week8team).join(", ").replaceAll(/-/gi, ' ')}</TableCell>
                                             <TableCell align="left">{row.week8total}</TableCell>
-                                            <TableCell align="left">{((row.week8team).toString()).replaceAll("-"," ").replaceAll(",",", ")}</TableCell>
+                                            <TableCell align="left">{(row.week9team).join(", ").replaceAll(/-/gi, ' ')}</TableCell>
                                             <TableCell align="left">{row.week9total}</TableCell>
-                                            <TableCell align="left">{((row.week9team).toString()).replaceAll("-"," ").replaceAll(",",", ")}</TableCell>
+                                            <TableCell align="left">{(row.week10team).join(", ").replaceAll(/-/gi, ' ')}</TableCell>
                                             <TableCell align="left">{row.week10total}</TableCell>
-                                            <TableCell align="left">{((row.week10team).toString()).replaceAll("-"," ").replaceAll(",",", ")}</TableCell>
+                                            <TableCell align="left">{(row.week11team).join(", ").replaceAll(/-/gi, ' ')}</TableCell>
                                             <TableCell align="left">{row.week11total}</TableCell>
-                                            <TableCell align="left">{((row.week11team).toString()).replaceAll("-"," ").replaceAll(",",", ")}</TableCell>
+                                            <TableCell align="left">{(row.week12team).join(", ").replaceAll(/-/gi, ' ')}</TableCell>
                                             <TableCell align="left">{row.week12total}</TableCell>
-                                            <TableCell align="left">{((row.week12team).toString()).replaceAll("-"," ").replaceAll(",",", ")}</TableCell>
                                         </TableRow>
                                     );
                                 }

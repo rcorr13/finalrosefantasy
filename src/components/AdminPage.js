@@ -310,6 +310,7 @@ export default class AdminPage extends React.Component {
                 {weekOptions.map((week, index) => {
                     return (
                         <Container>
+                            <button value={week} onClick={e => this.setCurrentWeek(e.target.value)}>Set As Week {week}</button>
                             <button value={week} onClick={e => this.setTeamsWeek(e.target.value)}>Set Week {week} Picks</button>
                             <button value={week} onClick={e => this.setScoreWeek(e.target.value)}>Score Contestants Week {week}</button>
                             <button value={week} onClick={e => this.getPointsWeek(e.target.value)}>Get Week {week} Points</button>
