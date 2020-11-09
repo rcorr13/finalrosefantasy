@@ -228,7 +228,7 @@ class ContestantPicker extends React.Component {
         })
             .then(res => console.log(res.data));
 
-        window.location.href = "/standings";
+        alert('Picks have been submitted!')
     }
 
     render() {

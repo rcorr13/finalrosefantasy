@@ -134,7 +134,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-
 export default function EnhancedTable() {
     const [rows, setUsers] = useState([])
 
