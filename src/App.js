@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route} from 'react-router-dom';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import jwt_decode from 'jwt-decode';
@@ -34,11 +34,11 @@ class App extends Component {
     render() {
         return (
             <Provider store = { store }>
-                <Router>
-                    <div>
-                        <NavBar />
-                        <Route exact path="/" component={ Home } />
-                        <div className="container">
+                <div>
+                    <NavBar />
+                    <Switch>
+                        <HashRouter  basename="/">
+                            <Route exact path="/" component={ Home } />
                             <Route exact path="/register" component={ Register } />
                             <Route exact path="/login" component={ Login } />
                             <Route exact path="/pickcontestants" component={ PickContestants } />
@@ -46,9 +46,9 @@ class App extends Component {
                             <Route exact path="/standings" component={Standings} />
                             <Route exact path="/scoreform" component={ContestantScoreForm} />
                             <Route exact path="/admin" component={AdminPage} />
-                        </div>
-                    </div>
-                </Router>
+                        </HashRouter>
+                    </Switch>
+                </div>
             </Provider>
         );
     }
