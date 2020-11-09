@@ -95,7 +95,7 @@ export default class ContestantScoreForm extends React.Component {
             weekPointsName: 'week0points',
             logistics: {},
         };
-        this.autocompleteSearchDebounced = debounce(600, this.autocompleteSearch);
+        this.autocompleteSearchDebounced = debounce(400, this.autocompleteSearch);
     }
 
     changeQuery = e => {
