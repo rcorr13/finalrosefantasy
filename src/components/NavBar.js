@@ -6,6 +6,7 @@ import { logoutUser } from '../actions/authentication';
 import { withRouter } from 'react-router-dom';
 import styled from "styled-components";
 import { NavDropdown } from "react-bootstrap";
+import AdminPage from "AdminPage";
 
 const Container = styled.div`
     display: flex;
@@ -20,7 +21,7 @@ class NavBar extends Component {
 
     render() {
         const {isAuthenticated, user} = this.props.auth;
-        //console.log(user)
+        console.log(user)
         const authLinks = (
             <ul className="navbar-nav ml-auto">
                 <Container>
@@ -36,32 +37,16 @@ class NavBar extends Component {
                         <NavDropdown.Item onClick={this.onLogout.bind(this)}>
                             Logout
                         </NavDropdown.Item>
+                        {(user.email === "rachelcorr@gmail.com") && (
+                            <NavDropdown.Item>
+                                <Link className="nav-link" to="/admin">Admin </Link>
+                            </NavDropdown.Item>
+                        )}
                     </NavDropdown>
                 </Container>
             </ul>
         )
-        const adminLinks = (
-            <ul className="navbar-nav ml-auto">
-                <Container>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/pickcontestants">Pick Contestants</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/admin">Admin Page</Link>
-                    </li>
-                </Container>
-                <Container>
-                    <NavDropdown title={user.firstname} id="basic-nav-dropdown">
-                        <NavDropdown.Item>
-                            Account Information
-                        </NavDropdown.Item>
-                        <NavDropdown.Item onClick={this.onLogout.bind(this)}>
-                            Logout
-                        </NavDropdown.Item>
-                    </NavDropdown>
-                </Container>
-            </ul>
-        )
+
         const guestLinks = (
                 <ul className="navbar-nav ml-auto">
                     <Container>
@@ -99,7 +84,7 @@ class NavBar extends Component {
                     </Container>
                 </ul>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    {!isAuthenticated ? guestLinks : (user.email==="rachelcorr2014@gmail.com" ? adminLinks : authLinks)}
+                    {isAuthenticated ? authLinks : guestLinks}
                 </div>
             </nav>
         )
