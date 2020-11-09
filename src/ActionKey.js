@@ -96,4 +96,5 @@ export default ActionKey = [
     {id: 94, key: 'Contestant says: “I’m not ready for marriage” / “I’m not ready to get married” / “I’m not ready to get engaged” / “I’m not ready to be engaged”', points: -12, category: 'OncePerEpisode'},
     {id: 95, key: 'Bachelorette says she’s falling in love with a contestant (to their face - but said to contestant first +15)', points: 15, category: 'OncePerContestant'},
     {id: 96, key: 'Bachelorette says she loves a contestant (to their face - but said to contestant first +20)', points: 20, category: 'OncePerContestant'},
+    {id: 97, key: 'Contestant leaves (no point penalty)', points: 0, category: 'OncePerEpisode'}
 ]
