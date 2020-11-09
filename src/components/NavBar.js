@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import { logoutUser } from '../actions/authentication';
 import { withRouter } from 'react-router-dom';
 import styled from "styled-components";
-import NavItem, { NavDropdown } from "react-bootstrap";
-import { Navbar } from "react-bootstrap";
+import NavItem from "react-bootstrap";
+
+import{ Navbar, Nav, Button, NavDropdown}  from "react-bootstrap";
 
 const Container = styled.div`
     display: flex;
@@ -24,77 +25,48 @@ class NavBar extends Component {
         this.props.history.push('/admin');
     }
 
+
     render() {
         const {isAuthenticated, user} = this.props.auth;
         const authLinks = (
-            <ul className="navbar-nav ml-auto">
-                <Container>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/pickcontestants">Pick Contestants</Link>
-                    </li>
-                </Container>
-                <Container>
-                    <NavDropdown title={user.firstname} id="basic-nav-dropdown">
-                        <NavDropdown.Item>
-                            Account Information
+            <Nav>
+                <Nav.Link href="/pickcontestants">Pick Contestants</Nav.Link>
+                <NavDropdown title={user.firstname} id="collasible-nav-dropdown">
+                    <NavDropdown.Item href="#action/3.1">Account Information</NavDropdown.Item>
+                    <NavDropdown.Item onClick={this.onLogout.bind(this)}>Logout</NavDropdown.Item>
+                    {(user.id === "5fa847fc43f5b23b2c605fa2") && (
+                        <NavDropdown.Item onClick={this.redirectAdmin.bind(this)}>
+                            Admin
                         </NavDropdown.Item>
-                        <NavDropdown.Item onClick={this.onLogout.bind(this)}>
-                            Logout
-                        </NavDropdown.Item>
-                        {(user.id === "5fa847fc43f5b23b2c605fa2") && (
-                            <NavDropdown.Item onClick={this.redirectAdmin.bind(this)}>
-                                Admin
-                            </NavDropdown.Item>
-                        )}
-                    </NavDropdown>
-                </Container>
-            </ul>
+                    )}
+                </NavDropdown>
+            </Nav>
         )
 
         const guestLinks = (
-            <ul className="navbar-nav mr-auto">
-                <Container>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/register">Sign Up</Link>
-                    </li>
-                </Container>
-                <Container>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/login">Sign In</Link>
-                    </li>
-                </Container>
-            </ul>
+            <Nav className="mr-auto">
+                <Nav.Link href="/register">Sign Up</Nav.Link>
+                <Nav.Link href="/login">Sign In</Nav.Link>
+            </Nav>
         )
         return(
-            <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
-                <Link className="navbar-brand" to="/" style={{fontSize: 1.2 + 'em'}}>
-                    <img src="/logo512.png" width="30" height="30" className="d-inline-block align-top"
-                         alt="Rose" style={{marginRight: .7 + 'em'}}/>
-                    Final Rose Fantasy</Link>
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-                        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul className="navbar-nav mr-auto">
-                        <Container>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/standings">Standings</Link>
-                            </li>
-                        </Container>
-                        <Container>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/contestantslist">Contestants</Link>
-                            </li>
-                        </Container>
-                    </ul>
-                    <ul className="navbar-nav ml-auto">
-                        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                            {isAuthenticated ? authLinks : guestLinks}
-                        </div>
-                    </ul>
-                </div>
-            </nav>
+            <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark">
+                <Navbar.Brand href="/">
+                    <Navbar.Brand>
+                        <img src="/logo512.png" width="30" height="30" className="d-inline-block align-top"
+                             alt="Rose" style={{marginRight: .5 + 'em'}}/>
+                        Final Rose Fantasy
+                    </Navbar.Brand>
+                </Navbar.Brand>
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Collapse id="responsive-navbar-nav">
+                    <Nav className="mr-auto">
+                        <Nav.Link href="/users">Standings</Nav.Link>
+                        <Nav.Link href="/contestantslist">Contestants</Nav.Link>
+                    </Nav>
+                    {isAuthenticated ? authLinks : guestLinks}
+                </Navbar.Collapse>
+            </Navbar>
         )
     }
 }
