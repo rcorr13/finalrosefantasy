@@ -52,17 +52,13 @@ export default class AdminPage extends React.Component {
     }
 
     pickTeamsWeek1 = () => {
-        const week1pickorder = [
-            ['Shannon','Erik', 'Rachel'],
-            ['Shannon','Rachel', 'Erik'],
-            ['Shannon','Erik','Rachel']]
-        /*
+
         const week1pickorder = [
             ['Erik', 'Rachel', 'Rebecca', 'Julia', 'Kendall', 'Davis', 'Hope', 'Shannon'],
             ['Julia', 'Kendall', 'Davis', 'Hope', 'Shannon', 'Erik', 'Rachel', 'Rebecca'],
             ['Shannon', 'Rebecca', 'Hope', 'Rachel', 'Davis', 'Kendall', 'Erik', 'Julia']
         ]
-         */
+
         let Preferences = this.state.allCurrentPicks;
         let FinalPicks =  {}
         this.state.users.map(user => {FinalPicks[user.firstname] = []})
