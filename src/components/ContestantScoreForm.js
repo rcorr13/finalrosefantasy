@@ -200,6 +200,8 @@ export default class ContestantScoreForm extends React.Component {
             return;
         }
 
+        console.log(weekActions)
+        console.log(weekActions.indexOf(actionOption))
         weekActions.splice(weekActions.indexOf(actionOption),1)
         console.log(weekActions)
         const updatedContestant = {
