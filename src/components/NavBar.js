@@ -36,7 +36,7 @@ class NavBar extends Component {
                         <NavDropdown.Item onClick={this.onLogout.bind(this)}>
                             Logout
                         </NavDropdown.Item>
-                        {(user.email === "rachelcorr@gmail.com") && (
+                        {(user.id === "5fa847fc43f5b23b2c605fa2") && (
                             <NavDropdown.Item>
                                 <Link className="nav-link" to="/admin">Admin </Link>
                             </NavDropdown.Item>
