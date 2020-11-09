@@ -218,7 +218,7 @@ if (firstRun) {
     });
 };
 
-app.use('/api', router);
+app.use('/', router);
 
 app.get('/users', async (req, res) => {
     const users = await User.find({});
