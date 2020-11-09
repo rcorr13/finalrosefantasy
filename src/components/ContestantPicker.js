@@ -67,7 +67,9 @@ const ContainerContestant = styled.div`
     border-radius: 2px;
     padding: 8px;
     margin-bottom: 8px;
-    background-color: ${props => (props.isDragging ? 'lightgreen' : 'white')};
+    background-color: ${props =>
+        props.isDragDisabled  ? 'lightgrey' : 
+            (props.isDragging ? 'lightgreen' : 'white')};
     display: flex;
     flex-direction: row;
 `;
@@ -86,6 +88,8 @@ class ContestantPicker extends React.Component {
         const {isAuthenticated, user} = this.props.auth;
         const userFull = (users.find(userID => userID._id===user.id));
 
+        let logistics = await this.getLogistics();
+
         const pickedContestants = (userFull.picks);
         const unselectedContestants = contestants
             .map(contestantInfo => contestantInfo.nameLink)
@@ -94,6 +98,7 @@ class ContestantPicker extends React.Component {
         this.setState({
             contestants: contestants,
             user: userFull,
+            currentWeek: logistics[0].currentWeek
         });
 
         const columnsUpdate = {...this.state.columns};
@@ -114,12 +119,18 @@ class ContestantPicker extends React.Component {
         return (await axios.get('https://finalrosefantasy.herokuapp.com/users')).data
     }
 
+    async getLogistics() {
+        //return (await axios.get('http://localhost:5000/users')).data
+        return (await axios.get('https://finalrosefantasy.herokuapp.com/logistics')).data
+    }
+
     constructor(props) {
         super(props);
         const {isAuthenticated, user} = this.props.auth;
         this.state = {
             user: user,
             contestants: [],
+            currentWeek: "0",
             columns: {
                 'column1': {
                     id: 'column1',
@@ -258,11 +269,13 @@ class ContestantPicker extends React.Component {
                                             isDraggingOver={snapshot.isDraggingOver}
                                         >
                                             {contestantNames.map((nameLink,index) => {
+                                                const isDragDisabled = (this.user['week' + (parseInt(this.state.currentWeek)-1).toString() + 'team']).contains(nameLink);
                                                 return (
                                                     <Draggable
                                                         key={nameLink}
                                                         draggableId={nameLink}
                                                         index={index}
+                                                        isDragDisabled={isDragDisabled}
                                                     >
                                                         {(provided, snapshot) => (
                                                             <ContainerContestant
@@ -270,6 +283,7 @@ class ContestantPicker extends React.Component {
                                                                 ref={provided.innerRef}
                                                                 {...provided.draggableProps}
                                                                 {...provided.dragHandleProps}
+                                                                isDragDisabled={isDragDisabled}
                                                             >
                                                                 <ContainerContestantPicture><Image src={
                                                                     ((this.state.contestants.find(element => element.nameLink === nameLink))).imageLink}
