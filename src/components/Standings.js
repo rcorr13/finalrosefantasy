@@ -165,9 +165,11 @@ export default function EnhancedTable() {
         (row.week12total = parseInt(row.week12total));
     })
 
+    console.log(rows)
+
     const classes = useStyles();
     const [order, setOrder] = React.useState("asc");
-    const [orderBy, setOrderBy] = React.useState("name");
+    const [orderBy, setOrderBy] = React.useState("firstname");
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";
@@ -190,13 +192,13 @@ export default function EnhancedTable() {
                         />
                         <TableBody>
                             {stableSort(rows, getComparator(order, orderBy)).map(
-                                (row, index) => {
+                                (row, index) => { console.log(row)
                                     return (
-                                        <TableRow hover key={row.name}>
+                                        <TableRow hover key={row.firstname}>
                                             <TableCell align="left">{row.firstname}</TableCell>
                                             <TableCell align="left">{row.totalpoints}</TableCell>
                                             <TableCell align="left">{row.week1total}</TableCell>
-                                            <TableCell align="left">{(row.week1team).toString().replaceAll("-"," ").replaceAll(",",", ")}</TableCell>
+                                            <TableCell align="left">{((row.week1team).toString()).replaceAll("-"," ").replaceAll(",",", ")}</TableCell>
                                             <TableCell align="left">{row.week2total}</TableCell>
                                             <TableCell align="left">{(row.week2team).toString().replaceAll("-"," ").replaceAll(",",", ")}</TableCell>
                                             <TableCell align="left">{row.week3total}</TableCell>
