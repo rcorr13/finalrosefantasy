@@ -6,6 +6,7 @@ import { logoutUser } from '../actions/authentication';
 import { withRouter } from 'react-router-dom';
 import styled from "styled-components";
 import { NavDropdown } from "react-bootstrap";
+import AdminPage from "AdminPage";
 
 const Container = styled.div`
     display: flex;
@@ -27,6 +28,28 @@ class NavBar extends Component {
                 <li className="nav-item">
                     <Link className="nav-link" to="/pickcontestants">Pick Contestants</Link>
                 </li>
+                </Container>
+                <Container>
+                    <NavDropdown title={user.firstname} id="basic-nav-dropdown">
+                        <NavDropdown.Item>
+                            Account Information
+                        </NavDropdown.Item>
+                        <NavDropdown.Item onClick={this.onLogout.bind(this)}>
+                            Logout
+                        </NavDropdown.Item>
+                    </NavDropdown>
+                </Container>
+            </ul>
+        )
+        const adminLinks = (
+            <ul className="navbar-nav ml-auto">
+                <Container>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/pickcontestants">Pick Contestants</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/admin">Admin Page</Link>
+                    </li>
                 </Container>
                 <Container>
                     <NavDropdown title={user.firstname} id="basic-nav-dropdown">
@@ -77,7 +100,7 @@ class NavBar extends Component {
                     </Container>
                 </ul>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    {isAuthenticated ? authLinks : guestLinks}
+                    {!isAuthenticated ? guestLinks : (user.email==="rachelcorr2014@gmail.com" ? adminLinks : authLinks)}
                 </div>
             </nav>
         )
