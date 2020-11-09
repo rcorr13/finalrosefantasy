@@ -165,8 +165,6 @@ export default function EnhancedTable() {
         (row.week12total = parseInt(row.week12total));
     })
 
-    console.log(rows)
-
     const classes = useStyles();
     const [order, setOrder] = React.useState("asc");
     const [orderBy, setOrderBy] = React.useState("firstname");
