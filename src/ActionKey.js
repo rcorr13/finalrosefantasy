@@ -85,7 +85,7 @@ export default ActionKey = [
     {id: 83, key: 'Contestant kisses Bachelorette (on lips) during limo intro - consent is important people', points: -10, category: 'OncePerEpisode'},
     {id: 84, key: 'First solo time with the Bachelorette (after limos)', points: 7, category: 'Firsts'},
     {id: 85, key: 'First contestant to steal the Bachelorette away from another contestant', points: 7, category: 'Firsts'},
-    {id: 86, key: 'Contestant receives first impression rose (bonus)', points: 10, category: 'OncePerEpisode'},
+    {id: 86, key: 'Contestant receives first impression rose (bonus)', points: 12, category: 'OncePerEpisode'},
     {id: 87, key: 'Contestant refers to the Bachelorette as his “girlfriend”', points: 5, category: 'OncePerEpisode'},
     {id: 88, key: 'Contestant says “I was hoping it would be you/her/the Bachelorette” or “I was hoping for you/her/the Bachelorette”', points: 5, category: 'OncePerEpisode'},
     {id: 89, key: 'Mentions "corona" "covid " "pandemic" "mask" "social distancing" or staying "6 feet" away (in a non-science-denial-way)', points: 5, category: 'OncePerEpisode'},
