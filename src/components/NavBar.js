@@ -72,7 +72,7 @@ class NavBar extends Component {
                     </Container>
                     <Container>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/contestants">Contestants</Link>
+                            <Link className="nav-link" to="/contestantslist">Contestants</Link>
                         </li>
                     </Container>
                 </ul>

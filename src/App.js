@@ -42,7 +42,7 @@ class App extends Component {
                             <Route exact path="/register" component={ Register } />
                             <Route exact path="/login" component={ Login } />
                             <Route exact path="/pickcontestants" component={ PickContestants } />
-                            <Route exact path="/contestants" component={ ContestantsList } />
+                            <Route exact path="/contestantslist" component={ ContestantsList } />
                             <Route path="/standings" component={Standings} />
                             <Route path="/scoreform" component={ContestantScoreForm} />
                             <Route path="/admin" component={AdminPage} />
