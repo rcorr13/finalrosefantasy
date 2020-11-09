@@ -18,6 +18,11 @@ class NavBar extends Component {
         this.props.logoutUser(this.props.history);
     }
 
+    redirectAdmin(e) {
+        e.preventDefault();
+        this.props.history.push('/admin');
+    }
+
     render() {
         const {isAuthenticated, user} = this.props.auth;
         const authLinks = (
@@ -36,7 +41,7 @@ class NavBar extends Component {
                             Logout
                         </NavDropdown.Item>
                         {(user.id === "5fa847fc43f5b23b2c605fa2") && (
-                            <NavDropdown.Item onClick={this.props.history.push('/admin')}>
+                            <NavDropdown.Item onClick={this.redirectAdmin.bind(this)}>
                                     Admin
                             </NavDropdown.Item>
                         )}
