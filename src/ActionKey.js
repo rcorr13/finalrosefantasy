@@ -6,7 +6,7 @@ export default ActionKey = [
     {id: 4, key: 'Contestant gets a word bleeped out', points: 7, category: 'OncePerEpisode'},
     {id: 5, key: 'Contestant is on camera shirtless (not during swimming/beach date)', points: 7, category: 'OncePerEpisode'},
     {id: 6, key: 'Contestant is on camera shirtless and doesn’t have a six-pack (bonus for bravery)', points: 1, category: 'OncePerEpisode'},
-    {id: 7, key: 'Does not advance', points: -12, category: 'OncePerEpisode'},
+    {id: 7, key: 'Does not advance / Eliminated', points: -12, category: 'OncePerEpisode'},
     {id: 8, key: 'Dumped outside of a rose ceremony (bonus)', points: -5, category: 'OncePerEpisode'},
     {id: 9, key: 'Kisses Bachelorette', points: 5, category: 'OncePerEpisode'},
     {id: 10, key: 'Full on hard core gross make out with the Bachelorette (bonus)', points: 3, category: 'OncePerEpisode'},
