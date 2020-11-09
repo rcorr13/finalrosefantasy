@@ -28,15 +28,15 @@ export default class AdminPage extends React.Component {
     }
 
     async LogisticsInfo() {
-        return (await axios.get('http://localhost:5000/logistics')).data
+        return (await axios.get('https://finalrosefantasy.herokuapp.com/logistics')).data
     }
 
     async UserInfo() {
-        return (await axios.get('http://localhost:5000/users')).data
+        return (await axios.get('https://finalrosefantasy.herokuapp.com/users')).data
     }
 
     async allContestants() {
-        return (await axios.get('http://localhost:5000/contestants')).data
+        return (await axios.get('https://finalrosefantasy.herokuapp.com/contestants')).data
     }
 
     constructor(props) {
@@ -190,7 +190,7 @@ export default class AdminPage extends React.Component {
                 [weekTeam]: FinalPicks[user.firstname],
             };
 
-            axios.put(('http://localhost:5000/updateuser/' + user._id), {
+            axios.put(('https://finalrosefantasy.herokuapp.com/updateuser/' + user._id), {
                 updatedUser
             })
                 .then(res => console.log(res.data))
@@ -211,7 +211,7 @@ export default class AdminPage extends React.Component {
                     ...contestant,
                     'status': 'eliminated',
                 };
-                axios.put(('http://localhost:5000/updatecontestant/'+updatedContestant.nameLink), {
+                axios.put(('https://finalrosefantasy.herokuapp.com/updatecontestant/'+updatedContestant.nameLink), {
                     updatedContestant
                 })
                 const contestantIndex = this.state.contestants.indexOf(this.state.contestants.find(originalContestant => originalContestant.nameLink === updatedContestant.nameLink));
@@ -232,7 +232,7 @@ export default class AdminPage extends React.Component {
             updatedLogistics[weekEliminatedColumnName] = [...new Set(updatedEliminated)];
         }
 
-        axios.put(('http://localhost:5000/updatelogistics'), {
+        axios.put(('https://finalrosefantasy.herokuapp.com/updatelogistics'), {
             updatedLogistics}).then(res => console.log(res.data))
 
         this.setState({'logistics': updatedLogistics})
@@ -267,10 +267,9 @@ export default class AdminPage extends React.Component {
             };
             console.log((totalTotal + weekTotal));
             console.log(updatedUser)
-            axios.put(('http://localhost:5000/updateuser/' + user._id), {updatedUser})
+            axios.put(('https://finalrosefantasy.herokuapp.com/updateuser/' + user._id), {updatedUser})
                 .then(res => console.log(res.data))
         });
-        //window.location.href = "/standings";
     }
 
     setCurrentWeek = value => {
@@ -282,7 +281,7 @@ export default class AdminPage extends React.Component {
             'currentWeek': currentWeek,
         };
 
-        axios.put(('http://localhost:5000/updatelogistics'), {
+        axios.put(('https://finalrosefantasy.herokuapp.com/updatelogistics'), {
             updatedLogistics}).then(res => console.log(res.data))
         this.setState({'logistics': updatedLogistics, currentWeek: updatedLogistics.currentWeek})
     };
@@ -296,12 +295,11 @@ export default class AdminPage extends React.Component {
             'currentWeek': currentWeek,
         };
 
-        axios.put(('http://localhost:5000/updatelogistics'), {
+        axios.put(('https://finalrosefantasy.herokuapp.com/updatelogistics'), {
             updatedLogistics}).then(res => console.log(res.data))
         this.setState({'logistics': updatedLogistics, currentWeek: updatedLogistics.currentWeek})
 
         this.props.history.push('/scoreform')
-        //window.location.href = "/scoreform";
     };
 
     render() {

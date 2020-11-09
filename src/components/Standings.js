@@ -140,7 +140,7 @@ export default function EnhancedTable() {
     useEffect(function() {
         async function getUsers() {
             try {
-                const response = await axios.get("/users");
+                const response = await axios.get("https://finalrosefantasy.herokuapp.com/users");
                 setUsers(response.data);
             } catch(error) {
                 console.log('error', error);
