@@ -55,9 +55,9 @@ export default ActionKey = [
     {id: 53, key: 'Contestant tells the Bachelorette he’s in love with her/loves her (in a serious way)', points: 20, category: 'OncePerContestant'},
     {id: 54, key: 'Contestant reveals he’s bi/trans/member of LGBTQ community', points: 25, category: 'OncePerContestant'},
     {id: 55, key: 'Bachelorette says she’s falling in love with a contestant (not to their face - no points if already said to the contestants face)', points: 10, category: 'OncePerContestant'},
-    {id: 56, key: 'Bachelorette says she’s falling in love with a contestant (to their face - if already got points for the Bachelorette telling the camera crew/Chris that she’s falling in love with them +5, if said to contestant first +15)', points: 15, category: 'OncePerContestant'},
+    {id: 56, key: 'Bachelorette says she’s falling in love with a contestant (to their face - but already told the camera crew/Chris that she’s falling in love with them +5)', points: 5, category: 'OncePerContestant'},
     {id: 57, key: 'Bachelorette says she loves a contestant (not to their face - no points if already said to the contestants face)', points: 15, category: 'OncePerContestant'},
-    {id: 58, key: 'Bachelorette says she loves a contestant (to their face - if already got points for the Bachelorette telling the camera crew/Chris that she’s in love with the contestant +5, if said to contestant first +20', points: 20, category: 'OncePerContestant'},
+    {id: 58, key: 'Bachelorette says she loves a contestant (to their face - but already told the camera crew/Chris that she’s falling in love with them +5)', points: 5, category: 'OncePerContestant'},
     {id: 59, key: 'Contestant wins season (Leaves with Clare or Tayshia’s final pick)', points: 25, category: 'OncePerEpisode'},
     {id: 60, key: 'Contestant wins season but they split up before After the Final Rose (in non-Jed-like circumstances)', points: -15, category: 'OncePerEpisode'},
     {id: 61, key: 'Contestant wins season but the Bachelor pulls an Arie/Peter and switches to picking someone else', points: -10, category: 'OncePerEpisode'},
@@ -93,4 +93,7 @@ export default ActionKey = [
     {id: 91, key: 'Contestant says someone is “disngenuine/disingenuous ”', points: 10, category: 'OncePerEpisode'},
     {id: 92, key: 'Contestant says “I’m not here to make friends”', points: 10, category: 'OncePerEpisode'},
     {id: 93, key: 'Contestant says corona is a hoax/refuses to wear a mask/general corona denial', points: -10, category: 'OncePerEpisode'},
-    {id: 94, key: 'Contestant says: “I’m not ready for marriage” / “I’m not ready to get married” / “I’m not ready to get engaged” / “I’m not ready to be engaged”', points: -12, category: 'OncePerEpisode'}]
+    {id: 94, key: 'Contestant says: “I’m not ready for marriage” / “I’m not ready to get married” / “I’m not ready to get engaged” / “I’m not ready to be engaged”', points: -12, category: 'OncePerEpisode'},
+    {id: 95, key: 'Bachelorette says she’s falling in love with a contestant (to their face - but said to contestant first +15)', points: 15, category: 'OncePerContestant'},
+    {id: 96, key: 'Bachelorette says she loves a contestant (to their face - but said to contestant first +20', points: 20, category: 'OncePerContestant'},
+]
