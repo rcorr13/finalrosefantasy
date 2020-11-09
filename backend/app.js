@@ -13,6 +13,7 @@ const ContestantBackendSchema = require('./models/ContestantBackend');
 const UserSchema = require('./models/User');
 const LogisticsSchema = require('./models/Logistics');
 const ObjectId = require("mongoose");
+const path = require('path');
 
 function makeNewConnection(uri) {
     const db = mongoose.createConnection(uri, {
