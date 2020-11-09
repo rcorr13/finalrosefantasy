@@ -93,5 +93,4 @@ export default ActionKey = [
     {id: 91, key: 'Contestant says someone is “disngenuine/disingenuous ”', points: 10, category: 'OncePerEpisode'},
     {id: 92, key: 'Contestant says “I’m not here to make friends”', points: 10, category: 'OncePerEpisode'},
     {id: 93, key: 'Contestant says corona is a hoax/refuses to wear a mask/general corona denial', points: -10, category: 'OncePerEpisode'},
-    {id: 94, key: 'Contestant says: “I’m not ready for marriage” / “I’m not ready to get married” / “I’m not ready to get engaged” / “I’m not ready to be engaged”', points: -12, category: 'OncePerEpisode'}
-    ]
+    {id: 94, key: 'Contestant says: “I’m not ready for marriage” / “I’m not ready to get married” / “I’m not ready to get engaged” / “I’m not ready to be engaged”', points: -12, category: 'OncePerEpisode'}]
