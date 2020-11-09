@@ -43,9 +43,9 @@ class App extends Component {
                             <Route exact path="/login" component={ Login } />
                             <Route exact path="/pickcontestants" component={ PickContestants } />
                             <Route exact path="/contestantslist" component={ ContestantsList } />
-                            <Route path="/standings" component={Standings} />
-                            <Route path="/scoreform" component={ContestantScoreForm} />
-                            <Route path="/admin" component={AdminPage} />
+                            <Route exact path="/standings" component={Standings} />
+                            <Route exact path="/scoreform" component={ContestantScoreForm} />
+                            <Route exact path="/admin" component={AdminPage} />
                         </div>
                     </div>
                 </Router>
