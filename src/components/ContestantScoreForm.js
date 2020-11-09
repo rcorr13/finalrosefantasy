@@ -44,9 +44,9 @@ const ContainerAction = styled.button`
     background-color: ${props =>
         (props.type === 'NotUsed' && 'white') ||
         (props.type === 'OncePerEpisode' && 'lightcoral') ||
-        (props.type === 'Firsts' && 'blue') ||
+        (props.type === 'Firsts' && 'peachPuff') ||
         (props.type === 'MultiplePerEpisode' && 'paleturquoise') ||
-        (props.type === 'OncePerContestant' && 'green')};  
+        (props.type === 'OncePerContestant' && 'paleGreen')};  
 `;
 
 export default class ContestantScoreForm extends React.Component {
@@ -205,7 +205,8 @@ export default class ContestantScoreForm extends React.Component {
         const updatedContestant = {
             ...this.state.currentContestant,
             [this.state.weekActionsName]: weekActions,
-            [this.state.weekPointsName]: (parseInt(this.state.currentContestant[this.state.weekPointsName]) - parseInt(actionOption.points)).toString()
+            [this.state.weekPointsName]: (parseInt(this.state.currentContestant[this.state.weekPointsName]) - parseInt(actionOption.points)).toString(),
+            totalpoints: (parseInt(this.state.currentContestant.totalpoints) - parseInt(actionOption.points)).toString()
         };
 
         axios.put(('http://localhost:5000/updatecontestant/'+updatedContestant.nameLink), {
