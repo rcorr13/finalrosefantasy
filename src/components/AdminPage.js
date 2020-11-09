@@ -299,7 +299,8 @@ export default class AdminPage extends React.Component {
             updatedLogistics}).then(res => console.log(res.data))
         this.setState({'logistics': updatedLogistics, currentWeek: updatedLogistics.currentWeek})
 
-        window.location.href = "/scoreform";
+        this.props.history.push('/scoreform')
+        //window.location.href = "/scoreform";
     };
 
     render() {
