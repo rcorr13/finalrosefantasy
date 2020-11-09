@@ -250,7 +250,6 @@ export default class AdminPage extends React.Component {
 
         (users).forEach(user => {
             let weekTeam = user[weekTeamColumnName];
-            console.log(totalTotal)
             let weekTotal = 0;
 
             weekTeam.forEach(contestantLink => {
@@ -258,7 +257,8 @@ export default class AdminPage extends React.Component {
                 weekTotal += parseInt(contestant[weekPointsColumnName]);
             })
 
-            let totalTotal = (parseInt(user.week1total) + parseInt(user.week2total) + parseInt(user.week3total) + parseInt(user.week4total) + (parseInt(user.week5total) + parseInt(user.week6total) + parseInt(user.week7total) + parseInt(user.week8total) + (parseInt(user.week9total) + parseInt(user.week10total) + parseInt(user.week11total) + parseInt(user.week12total) + weekTotal).toString(),
+            let totalTotal = (parseInt(user.week1total) + parseInt(user.week2total) + parseInt(user.week3total) + parseInt(user.week4total) + parseInt(user.week5total) + parseInt(user.week6total) + parseInt(user.week7total) + parseInt(user.week8total) + parseInt(user.week9total) + parseInt(user.week10total) + parseInt(user.week11total) + parseInt(user.week12total) + weekTotal).toString()
+            console.log(totalTotal)
 
             const updatedUser = {
                 ...user,
