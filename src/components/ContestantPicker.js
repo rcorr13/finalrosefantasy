@@ -81,19 +81,19 @@ class ContestantPicker extends React.Component {
     }
 
     async fetchContestants() {
-        let contestants = await this.allContestants();
-        contestants = contestants.filter(contestant => contestant.status === "on")
-
         let users = await this.allUsers();
         const {isAuthenticated, user} = this.props.auth;
         const userFull = (users.find(userID => userID._id===user.id));
 
-        let logistics = await this.getLogistics();
-
+        let contestants = await this.allContestants();
         const pickedContestants = (userFull.picks)
             .map(contestantLink => contestants.find(contestant => contestant.nameLink === contestantLink))
             .filter(contestant => contestant.status === "on")
             .map(contestant => contestant.nameLink);
+
+        contestants = contestants.filter(contestant => contestant.status === "on")
+
+        let logistics = await this.getLogistics();
 
         const unselectedContestants = contestants
             .map(contestantInfo => contestantInfo.nameLink)
