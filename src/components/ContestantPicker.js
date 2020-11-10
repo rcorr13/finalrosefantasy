@@ -68,8 +68,8 @@ const ContainerContestant = styled.div`
     padding: 8px;
     margin-bottom: 8px;
     background-color: ${props =>
-        props.isDragDisabled  ? 'lightgrey' : 
-            (props.isDragging ? 'lightgreen' : 'white')};
+        props.isDragDisabled  ? 'lightgreen' : 
+            (props.isDragging ? 'lightgrey' : 'white')};
     display: flex;
     flex-direction: row;
 `;
@@ -90,7 +90,7 @@ class ContestantPicker extends React.Component {
 
         let logistics = await this.getLogistics();
 
-        const pickedContestants = (userFull.picks);
+        const pickedContestants = (userFull.picks).filter(contestant => contestant.status === "on");
         const unselectedContestants = contestants
             .map(contestantInfo => contestantInfo.nameLink)
             .filter(contestantLink => !(pickedContestants.includes(contestantLink)));
@@ -269,8 +269,6 @@ class ContestantPicker extends React.Component {
                                             isDraggingOver={snapshot.isDraggingOver}
                                         >
                                             {contestantNames.map((nameLink,index) => {
-                                                    console.log(this.state.user['week' + (parseInt(this.state.currentWeek)-1) + 'team'])
-                                                    console.log((this.state.user['week' + (parseInt(this.state.currentWeek)-1).toString() + 'team']).includes(nameLink))
                                                 const isDragDisabled = ((this.state.user['week' + (parseInt(this.state.currentWeek)-1).toString() + 'team']).includes(nameLink))
 
                                                 return (
