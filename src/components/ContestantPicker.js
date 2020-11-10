@@ -90,7 +90,11 @@ class ContestantPicker extends React.Component {
 
         let logistics = await this.getLogistics();
 
-        const pickedContestants = (userFull.picks).filter(contestant => contestant.status === "on");
+        const pickedContestants = (userFull.picks)
+            .map(contestantLink => contestants.find(contestant => contestant.nameLink === contestantLink))
+            .filter(contestant => contestant.status === "on")
+            .map(contestant => contestant.nameLink);
+
         const unselectedContestants = contestants
             .map(contestantInfo => contestantInfo.nameLink)
             .filter(contestantLink => !(pickedContestants.includes(contestantLink)));
