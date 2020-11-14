@@ -234,7 +234,6 @@ if (isWeek6) {
     });
 }
 
-
 app.use('/api', router);
 
 app.get('/users', async (req, res) => {
