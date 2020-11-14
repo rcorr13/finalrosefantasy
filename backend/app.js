@@ -219,6 +219,7 @@ if (firstRun) {
     });
 };
 
+
 isWeek6 = false;
 if (isWeek6) {
     Contestants.insertMany([
