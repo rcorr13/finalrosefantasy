@@ -41,7 +41,7 @@ const headCells = [
     { id: 'name', numeric: false, label: 'Name', minWidth: 100 },
     { id: 'age', label: 'Age', minWidth: 50 },
     { id: 'job', numeric: false, label: 'Job', minWidth: 50 },
-    { id: 'total', numeric: true, label: 'Total Points', minWidth: 100 },
+    { id: 'totalpoints', numeric: true, label: 'Total Points', minWidth: 100 },
     { id: 'week1points', numeric: true, label: 'Week 1 Points', minWidth: 700 },
     { id: 'week1actions', numeric: false, label: 'Week 1 Actions', minWidth: 150 },
     { id: 'week2points', numeric: true, label: 'Week 2 Points', minWidth: 100 },
