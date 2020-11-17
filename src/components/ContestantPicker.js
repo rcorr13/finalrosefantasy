@@ -61,6 +61,7 @@ const ContainerContestantName = styled.div`
     flex-direction: column;
 `;
 
+/*
 const ContainerContestant = styled.div`
     font-size: 2em;
     border: 1px solid lightgrey;
@@ -68,12 +69,25 @@ const ContainerContestant = styled.div`
     padding: 8px;
     margin-bottom: 8px;
     background-color: ${props =>
-        props.isDragDisabled  ? 'lightgreen' : 
+        props.isDraggable  ? 'lightgreen' :
             (props.isDragging ? 'lightgrey' : 'white')};
     display: flex;
     flex-direction: row;
 `;
+ */
 
+const ContainerContestant = styled.div`
+    font-size: 2em;
+    border: 1px solid lightgrey;
+    border-radius: 2px;
+    padding: 8px;
+    margin-bottom: 8px;
+    background-color: ${props =>
+    (props.type == 'onTeam'  ? 'lightgreen' :
+        (props.isDragging ? 'lightgrey' : 'white'))};
+    display: flex;
+    flex-direction: row;
+`;
 class ContestantPicker extends React.Component {
 
     componentDidMount() {
@@ -155,6 +169,9 @@ class ContestantPicker extends React.Component {
         // updates contestant list with new order of contestants
         const {destination, source, draggableId} = result;
 
+
+        console.log(draggableId);
+
         // dropped outside the list
         if (!destination) {
             return;
@@ -193,6 +210,12 @@ class ContestantPicker extends React.Component {
             this.setState(newState);
             return;
         }
+
+        // if contestant on team, won't move to the next list
+        if (this.contestantOnTeam(draggableId)) {
+            return;
+        }
+
 
         // moving from one list to the other
         const startContestantIds = Array.from(start.contestantIndices);
@@ -248,6 +271,21 @@ class ContestantPicker extends React.Component {
         alert('Picks have been submitted!')
     }
 
+    contestantOnTeam = (nameLink) => {
+        return (((this.state.user['week' + (parseInt(this.state.currentWeek) - 1).toString() + 'team']).includes(nameLink)))
+    }
+
+    typeContestant = (nameLink) => {
+        if (this.contestantOnTeam(nameLink)) {
+            let typeName = 'onTeam'
+            return typeName;
+        } else {
+            let typeName = 'movable';
+            return typeName;
+        }
+        return;
+    }
+
     render() {
         return (
             <DragDropContext onDragEnd={this.onDragEnd}>
@@ -265,7 +303,7 @@ class ContestantPicker extends React.Component {
                         return (
                             <ContainerColumn key={column.id}>
                                 <Title>{column.title}</Title>
-                                <Droppable droppableId={column.id} >
+                                <Droppable droppableId={column.id}>
                                     {(provided,snapshot) => (
                                         <ContestantList
                                             ref={provided.innerRef}
@@ -273,14 +311,14 @@ class ContestantPicker extends React.Component {
                                             isDraggingOver={snapshot.isDraggingOver}
                                         >
                                             {contestantNames.map((nameLink,index) => {
-                                                const isDragDisabled = ((this.state.user['week' + (parseInt(this.state.currentWeek)-1).toString() + 'team']).includes(nameLink))
-
+                                                //const isDragDisabled = ((this.state.user['week' + (parseInt(this.state.currentWeek)-1).toString() + 'team']).includes(nameLink))
                                                 return (
                                                     <Draggable
                                                         key={nameLink}
                                                         draggableId={nameLink}
                                                         index={index}
-                                                        isDragDisabled={isDragDisabled}
+                                                        //isDragDisabled={isDragDisabled}
+                                                        type={this.typeContestant(nameLink)}
                                                     >
                                                         {(provided, snapshot) => (
                                                             <ContainerContestant
@@ -288,13 +326,16 @@ class ContestantPicker extends React.Component {
                                                                 ref={provided.innerRef}
                                                                 {...provided.draggableProps}
                                                                 {...provided.dragHandleProps}
-                                                                isDragDisabled={isDragDisabled}
+                                                                //isDragDisabled={isDragDisabled}
+                                                                type={this.typeContestant(nameLink)}
                                                             >
                                                                 <ContainerContestantPicture><Image src={
                                                                     ((this.state.contestants.find(element => element.nameLink === nameLink))).imageLink}
-                                                                                                   width="70" roundedCircle/></ContainerContestantPicture>
+                                                                                                   width="70"
+                                                                                                   roundedCircle/></ContainerContestantPicture>
                                                                 <ContainerContestantName> {nameLink.replace('-', ' ')} </ContainerContestantName>
-                                                            </ContainerContestant>)}
+                                                            </ContainerContestant>)
+                                                        }
                                                     </Draggable>)})
                                             }
                                             {provided.placeholder}
