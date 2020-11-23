@@ -305,15 +305,21 @@ export default class AdminPage extends React.Component {
     render() {
         let weekOptions = ['1','2','3','4','5','6','7','8','9','10','11','12'];
         return (
-            <div>
+            <div style={{margin: "8px", display: "inline-flex", flexDirection: "column", alignItems: 'center',
+                justifyContent: 'center', justifyItems: "center"}}>
+                <br />
                 <h3>Current Week: {this.state.currentWeek}</h3>
+                <br />
+                <Button variant="warning" style={{width: "180px"}} onClick={this.createContestantLink}>
+                    Create Contestant
+                </Button>
                 {weekOptions.map((week, index) => {
                     return (
-                        <Container>
-                            <button value={week} onClick={e => this.setCurrentWeek(e.target.value)}>Set As Week {week}</button>
-                            <button value={week} onClick={e => this.setTeamsWeek(e.target.value)}>Set Week {week} Picks</button>
-                            <button value={week} onClick={e => this.setScoreWeek(e.target.value)}>Score Contestants Week {week}</button>
-                            <button value={week} onClick={e => this.getPointsWeek(e.target.value)}>Get Week {week} Points</button>
+                        <Container key={"WeekContainer" + week}>
+                            <Button variant="primary" style={{margin: "4px", width: "110px"}} value={week} key={("SetCurrentWeek"+week)} onClick={e => this.setCurrentWeek(e.target.value)}>Set As Week {week}</Button>
+                            <Button variant="danger" style={{margin: "4px", width: "110px"}} value={week} key={("SetTeamsWeek"+week)} onClick={e => this.setTeamsWeek(e.target.value)}>Set Week {week} Picks</Button>
+                            <Button variant="secondary" style={{margin: "4px", width: "110px"}} value={week} key={("GetScore"+week)} onClick={e => this.setScoreWeek(e.target.value)}>Score Contestants Week {week}</Button>
+                            <Button variant="success" style={{margin: "4px", width: "110px"}} value={week} key={("GetPoints"+week)} onClick={e => this.getPointsWeek(e.target.value)}>Get Week {week} Points</Button>
                         </Container>
                     )
                 })}

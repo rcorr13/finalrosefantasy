@@ -19,6 +19,7 @@ import Standings from "./components/Standings";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ChangePassword from "./components/ChangePassword";
 import HowTo from "./components/HowTo";
+import ScoringRules from "./components/ScoringRules";
 
 if(localStorage.jwtToken) {
     setAuthToken(localStorage.jwtToken);
@@ -51,6 +52,7 @@ class App extends Component {
                             <Route exact path="/admin" component={AdminPage} />
                             <Route exact path="/changepassword" component={ChangePassword} />
                             <Route exact path="/howto" component={HowTo} />
+                            <Route exact path="/scoringrules" component={ScoringRules} />
                         </div>
                     </div>
                 </Router>

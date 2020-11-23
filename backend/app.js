@@ -287,7 +287,7 @@ app.get('/contestants', async (req, res) => {
     res.json(contestants);
 });
 
-app.post('/addcontestants', async (req, res) => {
+app.post('/addcontestant', async (req, res) => {
     console.log(req.body);
     let contestantInfo = new Contestants(req.body);
     contestantInfo.save()
