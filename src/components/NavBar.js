@@ -25,6 +25,10 @@ class NavBar extends Component {
         this.props.history.push('/admin');
     }
 
+    redirectChangePassword(e) {
+        e.preventDefault();
+        this.props.history.push('/changepassword');
+    }
 
     render() {
         const {isAuthenticated, user} = this.props.auth;
@@ -32,7 +36,7 @@ class NavBar extends Component {
             <Nav className="ml-auto">
                 <Nav.Link href="/pickcontestants">Pick Contestants</Nav.Link>
                 <NavDropdown title={Object.is(user.firstname, undefined) ? 'title' : user.firstname} id="collasible-nav-dropdown">
-                    <NavDropdown.Item href="#action/3.1">Item To-do</NavDropdown.Item>
+                    <NavDropdown.Item onClick={this.redirectChangePassword.bind(this)}>Change Password</NavDropdown.Item>
                     <NavDropdown.Item onClick={this.onLogout.bind(this)}>Logout</NavDropdown.Item>
                     {(user.id === "5fa847fc43f5b23b2c605fa2") && (
                         <NavDropdown.Item onClick={this.redirectAdmin.bind(this)}>
