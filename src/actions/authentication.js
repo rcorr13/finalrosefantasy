@@ -54,10 +54,23 @@ export const getCurrentUser = () => dispatch => {
         );
 };
 
-
 export const logoutUser = (history) => dispatch => {
     localStorage.removeItem('jwtToken');
     setAuthToken(false);
     dispatch(setCurrentUser({}));
     history.push('/login');
+};
+
+export const changePassword = (updatedUser, history) => dispatch => {
+    axios.put('/api/updatepassword', updatedUser)
+        .then(res => {
+            loginUser(res.data)
+            history.push('/');
+        })
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            });
+        });
 }

@@ -162,6 +162,46 @@ router.route('/update/:id').put((req, res, next) => {
     })
 })
 
+router.put('/updatepassword', (req, res) => {
+    console.log(req.body)
+
+    const { errors, isValid } = validateChangePasswordInput(req.body);
+
+    if(!isValid) {
+        return res.status(400).json(errors);
+    }
+
+    User.findOne({
+        email: req.body.email
+    }, (err, user) => {
+        if (err) {
+            return res.send(err);
+        }
+
+
+        let newPassword = req.body.newPassword;
+        bcrypt.genSalt(10, (err, salt) => {
+            if (err) console.error('There was an error', err);
+            else {
+                bcrypt.hash(newPassword, salt, (err, hash) => {
+                    if (err) console.error('There was an error', err);
+                    else {
+                        user.password = hash;
+                        user
+                            .save()
+                            .then(user => {
+                                console.log(user)
+                                res.json(user)
+                            });
+                    }
+                });
+            }
+
+
+        });
+    })});
+
+
 
 firstRun = false;
 if (firstRun) {

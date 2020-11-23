@@ -10,6 +10,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import axios from "axios";
+import Image from "react-bootstrap/Image";
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -38,6 +39,7 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
+    { id: 'image', numeric: false, label: 'Image', maxWidth: 70 },
     { id: 'name', numeric: false, label: 'Name', minWidth: 100 },
     { id: 'age', label: 'Age', minWidth: 50 },
     { id: 'job', numeric: false, label: 'Job', minWidth: 50 },
@@ -142,6 +144,7 @@ export default function EnhancedTable() {
     useEffect(function() {
         async function getContestants() {
             try {
+                //const response = await axios.get("http://localhost:5000/contestants");
                 const response = await axios.get("https://finalrosefantasy.herokuapp.com/contestants");
                 setContestants(response.data);
             } catch(error) {
@@ -192,37 +195,38 @@ export default function EnhancedTable() {
                         />
                         <TableBody>
                             {stableSort(rows, getComparator(order, orderBy)).map(
-                                (row, index) => {
+                                (row) => {
                                     return (
                                         <TableRow hover key={row.name}>
+                                            <TableCell align="left" ><img src={row.imageLink} width="100" /></TableCell>
                                             <TableCell align="left">{row.name}</TableCell>
                                             <TableCell align="left">{row.age}</TableCell>
                                             <TableCell align="left">{row.job}</TableCell>
                                             <TableCell align="left">{row.totalpoints}</TableCell>
                                             <TableCell align="left">{row.week1points}</TableCell>
-                                            <TableCell align="left">{(row.week1actions).map(action => <div>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left">{(row.week1actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
                                             <TableCell align="left">{row.week2points}</TableCell>
-                                            <TableCell align="left">{(row.week2actions).map(action => <div>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left">{(row.week2actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
                                             <TableCell align="left">{row.week3points}</TableCell>
-                                            <TableCell align="left">{(row.week3actions).map(action => <div>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left">{(row.week3actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
                                             <TableCell align="left">{row.week4points}</TableCell>
-                                            <TableCell align="left">{(row.week4actions).map(action => <div>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left">{(row.week4actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
                                             <TableCell align="left">{row.week5points}</TableCell>
-                                            <TableCell align="left">{(row.week5actions).map(action => <div>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left">{(row.week5actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
                                             <TableCell align="left">{row.week6points}</TableCell>
-                                            <TableCell align="left">{(row.week6actions).map(action => <div>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left">{(row.week6actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
                                             <TableCell align="left">{row.week7points}</TableCell>
-                                            <TableCell align="left">{(row.week7actions).map(action => <div>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left">{(row.week7actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
                                             <TableCell align="left">{row.week8points}</TableCell>
-                                            <TableCell align="left">{(row.week8actions).map(action => <div>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left">{(row.week8actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
                                             <TableCell align="left">{row.week9points}</TableCell>
-                                            <TableCell align="left">{(row.week9actions).map(action => <div>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left">{(row.week9actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
                                             <TableCell align="left">{row.week10points}</TableCell>
-                                            <TableCell align="left">{(row.week10actions).map(action => <div>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left">{(row.week10actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
                                             <TableCell align="left">{row.week11points}</TableCell>
-                                            <TableCell align="left">{(row.week11actions).map(action => <div>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left">{(row.week11actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
                                             <TableCell align="left">{row.week12points}</TableCell>
-                                            <TableCell align="left">{(row.week12actions).map(action => <div>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left">{(row.week12actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
                                         </TableRow>
                                     );
                                 }

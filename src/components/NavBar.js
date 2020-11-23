@@ -31,7 +31,7 @@ class NavBar extends Component {
         const authLinks = (
             <Nav className="ml-auto">
                 <Nav.Link href="/pickcontestants">Pick Contestants</Nav.Link>
-                <NavDropdown title={user.firstname} id="collasible-nav-dropdown">
+                <NavDropdown title={Object.is(user.firstname, undefined) ? 'title' : user.firstname} id="collasible-nav-dropdown">
                     <NavDropdown.Item href="#action/3.1">Item To-do</NavDropdown.Item>
                     <NavDropdown.Item onClick={this.onLogout.bind(this)}>Logout</NavDropdown.Item>
                     {(user.id === "5fa847fc43f5b23b2c605fa2") && (
@@ -63,6 +63,8 @@ class NavBar extends Component {
                     <Nav className="mr-auto">
                         <Nav.Link href="/standings">Standings</Nav.Link>
                         <Nav.Link href="/contestantslist">Contestants</Nav.Link>
+                        <Nav.Link href="/scoringrules">Scoring Rules</Nav.Link>
+                        <Nav.Link href="/howto">How To</Nav.Link>
                     </Nav>
                     {isAuthenticated ? authLinks : guestLinks}
                 </Navbar.Collapse>
