@@ -380,7 +380,11 @@ export default class AdminPage extends React.Component {
                                     break;
                                 } else {
                                     let ContestantUsedNum = (ContestantTimesPicked[idealcontestant] + 1)
-                                    x
+                                    if (ContestantUsedNum <= 3) {
+                                        ContestantTimesPicked[idealcontestant] = ContestantUsedNum;
+                                        FinalPicks[friend] = FinalPicks[friend].concat([idealcontestant]);
+                                        break;
+                                    }
                                 }
                             }
                             n += 1
