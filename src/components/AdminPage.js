@@ -363,10 +363,6 @@ export default class AdminPage extends React.Component {
                     }
                 }
             }
-
-            console.log(ContestantTimesPicked)
-            console.log(user.firstname + ' FinalPicksFriendEnd ' + FinalPicks[friend])
-
             if (FinalPicks[friend].length < 2) {
                 if (!(friendPicks === undefined)) {
                     for (let i = FinalPicks[friend].length; i < 2; i++) {
@@ -392,8 +388,24 @@ export default class AdminPage extends React.Component {
                     }
                 }
             }
+
+            console.log(ContestantTimesPicked)
+            console.log(user.firstname + ' FinalPicksFriendEnd ' + FinalPicks[friend])
+
         })
-        return FinalPicks
+
+        let weekTeam = "week" + value + "team";
+        (users).forEach(user => {
+            const updatedUser = {
+                ...user,
+                [weekTeam]: FinalPicks[user.firstname],
+            };
+
+            axios.put(('https://finalrosefantasy.herokuapp.com/updateuser/' + user._id), {
+                updatedUser
+            })
+                .then(res => console.log(res.data))
+        });
     }
 
     render() {
