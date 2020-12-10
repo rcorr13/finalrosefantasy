@@ -331,38 +331,37 @@ export default class AdminPage extends React.Component {
                 .filter(contestant => contestant.status === "on")
                 .map(contestant => contestant.nameLink);
 
-            if (lastWeekRemainingNames.length == 3) {
-                console.log('length 3')
-                console.log(user.firstname + ' Picks: ' + friendPicks)
-                console.log(user.firstname + ' Last Week Team: ' + lastWeekRemainingNames)
-                FinalPicks[friend] = [];
-                if (!(friendPicks === undefined)) {
-                    while (FinalPicks[friend].length < 2) {
-                        let n = 0;
-                        while (n < 10) {
-                            let idealcontestant = friendPicks[n];
-                            if (!(idealcontestant === undefined)) {
-                                if (!(FinalPicks[friend].includes(idealcontestant))) {
-                                    if (lastWeekRemainingNames.includes(idealcontestant)) {
-                                        console.log(idealcontestant)
-                                        FinalPicks[friend] = FinalPicks[friend].concat([idealcontestant]);
-                                        break;
-                                    }
+
+            console.log(user.firstname + ' Picks: ' + friendPicks)
+            console.log(user.firstname + ' Last Week Team: ' + lastWeekRemainingNames)
+            FinalPicks[friend] = [];
+            if (!(friendPicks === undefined)) {
+                while (FinalPicks[friend].length < 2) {
+                    let n = 0;
+                    while (n < 10) {
+                        let idealcontestant = friendPicks[n];
+                        if (!(idealcontestant === undefined)) {
+                            if (!(FinalPicks[friend].includes(idealcontestant))) {
+                                if (lastWeekRemainingNames.includes(idealcontestant)) {
+                                    console.log(idealcontestant)
+                                    FinalPicks[friend] = FinalPicks[friend].concat([idealcontestant]);
+                                    break;
                                 }
                             }
-                            n += 1;
                         }
-                    }
-                }
-                for (let i = 0; i < 3; i++) {
-                    let contestant = lastWeekRemainingNames[i];
-                    if (!(FinalPicks[friend].includes(contestant))) {
-                        console.log('bumped contestant: ' + contestant)
-                        let ContestantUsedNum = (ContestantTimesPicked[contestant] - 1)
-                        ContestantTimesPicked[contestant] = ContestantUsedNum;
+                        n += 1;
                     }
                 }
             }
+            for (let i = 0; i < 3; i++) {
+                let contestant = lastWeekRemainingNames[i];
+                if (!(FinalPicks[friend].includes(contestant))) {
+                    console.log('bumped contestant: ' + contestant)
+                    let ContestantUsedNum = (ContestantTimesPicked[contestant] - 1)
+                    ContestantTimesPicked[contestant] = ContestantUsedNum;
+                }
+            }
+
             if (FinalPicks[friend].length < 2) {
                 if (!(friendPicks === undefined)) {
                     for (let i = FinalPicks[friend].length; i < 2; i++) {
