@@ -304,6 +304,94 @@ export default class AdminPage extends React.Component {
         this.props.history.push('/scoreform')
     };
 
+    dropTo2Contestants = () => {
+        let value = this.state.currentWeek;
+        let Preferences = this.state.allCurrentPicks;
+        let users = this.state.users.sort((a, b) => (parseInt(a.totalpoints) > parseInt(b.totalpoints)) ? 1 : -1);
+
+        let FinalPicks = {}
+        users.map(user => {
+            FinalPicks[user.firstname] = []
+        })
+
+        let lastWeekTeamColumnName = "week" + (parseInt(value) - 1) + "team";
+        let ContestantTimesPicked = this.lastWeekContestantTimesPicked(value);
+
+        (users).forEach(user => {
+            let lastWeekTeam = user[lastWeekTeamColumnName];
+            let friend = user.firstname;
+            let lastWeekRemaining = (lastWeekTeam
+                .map(contestantLink => this.state.contestants.find(contestant => contestant.nameLink === contestantLink))
+                .filter(contestant => contestant.status === "on"))
+            // FinalPicks[friend] = lastWeekRemaining.map(contestant => contestant.nameLink);
+            let lastWeekRemainingNames = lastWeekRemaining.map(contestant => contestant.nameLink);
+
+            let friendPicks = Preferences[friend]
+                .map(contestantLink => this.state.contestants.find(contestant => contestant.nameLink === contestantLink))
+                .filter(contestant => contestant.status === "on")
+                .map(contestant => contestant.nameLink);
+
+            if (lastWeekRemainingNames.length == 3) {
+                console.log('length 3')
+                console.log(user.firstname + ' Picks: ' + friendPicks)
+                console.log(user.firstname + ' Last Week Team: ' + lastWeekRemainingNames)
+                FinalPicks[friend] = [];
+                if (!(friendPicks === undefined)) {
+                    while (FinalPicks[friend].length < 2) {
+                        let n = 0;
+                        while (n < 10) {
+                            let idealcontestant = friendPicks[n];
+                            if (!(idealcontestant === undefined)) {
+                                if (!(FinalPicks[friend].includes(idealcontestant))) {
+                                    if (lastWeekRemainingNames.includes(idealcontestant)) {
+                                        console.log(idealcontestant)
+                                        FinalPicks[friend] = FinalPicks[friend].concat([idealcontestant]);
+                                        break;
+                                    }
+                                }
+                            }
+                            n += 1;
+                        }
+                    }
+                }
+                for (let i = 0; i < 3; i++) {
+                    let contestant = lastWeekRemainingNames[i];
+                    if (!(FinalPicks[friend].includes(contestant))) {
+                        console.log('bumped contestant: ' + contestant)
+                        let ContestantUsedNum = (ContestantTimesPicked[contestant] - 1)
+                        ContestantTimesPicked[contestant] = ContestantUsedNum;
+                    }
+                }
+            }
+
+            console.log(ContestantTimesPicked)
+            console.log(user.firstname + ' FinalPicksFriendEnd ' + FinalPicks[friend])
+
+            if (FinalPicks[friend].length < 2) {
+                if (!(friendPicks === undefined)) {
+                    for (let i = FinalPicks[friend].length; i < 2; i++) {
+                        let n = 0;
+                        while (n < 10) {
+                            let idealcontestant = friendPicks[n];
+                            if (!(FinalPicks[friend].includes(idealcontestant))) {
+                                if (ContestantTimesPicked[idealcontestant] === undefined) {
+                                    ContestantTimesPicked[idealcontestant] = 1;
+                                    FinalPicks[friend] = FinalPicks[friend].concat([idealcontestant]);
+                                    break;
+                                } else {
+                                    let ContestantUsedNum = (ContestantTimesPicked[idealcontestant] + 1)
+                                    x
+                                }
+                            }
+                            n += 1
+                        }
+                    }
+                }
+            }
+        })
+        return FinalPicks
+    }
+
     render() {
         let weekOptions = ['1','2','3','4','5','6','7','8','9','10','11','12'];
         return (
@@ -325,6 +413,14 @@ export default class AdminPage extends React.Component {
                         </Container>
                     )
                 })}
+                <Container key="drop">
+                    <Button variant="warning" style={{width: "180px", margin: "4px"}} onClick={this.dropTo2Contestants}>
+                        Drop To Teams of 2
+                    </Button>
+                    <Button variant="warning" style={{width: "180px", margin: "4px"}} onClick={this.deleteContestantLink}>
+                        Drop To Teams of 1
+                    </Button>
+                </Container>
             </div>
         )
     }
