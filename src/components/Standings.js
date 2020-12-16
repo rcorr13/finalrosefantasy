@@ -64,6 +64,10 @@ const headCells = [
     { id: 'week11total', numeric: true, label: 'Week 11 Points', minWidth: 150 },
     { id: 'week12team', numeric: false, label: 'Week 12 Team', minWidth: 150 },
     { id: 'week12total', numeric: true, label: 'Week 12 Points', minWidth: 150 },
+    { id: 'week13team', numeric: false, label: 'Week 12 Team', minWidth: 150 },
+    { id: 'week13total', numeric: true, label: 'Week 12 Points', minWidth: 150 },
+    { id: 'week14team', numeric: false, label: 'Week 12 Team', minWidth: 150 },
+    { id: 'week14total', numeric: true, label: 'Week 12 Points', minWidth: 150 },
 ];
 
 function EnhancedTableHead(props) {
@@ -162,6 +166,8 @@ export default function EnhancedTable() {
         (row.week10total = parseInt(row.week10total));
         (row.week11total = parseInt(row.week11total));
         (row.week12total = parseInt(row.week12total));
+        (row.week13total = parseInt(row.week13total));
+        (row.week14total = parseInt(row.week14total));
     })
 
     const classes = useStyles();
@@ -218,6 +224,10 @@ export default function EnhancedTable() {
                                             <TableCell align="left">{row.week11total}</TableCell>
                                             <TableCell align="left">{(row.week12team).join(", ").replace(/-/gi, ' ')}</TableCell>
                                             <TableCell align="left">{row.week12total}</TableCell>
+                                            <TableCell align="left">{(row.week13team).join(", ").replace(/-/gi, ' ')}</TableCell>
+                                            <TableCell align="left">{row.week13total}</TableCell>
+                                            <TableCell align="left">{(row.week14team).join(", ").replace(/-/gi, ' ')}</TableCell>
+                                            <TableCell align="left">{row.week14total}</TableCell>
                                         </TableRow>
                                     );
                                 }

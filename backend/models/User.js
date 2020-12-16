@@ -222,6 +222,38 @@ const UserSchema = new Schema({
         type: String,
         default: '0'
     },
+    week13team: {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string"
+                }
+            }
+        },
+        default: []
+    },
+    week13total: {
+        type: String,
+        default: '0'
+    },
+    week14team: {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string"
+                }
+            }
+        },
+        default: []
+    },
+    week14total: {
+        type: String,
+        default: '0'
+    },
     totalpoints: {
         type: String,
         default: '0'

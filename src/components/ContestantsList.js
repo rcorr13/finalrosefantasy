@@ -68,6 +68,10 @@ const headCells = [
     { id: 'week11actions', numeric: false, label: 'Week 11 Actions', minWidth: 150 },
     { id: 'week12points', numeric: true, label: 'Week 12 Points', minWidth: 100 },
     { id: 'week12actions', numeric: false, label: 'Week 12 Actions', minWidth: 150 },
+    { id: 'week13points', numeric: true, label: 'Week 12 Points', minWidth: 100 },
+    { id: 'week13actions', numeric: false, label: 'Week 12 Actions', minWidth: 150 },
+    { id: 'week14points', numeric: true, label: 'Week 12 Points', minWidth: 100 },
+    { id: 'week14actions', numeric: false, label: 'Week 12 Actions', minWidth: 150 },
 ];
 
 function EnhancedTableHead(props) {
@@ -168,6 +172,9 @@ export default function EnhancedTable() {
         (row.week10points = parseInt(row.week10points));
         (row.week11points = parseInt(row.week11points));
         (row.week12points = parseInt(row.week12points));
+        (row.week13points = parseInt(row.week13points));
+        (row.week14points = parseInt(row.week14points));
+
     })
 
     const classes = useStyles();
@@ -227,6 +234,10 @@ export default function EnhancedTable() {
                                             <TableCell align="left">{(row.week11actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
                                             <TableCell align="left">{row.week12points}</TableCell>
                                             <TableCell align="left">{(row.week12actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left">{row.week13points}</TableCell>
+                                            <TableCell align="left">{(row.week13actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left">{row.week14points}</TableCell>
+                                            <TableCell align="left">{(row.week14actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
                                         </TableRow>
                                     );
                                 }
