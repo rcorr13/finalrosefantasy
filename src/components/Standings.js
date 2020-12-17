@@ -64,10 +64,10 @@ const headCells = [
     { id: 'week11total', numeric: true, label: 'Week 11 Points', minWidth: 150 },
     { id: 'week12team', numeric: false, label: 'Week 12 Team', minWidth: 150 },
     { id: 'week12total', numeric: true, label: 'Week 12 Points', minWidth: 150 },
-    { id: 'week13team', numeric: false, label: 'Week 12 Team', minWidth: 150 },
-    { id: 'week13total', numeric: true, label: 'Week 12 Points', minWidth: 150 },
-    { id: 'week14team', numeric: false, label: 'Week 12 Team', minWidth: 150 },
-    { id: 'week14total', numeric: true, label: 'Week 12 Points', minWidth: 150 },
+    { id: 'week13team', numeric: false, label: 'Week 13 Team', minWidth: 150 },
+    { id: 'week13total', numeric: true, label: 'Week 13 Points', minWidth: 150 },
+    { id: 'week14team', numeric: false, label: 'Week 14 Team', minWidth: 150 },
+    { id: 'week14total', numeric: true, label: 'Week 14 Points', minWidth: 150 },
 ];
 
 function EnhancedTableHead(props) {
