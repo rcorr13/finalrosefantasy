@@ -408,7 +408,7 @@ export default class AdminPage extends React.Component {
     }
 
     render() {
-        let weekOptions = ['1','2','3','4','5','6','7','8','9','10','11','12'];
+        let weekOptions = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14'];
         return (
             <div style={{margin: "8px", display: "inline-flex", flexDirection: "column", alignItems: 'center',
                 justifyContent: 'center', justifyItems: "center"}}>
