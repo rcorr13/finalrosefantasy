@@ -3,10 +3,46 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const LogisticsSchema = new Schema({
-    currentWeek: {
+    season: {
         type: String,
         required: true,
-        default: "0"
+        default: "Bachelor"
+    },
+
+    seasonKey: {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string"
+                }
+            }
+        }
+    },
+
+    seasonActionGroups: {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string"
+                }
+            }
+        }
+    },
+
+    contestants: {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string"
+                }
+            }
+        }
     },
 
     week1eliminated: {
