@@ -2,54 +2,69 @@ import React from "react";
 import axios from "axios";
 import styled from "styled-components";
 import Button from "react-bootstrap/Button";
+import GetBaseURL from "./GetBaseURL";
 
 const Container = styled.div`
     display: flex;
     `;
 
 export default class AdminPage extends React.Component {
-
     componentDidMount() {
         this.fetchLogistics();
     }
 
     async fetchLogistics() {
+        let master = await this.MasterInfo();
+        let currentWeek = master[0].currentWeek;
+        let currentSeason = master[0].currentSeason;
         let logistics = await this.LogisticsInfo();
+        logistics = logistics.filter(option => option.season === currentSeason);
         let users = await this.UserInfo();
+        console.log(users);
+
         let contestants = await this.allContestants();
         let currentPicks = {};
-        users.map(user => {currentPicks[user.firstname] = user.picks})
+        console.log(currentSeason);
+        users.map(user => {currentPicks[user.firstname] = user.picks});
+        console.log(users);
 
         this.setState({
-            currentWeek: logistics[0].currentWeek,
+            currentWeek: currentWeek,
+            currentSeason: currentSeason,
             users: users,
             allCurrentPicks: currentPicks,
             logistics: logistics[0],
-            contestants: contestants
+            contestants: contestants,
         });
     }
 
     async LogisticsInfo() {
-        return (await axios.get('https://finalrosefantasy.herokuapp.com/logistics')).data
+        return (await axios.get(GetBaseURL() + '/logistics')).data
+    }
+
+    async MasterInfo() {
+        return (await axios.get(GetBaseURL() + '/masters')).data
     }
 
     async UserInfo() {
-        return (await axios.get('https://finalrosefantasy.herokuapp.com/users')).data
+        return (await axios.get(GetBaseURL() + '/users/' + this.state.currentSeason)).data
     }
 
     async allContestants() {
-        return (await axios.get('https://finalrosefantasy.herokuapp.com/contestants')).data
+        return (await axios.get(GetBaseURL() + '/contestants')).data
     }
 
     constructor(props) {
         super(props);
         this.state = {
             currentWeek: "0",
+            currentSeason: "Bachelor25",
             users: {},
             allCurrentPicks: {},
             finalContestants: {},
             logistics: {},
             contestants: [],
+            baseURL: GetBaseURL(),
         }
     }
 
@@ -63,6 +78,7 @@ export default class AdminPage extends React.Component {
 
         let Preferences = this.state.allCurrentPicks;
         let FinalPicks =  {}
+        console.log(this.state.users)
         this.state.users.map(user => {FinalPicks[user.firstname] = []})
         if (!(Preferences === {})) {
             let ContestantTimesPicked = {};
@@ -126,10 +142,6 @@ export default class AdminPage extends React.Component {
             FinalPicks[user.firstname] = []
         })
 
-        /*
-        let lastWeekTeams =  {}
-        users.map(user => {lastWeekTeams[user.firstname] = []})
-         */
         let lastWeekTeamColumnName = "week" + (parseInt(value) - 1) + "team";
         let ContestantTimesPicked = this.lastWeekContestantTimesPicked(value);
 
@@ -175,6 +187,100 @@ export default class AdminPage extends React.Component {
         return FinalPicks
     }
 
+    dropForUser = user => {
+
+    }
+
+
+    dropto2contestants = () => {
+        let value = this.state.currentWeek;
+        let Preferences = this.state.allCurrentPicks;
+        let users = this.state.users.sort((a, b) => (parseInt(a.totalpoints) > parseInt(b.totalpoints)) ? 1 : -1);
+
+        let FinalPicks = {}
+        users.map(user => {
+            FinalPicks[user.firstname] = []
+        })
+
+        let lastWeekTeamColumnName = "week" + (parseInt(value) - 1) + "team";
+        let ContestantTimesPicked = this.lastWeekContestantTimesPicked(value);
+
+        (users).forEach(user => {
+            let lastWeekTeam = user[lastWeekTeamColumnName];
+            let friend = user.firstname;
+            let lastWeekRemaining = (lastWeekTeam
+                .map(contestantLink => this.state.contestants.find(contestant => contestant.nameLink === contestantLink))
+                .filter(contestant => contestant.status === "on"))
+           // FinalPicks[friend] = lastWeekRemaining.map(contestant => contestant.nameLink);
+            let lastWeekRemainingNames = lastWeekRemaining.map(contestant => contestant.nameLink);
+
+            let friendPicks = Preferences[friend]
+                .map(contestantLink => this.state.contestants.find(contestant => contestant.nameLink === contestantLink))
+                .filter(contestant => contestant.status === "on")
+                .map(contestant => contestant.nameLink);
+
+            if (lastWeekRemainingNames.length == 3) {
+                console.log('length 3')
+                console.log(user.firstname + ' Picks: ' + friendPicks)
+                console.log(user.firstname + ' Last Week Team: ' + lastWeekRemainingNames)
+                FinalPicks[friend] = [];
+                if (!(friendPicks === undefined)) {
+                    while (FinalPicks[friend].length < 2) {
+                        let n = 0;
+                        while (n < 10) {
+                            let idealcontestant = friendPicks[n];
+                            if (!(idealcontestant === undefined)) {
+                                if (!(FinalPicks[friend].includes(idealcontestant))) {
+                                    if (lastWeekRemainingNames.includes(idealcontestant)) {
+                                        console.log(idealcontestant)
+                                        FinalPicks[friend] = FinalPicks[friend].concat([idealcontestant]);
+                                        break;
+                                    }
+                                }
+                            }
+                            n += 1;
+                        }
+                    }
+                }
+                for (let i = 0; i < 3; i++) {
+                    let contestant = lastWeekRemainingNames[i];
+                    if (!(FinalPicks[friend].includes(contestant))) {
+                        console.log('bumped contestant: ' + contestant)
+                        let ContestantUsedNum = (ContestantTimesPicked[contestant] - 1)
+                        ContestantTimesPicked[contestant] = ContestantUsedNum;
+                    }
+                }
+            }
+
+            console.log(ContestantTimesPicked)
+            console.log(user.firstname + ' FinalPicksFriendEnd ' + FinalPicks[friend])
+
+            if (FinalPicks[friend].length < 2) {
+                if (!(friendPicks === undefined)) {
+                    for (let i = FinalPicks[friend].length; i < 2; i++) {
+                        let n = 0;
+                        while (n < 10) {
+                            let idealcontestant = friendPicks[n];
+                            if (!(FinalPicks[friend].includes(idealcontestant))) {
+                                if (ContestantTimesPicked[idealcontestant] === undefined) {
+                                    ContestantTimesPicked[idealcontestant] = 1;
+                                    FinalPicks[friend] = FinalPicks[friend].concat([idealcontestant]);
+                                    break;
+                                } else {
+                                    let ContestantUsedNum = (ContestantTimesPicked[idealcontestant] + 1)
+x
+                                }
+                            }
+                            n += 1
+                        }
+                    }
+                }
+            }
+        })
+        return FinalPicks
+    }
+
+
     setTeamsWeek = value => {
         let weekTeam = "week" + value + "team";
         let FinalPicks = {};
@@ -192,7 +298,7 @@ export default class AdminPage extends React.Component {
                 [weekTeam]: FinalPicks[user.firstname],
             };
 
-            axios.put(('https://finalrosefantasy.herokuapp.com/updateuser/' + user._id), {
+            axios.put((GetBaseURL() + '/updateuser/' + this.state.currentSeason + "/" + user.id), {
                 updatedUser
             })
                 .then(res => console.log(res.data))
@@ -204,16 +310,17 @@ export default class AdminPage extends React.Component {
         let weekActionsColumnName = "week" + value + "actions";
         let eliminatedLinks = [];
         let updatedLogistics = this.state.logistics;
-
+        console.log(this.state.contestants);
         (this.state.contestants).forEach(contestant => {
-            let weekActions = (contestant[weekActionsColumnName]).map(action => action.key)
+            let weekActions = (contestant[weekActionsColumnName]).map(action => action.key);
+            console.log(weekActions);
             if (weekActions.includes("Does not advance / Eliminated") || weekActions.includes("Contestant leaves (no point penalty)")) {
                 eliminatedLinks.push(contestant.nameLink);
                 const updatedContestant = {
                     ...contestant,
                     'status': 'eliminated',
                 };
-                axios.put(('https://finalrosefantasy.herokuapp.com/updatecontestant/'+updatedContestant.nameLink), {
+                axios.put((GetBaseURL() + '/updatecontestant/'+updatedContestant.nameLink), {
                     updatedContestant
                 })
                 const contestantIndex = this.state.contestants.indexOf(this.state.contestants.find(originalContestant => originalContestant.nameLink === updatedContestant.nameLink));
@@ -225,16 +332,23 @@ export default class AdminPage extends React.Component {
             }
         })
 
-        let updateAllEliminated = (updatedLogistics.alleliminated).concat(eliminatedLinks)
-        updatedLogistics.alleliminated = [...new Set(updateAllEliminated)];
+        console.log(updatedLogistics)
+        console.log(eliminatedLinks)
+        let updateAllEliminated = [];
 
-        for (let i=(parseInt(value)+1); i<=10; i++) {
-            let weekEliminatedColumnName = "week" + (i).toString() + "eliminated";
-            let updatedEliminated = (updatedLogistics[weekEliminatedColumnName]).concat(eliminatedLinks)
-            updatedLogistics[weekEliminatedColumnName] = [...new Set(updatedEliminated)];
+        if (eliminatedLinks.length > 0) {
+            updateAllEliminated = (updatedLogistics.alleliminated).concat(eliminatedLinks);
+            updatedLogistics.alleliminated = [...new Set(updateAllEliminated)];
+            for (let i=(parseInt(value)+1); i<=10; i++) {
+                let weekEliminatedColumnName = "week" + (i).toString() + "eliminated";
+                let updatedEliminated = (updatedLogistics[weekEliminatedColumnName]).concat(eliminatedLinks)
+                updatedLogistics[weekEliminatedColumnName] = [...new Set(updatedEliminated)];
+            }
         }
 
-        axios.put(('https://finalrosefantasy.herokuapp.com/updatelogistics'), {
+
+        console.log(updatedLogistics)
+        axios.put((GetBaseURL() + '/updatelogistics'), {
             updatedLogistics}).then(res => console.log(res.data))
 
         this.setState({'logistics': updatedLogistics})
@@ -249,6 +363,7 @@ export default class AdminPage extends React.Component {
         let weekTotalColumnName = "week" + value + "total";
 
         let users = this.state.users;
+        console.log(users);
 
         (users).forEach(user => {
             let weekTeam = user[weekTeamColumnName];
@@ -269,23 +384,20 @@ export default class AdminPage extends React.Component {
             };
             console.log((totalTotal + weekTotal));
             console.log(updatedUser)
-            axios.put(('https://finalrosefantasy.herokuapp.com/updateuser/' + user._id), {updatedUser})
+            axios.put((GetBaseURL() + '/updateuser/' + this.state.currentSeason + "/" + user.id), {updatedUser})
                 .then(res => console.log(res.data))
         });
     }
 
     setCurrentWeek = value => {
-        let currentWeek = value;
-        let currentLogistics = this.state.logistics;
-
-        const updatedLogistics = {
-            ...currentLogistics,
-            'currentWeek': currentWeek,
+        const updatedMaster = {
+            'currentSeason': this.state.currentSeason,
+            'currentWeek': value,
         };
 
-        axios.put(('https://finalrosefantasy.herokuapp.com/updatelogistics'), {
-            updatedLogistics}).then(res => console.log(res.data))
-        this.setState({'logistics': updatedLogistics, currentWeek: updatedLogistics.currentWeek})
+        axios.put((GetBaseURL() + '/updatemaster'), {
+            updatedMaster}).then(res => console.log(res.data))
+        this.setState({currentWeek: value})
     };
 
     setScoreWeek = value => {
@@ -297,128 +409,38 @@ export default class AdminPage extends React.Component {
             'currentWeek': currentWeek,
         };
 
-        axios.put(('https://finalrosefantasy.herokuapp.com/updatelogistics'), {
+        axios.put((GetBaseURL() + '/updatelogistics'), {
             updatedLogistics}).then(res => console.log(res.data))
         this.setState({'logistics': updatedLogistics, currentWeek: updatedLogistics.currentWeek})
 
         this.props.history.push('/scoreform')
     };
 
-    dropTo2Contestants = () => {
-        let value = this.state.currentWeek;
-        let Preferences = this.state.allCurrentPicks;
-        let users = this.state.users.sort((a, b) => (parseInt(a.totalpoints) > parseInt(b.totalpoints)) ? 1 : -1);
+    createContestantLink=()=> {
+        this.props.history.push('/createcontestant')
+    }
 
-        let FinalPicks = {}
-        users.map(user => {
-            FinalPicks[user.firstname] = []
-        })
-
-        let lastWeekTeamColumnName = "week" + (parseInt(value) - 1) + "team";
-        let ContestantTimesPicked = this.lastWeekContestantTimesPicked(value);
-
-        (users).forEach(user => {
-            let lastWeekTeam = user[lastWeekTeamColumnName];
-            let friend = user.firstname;
-            let lastWeekRemaining = (lastWeekTeam
-                .map(contestantLink => this.state.contestants.find(contestant => contestant.nameLink === contestantLink))
-                .filter(contestant => contestant.status === "on"))
-            // FinalPicks[friend] = lastWeekRemaining.map(contestant => contestant.nameLink);
-            let lastWeekRemainingNames = lastWeekRemaining.map(contestant => contestant.nameLink);
-
-            let friendPicks = Preferences[friend]
-                .map(contestantLink => this.state.contestants.find(contestant => contestant.nameLink === contestantLink))
-                .filter(contestant => contestant.status === "on")
-                .map(contestant => contestant.nameLink);
-
-
-            console.log(user.firstname + ' Picks: ' + friendPicks)
-            console.log(user.firstname + ' Last Week Team: ' + lastWeekRemainingNames)
-            FinalPicks[friend] = [];
-            if (!(friendPicks === undefined)) {
-                while (FinalPicks[friend].length < 2) {
-                    let n = 0;
-                    while (n < 10) {
-                        let idealcontestant = friendPicks[n];
-                        if (!(idealcontestant === undefined)) {
-                            if (!(FinalPicks[friend].includes(idealcontestant))) {
-                                if (lastWeekRemainingNames.includes(idealcontestant)) {
-                                    console.log(idealcontestant)
-                                    FinalPicks[friend] = FinalPicks[friend].concat([idealcontestant]);
-                                    break;
-                                }
-                            }
-                        }
-                        n += 1;
-                    }
-                }
-            }
-            for (let i = 0; i < 3; i++) {
-                let contestant = lastWeekRemainingNames[i];
-                if (!(FinalPicks[friend].includes(contestant))) {
-                    console.log('bumped contestant: ' + contestant)
-                    let ContestantUsedNum = (ContestantTimesPicked[contestant] - 1)
-                    ContestantTimesPicked[contestant] = ContestantUsedNum;
-                }
-            }
-
-            if (FinalPicks[friend].length < 2) {
-                if (!(friendPicks === undefined)) {
-                    for (let i = FinalPicks[friend].length; i < 2; i++) {
-                        let n = 0;
-                        while (n < 10) {
-                            let idealcontestant = friendPicks[n];
-                            if (!(FinalPicks[friend].includes(idealcontestant))) {
-                                if (ContestantTimesPicked[idealcontestant] === undefined) {
-                                    ContestantTimesPicked[idealcontestant] = 1;
-                                    FinalPicks[friend] = FinalPicks[friend].concat([idealcontestant]);
-                                    break;
-                                } else {
-                                    let ContestantUsedNum = (ContestantTimesPicked[idealcontestant] + 1)
-                                    if (ContestantUsedNum <= 3) {
-                                        ContestantTimesPicked[idealcontestant] = ContestantUsedNum;
-                                        FinalPicks[friend] = FinalPicks[friend].concat([idealcontestant]);
-                                        break;
-                                    }
-                                }
-                            }
-                            n += 1
-                        }
-                    }
-                }
-            }
-
-            console.log(ContestantTimesPicked)
-            console.log(user.firstname + ' FinalPicksFriendEnd ' + FinalPicks[friend])
-
-        })
-
-        let weekTeam = "week" + value + "team";
-        (users).forEach(user => {
-            const updatedUser = {
-                ...user,
-                [weekTeam]: FinalPicks[user.firstname],
-            };
-
-            axios.put(('https://finalrosefantasy.herokuapp.com/updateuser/' + user._id), {
-                updatedUser
-            })
-                .then(res => console.log(res.data))
-        });
+    deleteContestantLink = () => {
+        this.props.history.push('/deletecontestant')
     }
 
     render() {
-        let weekOptions = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14'];
+        let weekOptions = ['1','2','3','4','5','6','7','8','9','10','11','12'];
         return (
             <div style={{margin: "8px", display: "inline-flex", flexDirection: "column", alignItems: 'center',
                 justifyContent: 'center', justifyItems: "center"}}>
                 <br />
                 <h3>Current Week: {this.state.currentWeek}</h3>
                 <br />
-                <Button variant="warning" style={{width: "180px"}} onClick={this.createContestantLink}>
-                    Create Contestant
-                </Button>
-                {weekOptions.map((week, index) => {
+                <Container key="createdelete">
+                    <Button variant="warning" style={{width: "180px", margin: "4px"}} onClick={this.createContestantLink}>
+                        Create Contestant
+                    </Button>
+                    <Button variant="warning" style={{width: "180px", margin: "4px"}} onClick={this.deleteContestantLink}>
+                        Delete Contestant
+                    </Button>
+                </Container>
+                {weekOptions.map(week => {
                     return (
                         <Container key={"WeekContainer" + week}>
                             <Button variant="primary" style={{margin: "4px", width: "110px"}} value={week} key={("SetCurrentWeek"+week)} onClick={e => this.setCurrentWeek(e.target.value)}>Set As Week {week}</Button>
@@ -429,7 +451,7 @@ export default class AdminPage extends React.Component {
                     )
                 })}
                 <Container key="drop">
-                    <Button variant="warning" style={{width: "180px", margin: "4px"}} onClick={this.dropTo2Contestants}>
+                    <Button variant="warning" style={{width: "180px", margin: "4px"}} onClick={this.dropto2contestants}>
                         Drop To Teams of 2
                     </Button>
                     <Button variant="warning" style={{width: "180px", margin: "4px"}} onClick={this.deleteContestantLink}>
