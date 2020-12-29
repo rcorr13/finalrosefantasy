@@ -6,6 +6,7 @@ import axios from "axios";
 import Grid from '@material-ui/core/Grid';
 import ActionKey from '../ActionKey';
 import DoubleClick from "./DoubleClick";
+import GetBaseURL from "./GetBaseURL";
 
 const ContainerContestantPicture = styled.div`
     margin-left: 5px;
@@ -57,10 +58,13 @@ export default class ContestantScoreForm extends React.Component {
     async fetchContestants() {
         let contestants = await this.allContestants();
         let logistics = await this.LogisticsInfo();
-        let currentWeek = logistics[0].currentWeek;
+        let master = await this.MasterInfo();
+        let currentWeek = master[0].currentWeek;
+        let currentSeason = master[0].currentSeason;
         let weekEliminatedName = 'week' + currentWeek + 'eliminated';
-        let eliminatedContestants = (logistics[0])[weekEliminatedName];
-        let currentContestants = contestants.filter(contestant => (!(eliminatedContestants.includes(contestant.nameLink))));
+        let currentLogistics = logistics.filter(option => option.season === currentSeason)[0];
+        let eliminatedContestants = (currentLogistics)[weekEliminatedName];
+        let currentContestants = contestants.filter(contestant => (!(eliminatedContestants.includes(contestant.nameLink)) && (contestant.season === currentSeason)));
 
         this.setState({
             contestants: currentContestants,
@@ -68,16 +72,22 @@ export default class ContestantScoreForm extends React.Component {
             currentWeek: currentWeek,
             weekActionsName: 'week' + currentWeek + 'actions',
             weekPointsName: 'week' + currentWeek + 'points',
-            logistics: logistics[0]
+            logistics: currentLogistics,
+            actionKey: currentLogistics.seasonKey,
+            suggestions: currentLogistics.seasonKey
         });
     }
 
     async allContestants() {
-        return (await axios.get('https://finalrosefantasy.herokuapp.com/contestants')).data
+        return (await axios.get(GetBaseURL() + '/contestants')).data
     }
 
     async LogisticsInfo() {
-        return (await axios.get('https://finalrosefantasy.herokuapp.com/logistics')).data
+        return (await axios.get(GetBaseURL() + '/logistics')).data
+    }
+
+    async MasterInfo() {
+        return (await axios.get(GetBaseURL() + '/masters')).data
     }
 
     constructor(props) {
@@ -86,8 +96,8 @@ export default class ContestantScoreForm extends React.Component {
             textInput: "" ,
             contestants: [],
             contestantsOrder: [],
-            actionKey: ActionKey,
-            suggestions: ActionKey,
+            actionKey: {},
+            suggestions: {},
             currentContestant: null,
             hasTextInput: false,
             currentWeek: 0,
@@ -146,7 +156,7 @@ export default class ContestantScoreForm extends React.Component {
                     ...this.state.logistics,
                     'firstsOccurred': firstsOccurred,
                 };
-                axios.put(('https://finalrosefantasy.herokuapp.com/updatelogistics'), {
+                axios.put((GetBaseURL() + '/updatelogistics'), {
                     updatedLogistics}).then(res => console.log(res.data))
                 this.setState({'logistics': updatedLogistics})
             }
@@ -161,7 +171,7 @@ export default class ContestantScoreForm extends React.Component {
                     ...this.state.currentContestant,
                     'oneTimeActions': contestantFirsts,
                 };
-                axios.put(('https://finalrosefantasy.herokuapp.com/updatecontestant/'+updatedContestant.nameLink), {
+                axios.put((GetBaseURL() + '/updatecontestant/'+updatedContestant.nameLink), {
                     updatedContestant
                 })
                     .then(res => console.log(res.data));
@@ -175,7 +185,7 @@ export default class ContestantScoreForm extends React.Component {
             totalpoints: (parseInt(this.state.currentContestant.totalpoints) + parseInt(actionOption.points)).toString()
     };
 
-        axios.put(('https://finalrosefantasy.herokuapp.com/updatecontestant/'+updatedContestant.nameLink), {
+        axios.put((GetBaseURL() + '/updatecontestant/'+updatedContestant.nameLink), {
             updatedContestant
         })
             .then(res => console.log(res.data));
@@ -212,7 +222,7 @@ export default class ContestantScoreForm extends React.Component {
             totalpoints: (parseInt(this.state.currentContestant.totalpoints) - parseInt(actionOption.points)).toString()
         };
 
-        axios.put(('https://finalrosefantasy.herokuapp.com/updatecontestant/'+updatedContestant.nameLink), {
+        axios.put((GetBaseURL() + '/updatecontestant/'+updatedContestant.nameLink), {
             updatedContestant
         })
             .then(res => console.log(res.data));
@@ -251,6 +261,7 @@ export default class ContestantScoreForm extends React.Component {
                         <input placeholder="Type action here" type="text" value={this.state.textInput} onChange={this.changeQuery}/>
                         </div>
                         <div>
+                            {console.log(this.state.suggestions)}
                             {this.state.suggestions.map(actionOption => {return (
                                 <DoubleClick key={actionOption.id} onClick={this.singleClickAdd(actionOption)} onDoubleClick={this.doubleClickRemove(actionOption)}>
                                     {(this.state.currentContestant[this.state.weekActionsName].some(action => action.id === actionOption.id)) ?
