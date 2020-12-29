@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import GetBaseURL from "./GetBaseURL";
 
 export default class CreateContestant extends Component {
 
@@ -13,6 +14,7 @@ export default class CreateContestant extends Component {
         this.onChangeStateUS = this.onChangeStateUS.bind(this);
         this.onChangeStatus = this.onChangeStatus.bind(this);
         this.onChangeImageLink = this.onChangeImageLink.bind(this);
+        this.onChangeSeason = this.onChangeSeason.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
@@ -24,6 +26,7 @@ export default class CreateContestant extends Component {
             stateUS: '',
             status: '',
             imageLink: '',
+            season: '',
             totalpoints: "0"
         }
     }
@@ -73,6 +76,12 @@ export default class CreateContestant extends Component {
         });
     }
 
+    onChangeSeason(e) {
+        this.setState({
+            season: e.target.value
+        });
+    }
+
 
     onSubmit(e) {
         e.preventDefault();
@@ -91,10 +100,11 @@ export default class CreateContestant extends Component {
             stateUS: this.state.stateUS,
             status: this.state.status,
             imageLink: this.state.imageLink,
+            season: this.state.season,
             totalpoints: this.state.totalpoints,
         };
 
-        axios.post('https://finalrosefantasy.herokuapp.com/addcontestant', newContestant)
+        axios.post(GetBaseURL() + '/addcontestant', newContestant)
             .then(res => console.log(res.data));
 
         this.setState({
@@ -106,6 +116,7 @@ export default class CreateContestant extends Component {
             stateUS: '',
             status: '',
             imageLink: '',
+            season: '',
         })
 
     }
@@ -157,6 +168,15 @@ export default class CreateContestant extends Component {
                             className="form-control"
                             value={this.state.stateUS}
                             onChange={this.onChangeStateUS}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Season: </label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            value={this.state.season}
+                            onChange={this.onChangeSeason}
                         />
                     </div>
                     <div className="form-group">
