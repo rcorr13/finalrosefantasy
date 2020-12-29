@@ -1,19 +1,48 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser } from '../actions/authentication';
 import { withRouter } from 'react-router-dom';
-import styled from "styled-components";
-import NavItem from "react-bootstrap";
 
-import{ Navbar, Nav, Button, NavDropdown}  from "react-bootstrap";
-
-const Container = styled.div`
-    display: flex;
-    `;
+import{ Navbar, Nav, NavDropdown}  from "react-bootstrap";
+import { DropdownSubmenu, NavDropdownMenu} from "react-bootstrap-submenu";
+import axios from "axios";
+import GetBaseURL from "./GetBaseURL";
 
 class NavBar extends Component {
+
+    componentDidMount() {
+        this.fetchInfo();
+    }
+
+    async fetchInfo() {
+        let currentSeason = await this.currentSeason();
+        let logistics = await this.LogisticsInfo();
+        let previousSeasonList = logistics
+            .filter(seasonInfo => seasonInfo.season != currentSeason)
+            .map(seasonInfo => seasonInfo.season)
+
+        this.setState({
+            currentSeason: currentSeason,
+            previousSeasons: previousSeasonList,
+        });
+    }
+
+    async currentSeason() {
+        return (await axios.get(GetBaseURL() + '/masters')).data[0].currentSeason
+    }
+
+    async LogisticsInfo() {
+        return (await axios.get(GetBaseURL() + '/logistics')).data
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            currentSeason: "0",
+            previousSeasons: [],
+        };
+    }
 
     onLogout(e) {
         e.preventDefault();
@@ -38,11 +67,7 @@ class NavBar extends Component {
                 <NavDropdown alignRight title={Object.is(user.firstname, undefined) ? 'title' : user.firstname} id="collasible-nav-dropdown">
                     <NavDropdown.Item onClick={this.redirectChangePassword.bind(this)}>Change Password</NavDropdown.Item>
                     <NavDropdown.Item onClick={this.onLogout.bind(this)}>Logout</NavDropdown.Item>
-                    {(user.id === "5fa847fc43f5b23b2c605fa2") && (
-                        <NavDropdown.Item onClick={this.redirectAdmin.bind(this)}>
-                            Admin
-                        </NavDropdown.Item>
-                    )}
+                    <NavDropdown.Item onClick={this.redirectAdmin.bind(this)}>Admin</NavDropdown.Item>
                 </NavDropdown>
             </Nav>
         )
@@ -53,6 +78,19 @@ class NavBar extends Component {
                 <Nav.Link href="/login">Sign In</Nav.Link>
             </Nav>
         )
+
+        const previousSeasons = (
+            <NavDropdownMenu title="Previous Seasons" id="previous-seasons" alignRight >
+                {this.state.previousSeasons.map(season =>
+                <DropdownSubmenu title={season.replace(/-/gi, ' S')} key={season}>
+                    <NavDropdown.Item href={"/standings/" + season}>Standings</NavDropdown.Item>
+                    <NavDropdown.Item href={"/contestantslist/" + season}>Contestants</NavDropdown.Item>
+                    <NavDropdown.Item href={"/scoringrules/" + season}>Rules</NavDropdown.Item>
+                </DropdownSubmenu>
+                )}
+            </NavDropdownMenu>
+        )
+
         return(
             <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark">
                 <Navbar.Brand href="/">
@@ -65,10 +103,11 @@ class NavBar extends Component {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link href="/standings">Standings</Nav.Link>
-                        <Nav.Link href="/contestantslist">Contestants</Nav.Link>
-                        <Nav.Link href="/scoringrules">Scoring Rules</Nav.Link>
+                        <Nav.Link href={"/standings/" + this.state.currentSeason}>Standings</Nav.Link>
+                        <Nav.Link href={"/contestantslist/" + this.state.currentSeason}>Contestants</Nav.Link>
+                        <Nav.Link href={"/scoringrules/" + this.state.currentSeason}>Scoring Rules</Nav.Link>
                         <Nav.Link href="/howto">How To</Nav.Link>
+                        {previousSeasons}
                     </Nav>
                     {isAuthenticated ? authLinks : guestLinks}
                 </Navbar.Collapse>
