@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import { changePassword } from '../actions/authentication';
-//import {changePassword, registerUser, setCurrentUser} from '../actions/authentication';
 import classnames from 'classnames';
 import axios from "axios";
+import GetBaseURL from "./GetBaseURL";
 
 class ChangePassword extends Component {
 
@@ -25,7 +24,7 @@ class ChangePassword extends Component {
 
     async allUsers() {
         //return (await axios.get('http://localhost:5000/users')).data
-        return (await axios.get('https://finalrosefantasy.herokuapp.com/users')).data
+        return (await axios.get(GetBaseURL() + '/users')).data
     }
 
 
@@ -61,17 +60,6 @@ class ChangePassword extends Component {
         console.log(updatedUser)
 
         this.props.changePassword(updatedUser, this.props.history);
-        /*
-        //console.log(updatedUser)
-        axios.put(('http://localhost:5000/updatepassword/'+user._id), {
-            // axios.put(('https://finalrosefantasy.herokuapp.com/updateuser/'+user._id), {
-            updatedUser
-        })
-         */
-
-        //alert('Password Updated!')
-        //this.props.history.push('/')
-        //this.props.loginUser(user);
     }
 
     componentWillReceiveProps(nextProps) {
