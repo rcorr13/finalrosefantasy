@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -10,7 +10,10 @@ import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import axios from "axios";
-import Image from "react-bootstrap/Image";
+import GetBaseURL from "./GetBaseURL";
+import {
+    useLocation
+} from "react-router-dom";
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -40,7 +43,7 @@ function stableSort(array, comparator) {
 
 const headCells = [
     { id: 'image', numeric: false, label: 'Image', maxWidth: 70 },
-    { id: 'name', numeric: false, label: 'Name', minWidth: 100 },
+    { id: 'name', numeric: false, label: 'Name', minWidth: 200 },
     { id: 'age', label: 'Age', minWidth: 50 },
     { id: 'job', numeric: false, label: 'Job', minWidth: 50 },
     { id: 'totalpoints', numeric: true, label: 'Total Points', minWidth: 100 },
@@ -142,15 +145,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
+
 export default function EnhancedTable() {
+    const season = useLocation().pathname.split('/').pop();
+
     const [rows, setContestants] = useState([])
 
     useEffect(function() {
         async function getContestants() {
             try {
                 //const response = await axios.get("http://localhost:5000/contestants");
-                const response = await axios.get("https://finalrosefantasy.herokuapp.com/contestants");
-                setContestants(response.data);
+                const response = await axios.get(GetBaseURL() +  '/contestants');
+                const contestants = response.data;
+                setContestants(contestants.filter(contestant => contestant.season === season));
             } catch(error) {
                 console.log('error', error);
             }
@@ -205,7 +212,7 @@ export default function EnhancedTable() {
                                 (row) => {
                                     return (
                                         <TableRow hover key={row.name}>
-                                            <TableCell align="left" ><img src={row.imageLink} width="100" /></TableCell>
+                                            <TableCell align="left" ><img src={row.imageLink} width="100" alt={row.nameLink}/></TableCell>
                                             <TableCell align="left">{row.name}</TableCell>
                                             <TableCell align="left">{row.age}</TableCell>
                                             <TableCell align="left">{row.job}</TableCell>
