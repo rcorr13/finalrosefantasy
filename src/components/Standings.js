@@ -150,7 +150,6 @@ function removeBachSeason(row) {
     } else {
         let newRow = [];
         row.forEach(nameLink => newRow.push(nameLink.split('-').slice(-4, -2).join(' ')));
-        console.log(typeof(newRow.join(', ')))
         return (newRow.join(', '))
     }
 }
