@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -10,6 +10,8 @@ import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import axios from "axios";
+import GetBaseURL from "./GetBaseURL";
+import {useLocation} from "react-router-dom";
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -137,14 +139,39 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+
+async function CurrentSeason() {
+    return (((await axios.get(GetBaseURL() + '/masters')).data).currentSeason)
+}
+
+function removeBachSeason(row) {
+    if (typeof row === 'string' || row instanceof String) {
+        return row
+    } else {
+        let newRow = [];
+        row.forEach(nameLink => newRow.push(nameLink.split('-').slice(-4, -2).join(' ')));
+        console.log(typeof(newRow.join(', ')))
+        return (newRow.join(', '))
+    }
+}
+
+
 export default function EnhancedTable() {
+    const season = useLocation().pathname.split('/').pop();
+
     const [rows, setUsers] = useState([])
 
     useEffect(function() {
         async function getUsers() {
             try {
-                const response = await axios.get("https://finalrosefantasy.herokuapp.com/users");
-                setUsers(response.data);
+                const response = await axios.get(GetBaseURL() + "/users");
+                let tableData = [];
+                response.data.forEach(user => {
+                    let rowData = (user.picksAndTeams.filter(seasonInfo => seasonInfo.season === season)[0]);
+                    let row = Object.assign({firstname: user.firstname}, rowData);
+                    tableData.push(row)
+                })
+                setUsers(tableData);
             } catch(error) {
                 console.log('error', error);
             }
@@ -154,6 +181,20 @@ export default function EnhancedTable() {
 
     rows.forEach(row => {
         (row.totalpoints = parseInt(row.totalpoints));
+        (row.week1team = removeBachSeason(row.week1team));
+        (row.week2team = removeBachSeason(row.week2team));
+        (row.week3team = removeBachSeason(row.week3team));
+        (row.week4team = removeBachSeason(row.week4team));
+        (row.week5team = removeBachSeason(row.week5team));
+        (row.week6team = removeBachSeason(row.week6team));
+        (row.week7team = removeBachSeason(row.week7team));
+        (row.week8team = removeBachSeason(row.week8team));
+        (row.week9team = removeBachSeason(row.week9team));
+        (row.week10team = removeBachSeason(row.week10team));
+        (row.week11team = removeBachSeason(row.week11team));
+        (row.week12team = removeBachSeason(row.week12team));
+        (row.week13team = removeBachSeason(row.week13team));
+        (row.week14team = removeBachSeason(row.week14team));
         (row.week1total = parseInt(row.week1total));
         (row.week2total = parseInt(row.week2total));
         (row.week3total = parseInt(row.week3total));
@@ -195,38 +236,38 @@ export default function EnhancedTable() {
                         />
                         <TableBody>
                             {stableSort(rows, getComparator(order, orderBy)).map(
-                                (row, index) => {
+                                row => {
                                     return (
                                         <TableRow hover key={row.firstname}>
                                             <TableCell align="left">{row.firstname}</TableCell>
                                             <TableCell align="left">{row.totalpoints}</TableCell>
-                                            <TableCell align="left">{(row.week1team).join(", ").replace(/-/gi, ' ')}</TableCell>
+                                            <TableCell align="left">{(row.week1team)}</TableCell>
                                             <TableCell align="left">{row.week1total}</TableCell>
-                                            <TableCell align="left">{(row.week2team).join(", ").replace(/-/gi, ' ')}</TableCell>
+                                            <TableCell align="left">{(row.week2team)}</TableCell>
                                             <TableCell align="left">{row.week2total}</TableCell>
-                                            <TableCell align="left">{(row.week3team).join(", ").replace(/-/gi, ' ')}</TableCell>
+                                            <TableCell align="left">{(row.week3team)}</TableCell>
                                             <TableCell align="left">{row.week3total}</TableCell>
-                                            <TableCell align="left">{(row.week4team).join(", ").replace(/-/gi, ' ')}</TableCell>
+                                            <TableCell align="left">{(row.week4team)}</TableCell>
                                             <TableCell align="left">{row.week4total}</TableCell>
-                                            <TableCell align="left">{(row.week5team).join(", ").replace(/-/gi, ' ')}</TableCell>
+                                            <TableCell align="left">{(row.week5team)}</TableCell>
                                             <TableCell align="left">{row.week5total}</TableCell>
-                                            <TableCell align="left">{(row.week6team).join(", ").replace(/-/gi, ' ')}</TableCell>
+                                            <TableCell align="left">{(row.week6team)}</TableCell>
                                             <TableCell align="left">{row.week6total}</TableCell>
-                                            <TableCell align="left">{(row.week7team).join(", ").replace(/-/gi, ' ')}</TableCell>
+                                            <TableCell align="left">{(row.week7team)}</TableCell>
                                             <TableCell align="left">{row.week7total}</TableCell>
-                                            <TableCell align="left">{(row.week8team).join(", ").replace(/-/gi, ' ')}</TableCell>
+                                            <TableCell align="left">{(row.week8team)}</TableCell>
                                             <TableCell align="left">{row.week8total}</TableCell>
-                                            <TableCell align="left">{(row.week9team).join(", ").replace(/-/gi, ' ')}</TableCell>
+                                            <TableCell align="left">{(row.week9team)}</TableCell>
                                             <TableCell align="left">{row.week9total}</TableCell>
-                                            <TableCell align="left">{(row.week10team).join(", ").replace(/-/gi, ' ')}</TableCell>
+                                            <TableCell align="left">{(row.week10team)}</TableCell>
                                             <TableCell align="left">{row.week10total}</TableCell>
-                                            <TableCell align="left">{(row.week11team).join(", ").replace(/-/gi, ' ')}</TableCell>
+                                            <TableCell align="left">{(row.week11team)}</TableCell>
                                             <TableCell align="left">{row.week11total}</TableCell>
-                                            <TableCell align="left">{(row.week12team).join(", ").replace(/-/gi, ' ')}</TableCell>
+                                            <TableCell align="left">{(row.week12team)}</TableCell>
                                             <TableCell align="left">{row.week12total}</TableCell>
-                                            <TableCell align="left">{(row.week13team).join(", ").replace(/-/gi, ' ')}</TableCell>
+                                            <TableCell align="left">{(row.week13team)}</TableCell>
                                             <TableCell align="left">{row.week13total}</TableCell>
-                                            <TableCell align="left">{(row.week14team).join(", ").replace(/-/gi, ' ')}</TableCell>
+                                            <TableCell align="left">{(row.week14team)}</TableCell>
                                             <TableCell align="left">{row.week14total}</TableCell>
                                         </TableRow>
                                     );
