@@ -56,7 +56,7 @@ class App extends Component {
                             <Route exact path="/deletecontestant" component={DeleteContestant} />
                             <Route path="/scoringrules/:season" component={ ScoringRules } />
                             <Route path="/contestantslist/:season" component={ ContestantsList } />
-                            <Route path="/standings" component={Standings} />
+                            <Route path="/standings/:season" component={Standings} />
                         </div>
                     </div>
                 </Router>
