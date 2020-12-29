@@ -80,7 +80,7 @@ class NavBar extends Component {
         )
 
         const previousSeasons = (
-            <NavDropdownMenu title="Previous Seasons" id="previous-seasons" alignRight >
+            <NavDropdownMenu title="Previous Seasons" id="previous-seasons">
                 {this.state.previousSeasons.map(season =>
                 <DropdownSubmenu title={season.replace(/-/gi, ' S')} key={season}>
                     <NavDropdown.Item href={"/standings/" + season}>Standings</NavDropdown.Item>
