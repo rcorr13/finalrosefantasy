@@ -8,6 +8,7 @@ import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 import axios from "axios";
 import Image from "react-bootstrap/Image";
+import GetBaseURL from "./GetBaseURL";
 
 const Container = styled.div`
     display: flex;
@@ -61,7 +62,6 @@ const ContainerContestantName = styled.div`
     flex-direction: column;
 `;
 
-/*
 const ContainerContestant = styled.div`
     font-size: 2em;
     border: 1px solid lightgrey;
@@ -69,25 +69,12 @@ const ContainerContestant = styled.div`
     padding: 8px;
     margin-bottom: 8px;
     background-color: ${props =>
-        props.isDraggable  ? 'lightgreen' :
-            (props.isDragging ? 'lightgrey' : 'white')};
-    display: flex;
-    flex-direction: row;
-`;
- */
-
-const ContainerContestant = styled.div`
-    font-size: 2em;
-    border: 1px solid lightgrey;
-    border-radius: 2px;
-    padding: 8px;
-    margin-bottom: 8px;
-    background-color: ${props =>
-    (props.type == 'onTeam'  ? 'lightgreen' :
+    (props.type === 'onTeam'  ? 'lightgreen' :
         (props.isDragging ? 'lightgrey' : 'white'))};
     display: flex;
     flex-direction: row;
 `;
+
 class ContestantPicker extends React.Component {
 
     componentDidMount() {
@@ -95,19 +82,26 @@ class ContestantPicker extends React.Component {
     }
 
     async fetchContestants() {
+        let master = await this.MasterInfo();
+        let currentWeek = master[0].currentWeek;
+        let currentSeason = master[0].currentSeason;
+
         let users = await this.allUsers();
         const {isAuthenticated, user} = this.props.auth;
         const userFull = (users.find(userID => userID._id===user.id));
 
+        const userSeason = ((users.find(userID => userID._id===user.id)).picksAndTeams
+            .filter(seasonInfo => seasonInfo.season === currentSeason))[0];
+        const userOtherSeason = ((users.find(userID => userID._id===user.id)).picksAndTeams
+            .filter(seasonInfo => seasonInfo.season != currentSeason));
+
         let contestants = await this.allContestants();
-        const pickedContestants = (userFull.picks)
+        const pickedContestants = (userSeason.picks)
             .map(contestantLink => contestants.find(contestant => contestant.nameLink === contestantLink))
             .filter(contestant => contestant.status === "on")
             .map(contestant => contestant.nameLink);
 
-        contestants = contestants.filter(contestant => contestant.status === "on")
-
-        let logistics = await this.getLogistics();
+        contestants = contestants.filter(contestant => (contestant.status === "on") && (contestant.season === currentSeason))
 
         const unselectedContestants = contestants
             .map(contestantInfo => contestantInfo.nameLink)
@@ -116,7 +110,9 @@ class ContestantPicker extends React.Component {
         this.setState({
             contestants: contestants,
             user: userFull,
-            currentWeek: logistics[0].currentWeek
+            userSeason: userSeason,
+            userOtherSeason: userOtherSeason,
+            currentWeek: currentWeek
         });
 
         const columnsUpdate = {...this.state.columns};
@@ -124,22 +120,20 @@ class ContestantPicker extends React.Component {
         columnsUpdate.column2.contestantIndices = pickedContestants;
         this.setState({columnsUpdate});
         console.log(this.state)
-
     }
 
     async allContestants() {
         //return (await axios.get('http://localhost:5000/contestants')).data
-        return (await axios.get('https://finalrosefantasy.herokuapp.com/contestants')).data
+        return (await axios.get(GetBaseURL() + '/contestants')).data
     }
 
     async allUsers() {
         //return (await axios.get('http://localhost:5000/users')).data
-        return (await axios.get('https://finalrosefantasy.herokuapp.com/users')).data
+        return (await axios.get(GetBaseURL() + '/users')).data
     }
 
-    async getLogistics() {
-        //return (await axios.get('http://localhost:5000/users')).data
-        return (await axios.get('https://finalrosefantasy.herokuapp.com/logistics')).data
+    async MasterInfo() {
+        return (await axios.get(GetBaseURL() + '/masters')).data
     }
 
     constructor(props) {
@@ -147,6 +141,8 @@ class ContestantPicker extends React.Component {
         const {isAuthenticated, user} = this.props.auth;
         this.state = {
             user: user,
+            userSeason: [],
+            userOtherSeason: [],
             contestants: [],
             currentWeek: "0",
             columns: {
@@ -169,7 +165,6 @@ class ContestantPicker extends React.Component {
         // updates contestant list with new order of contestants
         const {destination, source, draggableId} = result;
 
-
         console.log(draggableId);
 
         // dropped outside the list
@@ -184,8 +179,6 @@ class ContestantPicker extends React.Component {
 
         const start = this.state.columns[source.droppableId];
         const finish = this.state.columns[destination.droppableId];
-
-
 
         if (start === finish) {
             const newContestantIds = Array.from(start.contestantIndices);
@@ -245,9 +238,7 @@ class ContestantPicker extends React.Component {
             },
         };
 
-
         this.setState(newState)
-        return;
     };
 
     handleClick = () => {
@@ -255,35 +246,41 @@ class ContestantPicker extends React.Component {
         const user = this.state.user;
 
         console.log(user)
+        const userSeason = this.state.userSeason;
+        userSeason.picks = contestantsPickedIds;
+        const userAllSeasons = this.state.userOtherSeason;
+        userAllSeasons.push(userSeason)
 
         const updatedUser = {
             ...user,
-            picks: contestantsPickedIds,
+            picksAndTeams: userAllSeasons
         };
-
         console.log(updatedUser)
 
-        axios.put(('https://finalrosefantasy.herokuapp.com/updateuser/'+user._id), {
+        axios.put((GetBaseURL() + '/updateuser/'+user._id), {
             updatedUser
         })
-            .then(res => console.log(res.data));
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err));
 
         alert('Picks have been submitted!')
     }
 
     contestantOnTeam = (nameLink) => {
-        return (((this.state.user['week' + (parseInt(this.state.currentWeek) - 1).toString() + 'team']).includes(nameLink)))
+        if (this.state.currentWeek != "1") {
+            return ((this.state.userSeason['week' + (parseInt(this.state.currentWeek) - 1).toString() + 'team']).includes(nameLink))
+        }
+        return false;
     }
 
     typeContestant = (nameLink) => {
+        let typeName = '';
         if (this.contestantOnTeam(nameLink)) {
-            let typeName = 'onTeam'
-            return typeName;
+            typeName = 'onTeam'
         } else {
-            let typeName = 'movable';
-            return typeName;
+            typeName = 'movable';
         }
-        return;
+        return typeName;
     }
 
     render() {
@@ -333,7 +330,7 @@ class ContestantPicker extends React.Component {
                                                                     ((this.state.contestants.find(element => element.nameLink === nameLink))).imageLink}
                                                                                                    width="70"
                                                                                                    roundedCircle/></ContainerContestantPicture>
-                                                                <ContainerContestantName> {nameLink.replace('-', ' ')} </ContainerContestantName>
+                                                                <ContainerContestantName> {nameLink.split('-').slice(-4,-2).join(' ')} </ContainerContestantName>
                                                             </ContainerContestant>)
                                                         }
                                                     </Draggable>)})
