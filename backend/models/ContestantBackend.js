@@ -5,9 +5,13 @@ const Schema = mongoose.Schema;
 const ContestantBackendSchema = new Schema({
     nameLink: {
         type: String,
-        required: true
+        required: true,
     },
     name: {
+        type: String,
+        required: true
+    },
+    season: {
         type: String,
         required: true
     },
@@ -277,5 +281,4 @@ const ContestantBackendSchema = new Schema({
 });
 
 const Contestants = mongoose.model('contestants', ContestantBackendSchema);
-
 module.exports = ContestantBackendSchema
