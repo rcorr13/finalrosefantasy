@@ -20,6 +20,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ChangePassword from "./components/ChangePassword";
 import HowTo from "./components/HowTo";
 import ScoringRules from "./components/ScoringRules";
+import DeleteContestant from "./components/DeleteContestant";
+import CreateContestant from "./components/CreateContestant";
 
 if(localStorage.jwtToken) {
     setAuthToken(localStorage.jwtToken);
@@ -46,13 +48,15 @@ class App extends Component {
                             <Route exact path="/register" component={ Register } />
                             <Route exact path="/login" component={ Login } />
                             <Route exact path="/pickcontestants" component={ PickContestants } />
-                            <Route exact path="/contestantslist" component={ ContestantsList } />
-                            <Route exact path="/standings" component={Standings} />
                             <Route exact path="/scoreform" component={ContestantScoreForm} />
                             <Route exact path="/admin" component={AdminPage} />
                             <Route exact path="/changepassword" component={ChangePassword} />
                             <Route exact path="/howto" component={HowTo} />
-                            <Route exact path="/scoringrules" component={ScoringRules} />
+                            <Route exact path="/createcontestant" component={CreateContestant} />
+                            <Route exact path="/deletecontestant" component={DeleteContestant} />
+                            <Route path="/scoringrules/:season" component={ ScoringRules } />
+                            <Route path="/contestantslist/:season" component={ ContestantsList } />
+                            <Route path="/standings" component={Standings} />
                         </div>
                     </div>
                 </Router>
