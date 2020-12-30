@@ -8,6 +8,8 @@ const Container = styled.div`
     display: flex;
     `;
 
+
+
 export default class AdminPage extends React.Component {
     componentDidMount() {
         this.fetchLogistics();
@@ -20,13 +22,9 @@ export default class AdminPage extends React.Component {
         let logistics = await this.LogisticsInfo();
         logistics = logistics.filter(option => option.season === currentSeason);
         let users = await this.UserInfo();
-        console.log(users);
-
         let contestants = await this.allContestants();
         let currentPicks = {};
-        console.log(currentSeason);
         users.map(user => {currentPicks[user.firstname] = user.picks});
-        console.log(users);
 
         this.setState({
             currentWeek: currentWeek,
@@ -57,14 +55,25 @@ export default class AdminPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentWeek: "0",
-            currentSeason: "Bachelor25",
+            currentWeek: "1",
+            currentSeason: "Bachelor-25",
             users: {},
             allCurrentPicks: {},
             finalContestants: {},
             logistics: {},
             contestants: [],
             baseURL: GetBaseURL(),
+        }
+    }
+
+    // from https://stackoverflow.com/questions/6229197/how-to-know-if-two-arrays-have-the-same-values
+    isArrayContentSame(a, b) {
+        if (Array.isArray(a) && Array.isArray(b) && a.length == b.length) {
+            a = a.concat().sort()
+            b = b.concat().sort()
+            return a.reduce((acc,e,i) => acc && e === b[i], true)
+        } else {
+            return false;
         }
     }
 
@@ -77,9 +86,9 @@ export default class AdminPage extends React.Component {
         ]
 
         let Preferences = this.state.allCurrentPicks;
-        let FinalPicks =  {}
-        console.log(this.state.users)
-        this.state.users.map(user => {FinalPicks[user.firstname] = []})
+        let FinalPicks =  {};
+        let firstNames = Object.keys(Preferences);
+        firstNames.map(firstname => {FinalPicks[firstname] = []})
         if (!(Preferences === {})) {
             let ContestantTimesPicked = {};
             for (let roundnum = 0; roundnum < week1pickorder.length; roundnum++) {
@@ -92,15 +101,43 @@ export default class AdminPage extends React.Component {
                             let idealcontestant = friendPicks[(roundnum + n)];
                             if (!(FinalPicks[friend].includes(idealcontestant))) {
                                 if (ContestantTimesPicked[idealcontestant] === undefined) {
-                                    ContestantTimesPicked[idealcontestant] = 1;
                                     FinalPicks[friend] = FinalPicks[friend].concat([idealcontestant]);
-                                    break;
+                                    if (roundnum === (week1pickorder.length-1)) {
+                                        for (let i = 0; i < firstNames.length; i++) {
+                                            let friendName = firstNames[i]
+                                            if (friend != friendName && (this.isArrayContentSame(FinalPicks[friend], FinalPicks[friendName])) && (FinalPicks[friend].length === week1pickorder.length)) {
+                                                console.log('popped ' + friend + ' same as ' + friendName)
+                                                FinalPicks[friend].pop()
+                                            }
+                                        }
+                                        if (FinalPicks[friend].length === week1pickorder.length) {
+                                            ContestantTimesPicked[idealcontestant] = 1;
+                                            break
+                                        }
+                                    } else {
+                                        ContestantTimesPicked[idealcontestant] = 1;
+                                        break;
+                                    }
                                 } else {
                                     let ContestantUsedNum = (ContestantTimesPicked[idealcontestant] + 1)
                                     if (ContestantUsedNum <= 3) {
-                                        ContestantTimesPicked[idealcontestant] = ContestantUsedNum;
                                         FinalPicks[friend] = FinalPicks[friend].concat([idealcontestant]);
-                                        break;
+                                        if (roundnum === (week1pickorder.length-1)) {
+                                            for (let i = 0; i < firstNames.length; i++) {
+                                                let friendName = firstNames[i]
+                                                if (friend != friendName && (this.isArrayContentSame(FinalPicks[friend], FinalPicks[friendName])) && (FinalPicks[friend].length === week1pickorder.length)) {
+                                                    console.log('popped ' + friend + ' same as ' + friendName)
+                                                    FinalPicks[friend].pop()
+                                                }
+                                            }
+                                            if (FinalPicks[friend].length === week1pickorder.length) {
+                                                ContestantTimesPicked[idealcontestant] = ContestantUsedNum;
+                                                break
+                                            }
+                                        } else {
+                                            ContestantTimesPicked[idealcontestant] = ContestantUsedNum;
+                                            break;
+                                        }
                                     }
                                 }
                             }
@@ -136,7 +173,6 @@ export default class AdminPage extends React.Component {
         this.setCurrentWeek(value);
         let Preferences = this.state.allCurrentPicks;
         let users = this.state.users.sort((a, b) => (parseInt(a.totalpoints) > parseInt(b.totalpoints)) ? 1 : -1);
-
         let FinalPicks = {}
         users.map(user => {
             FinalPicks[user.firstname] = []
@@ -152,7 +188,12 @@ export default class AdminPage extends React.Component {
                 .map(contestantLink => this.state.contestants.find(contestant => contestant.nameLink === contestantLink))
                 .filter(contestant => contestant.status === "on"))
             FinalPicks[friend] = lastWeekRemaining.map(contestant => contestant.nameLink);
+        })
+        console.log(FinalPicks);
 
+        (users).forEach(user => {
+            let lastWeekTeam = user[lastWeekTeamColumnName];
+            let friend = user.firstname;
             let friendPicks = Preferences[friend]
                 .map(contestantLink => this.state.contestants.find(contestant => contestant.nameLink === contestantLink))
                 .filter(contestant => contestant.status === "on")
@@ -171,10 +212,19 @@ export default class AdminPage extends React.Component {
                                     break;
                                 } else {
                                     let ContestantUsedNum = (ContestantTimesPicked[idealcontestant] + 1)
+                                    FinalPicks[friend] = FinalPicks[friend].concat([idealcontestant]);
                                     if (ContestantUsedNum <= 3) {
-                                        ContestantTimesPicked[idealcontestant] = ContestantUsedNum;
-                                        FinalPicks[friend] = FinalPicks[friend].concat([idealcontestant]);
-                                        break;
+                                        (users).forEach(user => {
+                                            let friendName = user.firstname;
+                                            if (friend != friendName && (this.isArrayContentSame(FinalPicks[friend], FinalPicks[friendName])) && (FinalPicks[friend].length === lastWeekTeam.length)) {
+                                                console.log('popped ' + friend + ' same as ' + friendName);
+                                                FinalPicks[friend].pop()
+                                            }
+                                        })
+                                        if (FinalPicks[friend].length === lastWeekTeam.length) {
+                                            ContestantTimesPicked[idealcontestant] = ContestantUsedNum;
+                                            break
+                                        }
                                     }
                                 }
                             }
@@ -186,11 +236,6 @@ export default class AdminPage extends React.Component {
         })
         return FinalPicks
     }
-
-    dropForUser = user => {
-
-    }
-
 
     dropto2contestants = () => {
         let value = this.state.currentWeek;
@@ -268,7 +313,6 @@ export default class AdminPage extends React.Component {
                                     break;
                                 } else {
                                     let ContestantUsedNum = (ContestantTimesPicked[idealcontestant] + 1)
-x
                                 }
                             }
                             n += 1
@@ -375,14 +419,13 @@ x
             })
 
             let totalTotal = (parseInt(user.week1total) + parseInt(user.week2total) + parseInt(user.week3total) + parseInt(user.week4total) + parseInt(user.week5total) + parseInt(user.week6total) + parseInt(user.week7total) + parseInt(user.week8total) + parseInt(user.week9total) + parseInt(user.week10total) + parseInt(user.week11total) + parseInt(user.week12total) + weekTotal).toString()
-            console.log(totalTotal)
 
             const updatedUser = {
                 ...user,
                 'totalpoints': totalTotal,
                 [weekTotalColumnName]: weekTotal.toString()
             };
-            console.log((totalTotal + weekTotal));
+
             console.log(updatedUser)
             axios.put((GetBaseURL() + '/updateuser/' + this.state.currentSeason + "/" + user.id), {updatedUser})
                 .then(res => console.log(res.data))
