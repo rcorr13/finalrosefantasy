@@ -310,7 +310,6 @@ app.put('/updateuser/:_id', (req, res) => {
 app.put('/updateuser/:season/:_id', (req, res) => {
     const seasonData = req.body.updatedUser
     const picksAndTeamsNew = {
-        totalpoints: seasonData.totalpoints,
         picks: seasonData.picks,
         season: seasonData.season,
         week1total: seasonData.week1total,
@@ -341,6 +340,7 @@ app.put('/updateuser/:season/:_id', (req, res) => {
         week13team: seasonData.week13team,
         week14total: seasonData.week14total,
         week14team: seasonData.week14team,
+        totalpoints: (parseInt(seasonData.week1total)+parseInt(seasonData.week2total)+parseInt(seasonData.week3total)+parseInt(seasonData.week4total)+parseInt(seasonData.week5total)+parseInt(seasonData.week6total)+parseInt(seasonData.week7total)+parseInt(seasonData.week8total)+parseInt(seasonData.week9total)+parseInt(seasonData.week10total)+parseInt(seasonData.week11total)+parseInt(seasonData.week12total)+parseInt(seasonData.week13total)+parseInt(seasonData.week14total)),
     }
     //console.log(updatedSeasonData)
     User.findOne({ _id: req.params._id})
