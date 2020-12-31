@@ -12,6 +12,8 @@ import Paper from "@material-ui/core/Paper";
 import axios from "axios";
 import GetBaseURL from "./GetBaseURL";
 import {useLocation} from "react-router-dom";
+import withStyles from "@material-ui/core/styles/withStyles";
+import {createStyles} from "@material-ui/styles";
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -40,10 +42,9 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-    { id: 'firstname', numeric: false, label: 'Name', minWidth: 100 },
     { id: 'totalpoints', numeric: true, label: 'Total Points', minWidth: 100 },
-    { id: 'week1team', numeric: false, label: 'Week 1 Team', minWidth: 150 },
-    { id: 'week1total', numeric: true, label: 'Week 1 Points', minWidth: 150 },
+    { id: 'week1team', numeric: false, label: 'Week 1 Team', minWidth: 500 },
+    { id: 'week1total', numeric: true, label: 'Week 1 Points', minWidth: 200 },
     { id: 'week2team', numeric: false, label: 'Week 2 Team', minWidth: 150 },
     { id: 'week2total', numeric: true, label: 'Week 2 Points', minWidth: 150 },
     { id: 'week3team', numeric: false, label: 'Week 3 Team', minWidth: 150 },
@@ -72,23 +73,89 @@ const headCells = [
     { id: 'week14total', numeric: true, label: 'Week 14 Points', minWidth: 150 },
 ];
 
+const StickyTableCell = withStyles((theme) => ({
+    head: {
+        backgroundColor: "#343a40",
+        left: 0,
+        position: "sticky",
+        zIndex: theme.zIndex.appBar + 2,
+    },
+    body: {
+        minWidth: "50px",
+        left: 0,
+        position: "sticky",
+        zIndex: theme.zIndex.appBar + 1,
+    }
+}))(TableCell);
+
+const StyledTableCell = withStyles((theme) => ({
+    head: {
+        backgroundColor: "#343a40",
+        height: '10px',
+    },
+    body: {
+        fontSize: 14
+    }
+}))(TableCell);
+
+const StyledTableSortLabel = withStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            height: '10px',
+            fontWeight: 'bold',
+            color: 'white',
+            "&:hover": {
+                color: 'lightgrey',
+            },
+            '&$active': {
+                color: 'yellow',
+            },
+        },
+        active: {},
+        icon: {
+            color: 'inherit !important'
+        },
+    })
+)(TableSortLabel);
+
 function EnhancedTableHead(props) {
     const {classes,order,orderBy,onRequestSort} = props;
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
-    return (
+    let headCell1 = { id: 'firstname', numeric: false, label: 'Name', minWidth: 100, zIndex: 4};
+return (
         <TableHead>
             <TableRow>
+                <StickyTableCell
+                        key={headCell1.id}
+                        //align={headCell.numeric ? "right" : "left"}
+                        //padding={headCell1.disablePadding ? "checkbox" : "default"}
+                        sortDirection={orderBy === headCell1.id ? order : false}
+                        width={300}
+                >
+                        <StyledTableSortLabel
+                            active={orderBy === headCell1.id}
+                            direction={orderBy === headCell1.id ? order : "asc"}
+                            onClick={createSortHandler(headCell1.id)}
+                        >
+                            <p>&nbsp;&nbsp;</p>{headCell1.label}
+                            {orderBy === headCell1.id ? (
+                                <span className={classes.visuallyHidden}>
+                                    {order === "desc" ? "sorted descending" : "sorted ascending"}
+                                </span>
+                            ) : null}
+                        </StyledTableSortLabel>
+                </StickyTableCell>
                 {headCells.map((headCell) => (
-                    <TableCell
+                    <StyledTableCell
                         key={headCell.id}
                         //align={headCell.numeric ? "right" : "left"}
                         padding={headCell.disablePadding ? "none" : "default"}
                         sortDirection={orderBy === headCell.id ? order : false}
                         width={300}
                     >
-                        <TableSortLabel
+                        <StyledTableSortLabel
                             active={orderBy === headCell.id}
                             direction={orderBy === headCell.id ? order : "asc"}
                             onClick={createSortHandler(headCell.id)}
@@ -96,11 +163,11 @@ function EnhancedTableHead(props) {
                             {headCell.label}
                             {orderBy === headCell.id ? (
                                 <span className={classes.visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </span>
+                                {order === "desc" ? "sorted descending" : "sorted ascending"}
+                                </span>
                             ) : null}
-                        </TableSortLabel>
-                    </TableCell>
+                        </StyledTableSortLabel>
+                    </StyledTableCell>
                 ))}
             </TableRow>
         </TableHead>
@@ -116,33 +183,42 @@ EnhancedTableHead.propTypes = {
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: "100%"
+        marginTop: "20px",
     },
     paper: {
-        width: "100%",
-        marginBottom: theme.spacing(2)
+        height: "85vh",
+        width: "90vw",
+        position: 'absolute',
+        overflow: 'scroll',
     },
-    table: {
-        minWidth: 1750
+    tableContainer: {
+        overflow: "initial",
     },
+    cell_long: {
+        width: 200,
+        minWidth: 120,
+    },
+    firstCell: {
+        //position: '-webkit-sticky',
+        position: 'sticky',
+        left: 0,
+        zIndex: 1,
+        backgroundColor: "#343a40",
+        color: "white",
+        width: 200,
+    },
+
     visuallyHidden: {
         border: 0,
         clip: "rect(0 0 0 0)",
         height: 1,
         margin: -1,
         overflow: "hidden",
-        padding: 0,
-        position: "absolute",
+        position: "fixed",
         top: 20,
         width: 1,
-        textAlign: "left"
-    }
+    },
 }));
-
-
-async function CurrentSeason() {
-    return (((await axios.get(GetBaseURL() + '/masters')).data).currentSeason)
-}
 
 function removeBachSeason(row) {
     if (typeof row === 'string' || row instanceof String) {
@@ -223,10 +299,8 @@ export default function EnhancedTable() {
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
-                <TableContainer>
-                    <Table
-                        className={classes.table}
-                    >
+                <TableContainer width="85%" height="85%" classes={{ root: classes.tableContainer }} >
+                    <Table className={classes.table} stickyHeader={true}>
                         <EnhancedTableHead
                             classes={classes}
                             order={order}
@@ -238,36 +312,36 @@ export default function EnhancedTable() {
                                 row => {
                                     return (
                                         <TableRow hover key={row.firstname}>
-                                            <TableCell align="left">{row.firstname}</TableCell>
-                                            <TableCell align="left">{row.totalpoints}</TableCell>
-                                            <TableCell align="left">{(row.week1team)}</TableCell>
-                                            <TableCell align="left">{row.week1total}</TableCell>
-                                            <TableCell align="left">{(row.week2team)}</TableCell>
-                                            <TableCell align="left">{row.week2total}</TableCell>
-                                            <TableCell align="left">{(row.week3team)}</TableCell>
-                                            <TableCell align="left">{row.week3total}</TableCell>
-                                            <TableCell align="left">{(row.week4team)}</TableCell>
-                                            <TableCell align="left">{row.week4total}</TableCell>
-                                            <TableCell align="left">{(row.week5team)}</TableCell>
-                                            <TableCell align="left">{row.week5total}</TableCell>
-                                            <TableCell align="left">{(row.week6team)}</TableCell>
-                                            <TableCell align="left">{row.week6total}</TableCell>
-                                            <TableCell align="left">{(row.week7team)}</TableCell>
-                                            <TableCell align="left">{row.week7total}</TableCell>
-                                            <TableCell align="left">{(row.week8team)}</TableCell>
-                                            <TableCell align="left">{row.week8total}</TableCell>
-                                            <TableCell align="left">{(row.week9team)}</TableCell>
-                                            <TableCell align="left">{row.week9total}</TableCell>
-                                            <TableCell align="left">{(row.week10team)}</TableCell>
-                                            <TableCell align="left">{row.week10total}</TableCell>
-                                            <TableCell align="left">{(row.week11team)}</TableCell>
-                                            <TableCell align="left">{row.week11total}</TableCell>
-                                            <TableCell align="left">{(row.week12team)}</TableCell>
-                                            <TableCell align="left">{row.week12total}</TableCell>
-                                            <TableCell align="left">{(row.week13team)}</TableCell>
-                                            <TableCell align="left">{row.week13total}</TableCell>
-                                            <TableCell align="left">{(row.week14team)}</TableCell>
-                                            <TableCell align="left">{row.week14total}</TableCell>
+                                            <TableCell  align="left" style={{display: "table-cell", paddingLeft: "10px", fontWeight: "bold"}} className={classes.firstCell}>{row.firstname}</TableCell>
+                                            <TableCell  align="left">{row.totalpoints}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{(row.week1team)}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{row.week1total}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{(row.week2team)}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{row.week2total}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{(row.week3team)}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{row.week3total}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{(row.week4team)}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{row.week4total}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{(row.week5team)}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{row.week5total}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{(row.week6team)}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{row.week6total}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{(row.week7team)}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{row.week7total}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{(row.week8team)}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{row.week8total}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{(row.week9team)}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{row.week9total}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{(row.week10team)}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{row.week10total}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{(row.week11team)}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{row.week11total}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{(row.week12team)}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{row.week12total}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{(row.week13team)}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{row.week13total}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{(row.week14team)}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{row.week14total}</TableCell>
                                         </TableRow>
                                     );
                                 }
