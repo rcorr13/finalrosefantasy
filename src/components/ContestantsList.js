@@ -14,6 +14,8 @@ import GetBaseURL from "./GetBaseURL";
 import {
     useLocation
 } from "react-router-dom";
+import withStyles from "@material-ui/core/styles/withStyles";
+import {createStyles} from "@material-ui/styles";
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -43,7 +45,6 @@ function stableSort(array, comparator) {
 
 const headCells = [
     { id: 'image', numeric: false, label: 'Image', maxWidth: 70 },
-    { id: 'name', numeric: false, label: 'Name', minWidth: 200 },
     { id: 'age', label: 'Age', minWidth: 50 },
     { id: 'job', numeric: false, label: 'Job', minWidth: 50 },
     { id: 'totalpoints', numeric: true, label: 'Total Points', minWidth: 100 },
@@ -77,35 +78,102 @@ const headCells = [
     { id: 'week14actions', numeric: false, label: 'Week 14 Actions', minWidth: 150 },
 ];
 
+const StickyTableCell = withStyles((theme) => ({
+    head: {
+        backgroundColor: "#343a40",
+        left: 0,
+        position: "sticky",
+        zIndex: theme.zIndex.appBar + 2,
+    },
+    body: {
+        minWidth: "50px",
+        left: 0,
+        position: "sticky",
+        zIndex: theme.zIndex.appBar + 1,
+    }
+}))(TableCell);
+
+const StyledTableCell = withStyles((theme) => ({
+    head: {
+        backgroundColor: "#343a40",
+        height: '10px',
+    },
+    body: {
+        fontSize: 14
+    }
+}))(TableCell);
+
+const StyledTableSortLabel = withStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            height: '10px',
+            color: 'white',
+            fontWeight: 'bold',
+            "&:hover": {
+                color: 'lightgrey',
+            },
+            '&$active': {
+                color: 'yellow',
+            },
+        },
+        active: {},
+        icon: {
+            color: 'inherit !important'
+        },
+    })
+)(TableSortLabel);
+
 function EnhancedTableHead(props) {
     const {classes,order,orderBy,onRequestSort} = props;
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
+    let headCell1 = { id: 'name', numeric: false, label: 'Name', minWidth: 200,  zIndex: 4};
     return (
         <TableHead>
             <TableRow>
+                <StickyTableCell
+                    key={headCell1.id}
+                    //align={headCell.numeric ? "right" : "left"}
+                    //padding={headCell1.disablePadding ? "checkbox" : "default"}
+                    sortDirection={orderBy === headCell1.id ? order : false}
+                    width={300}
+                >
+                    <StyledTableSortLabel
+                        active={orderBy === headCell1.id}
+                        direction={orderBy === headCell1.id ? order : "asc"}
+                        onClick={createSortHandler(headCell1.id)}
+                    >
+                        <p>&nbsp;&nbsp;</p>{headCell1.label}
+                        {orderBy === headCell1.id ? (
+                            <span className={classes.visuallyHidden}>
+                                    {order === "desc" ? "sorted descending" : "sorted ascending"}
+                                </span>
+                        ) : null}
+                    </StyledTableSortLabel>
+                </StickyTableCell>
                 {headCells.map((headCell) => (
-                    <TableCell
+                    <StyledTableCell
                         key={headCell.id}
                         //align={headCell.numeric ? "right" : "left"}
                         padding={headCell.disablePadding ? "none" : "default"}
                         sortDirection={orderBy === headCell.id ? order : false}
                         width={300}
                     >
-                        <TableSortLabel
+                        <StyledTableSortLabel
                             active={orderBy === headCell.id}
                             direction={orderBy === headCell.id ? order : "asc"}
                             onClick={createSortHandler(headCell.id)}
+                            color={"white"}
                         >
                             {headCell.label}
                             {orderBy === headCell.id ? (
                                 <span className={classes.visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </span>
+                                {order === "desc" ? "sorted descending" : "sorted ascending"}
+                                </span>
                             ) : null}
-                        </TableSortLabel>
-                    </TableCell>
+                        </StyledTableSortLabel>
+                    </StyledTableCell>
                 ))}
             </TableRow>
         </TableHead>
@@ -121,29 +189,42 @@ EnhancedTableHead.propTypes = {
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: "100%"
+        marginTop: "20px",
     },
     paper: {
-        width: "100%",
-        marginBottom: theme.spacing(2)
+        height: "85vh",
+        width: "90vw",
+        position: 'absolute',
+        overflow: 'scroll',
     },
-    table: {
-        minWidth: 1750
+    tableContainer: {
+        overflow: "initial",
     },
+    cell_long: {
+        width: 200,
+        minWidth: 120,
+    },
+    firstCell: {
+        //position: '-webkit-sticky',
+        position: 'sticky',
+        left: 0,
+        zIndex: 1,
+        backgroundColor: "#343a40",
+        color: "white",
+        width: 200,
+    },
+
     visuallyHidden: {
         border: 0,
         clip: "rect(0 0 0 0)",
         height: 1,
         margin: -1,
         overflow: "hidden",
-        padding: 0,
-        position: "absolute",
+        position: "fixed",
         top: 20,
         width: 1,
-        textAlign: "left"
-    }
+    },
 }));
-
 
 
 export default function EnhancedTable() {
@@ -212,39 +293,39 @@ export default function EnhancedTable() {
                                 (row) => {
                                     return (
                                         <TableRow hover key={row.name}>
-                                            <TableCell align="left" ><img src={row.imageLink} width="100" alt={row.nameLink}/></TableCell>
-                                            <TableCell align="left">{row.name}</TableCell>
-                                            <TableCell align="left">{row.age}</TableCell>
-                                            <TableCell align="left">{row.job}</TableCell>
-                                            <TableCell align="left">{row.totalpoints}</TableCell>
-                                            <TableCell align="left">{row.week1points}</TableCell>
-                                            <TableCell align="left">{(row.week1actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
-                                            <TableCell align="left">{row.week2points}</TableCell>
-                                            <TableCell align="left">{(row.week2actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
-                                            <TableCell align="left">{row.week3points}</TableCell>
-                                            <TableCell align="left">{(row.week3actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
-                                            <TableCell align="left">{row.week4points}</TableCell>
-                                            <TableCell align="left">{(row.week4actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
-                                            <TableCell align="left">{row.week5points}</TableCell>
-                                            <TableCell align="left">{(row.week5actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
-                                            <TableCell align="left">{row.week6points}</TableCell>
-                                            <TableCell align="left">{(row.week6actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
-                                            <TableCell align="left">{row.week7points}</TableCell>
-                                            <TableCell align="left">{(row.week7actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
-                                            <TableCell align="left">{row.week8points}</TableCell>
-                                            <TableCell align="left">{(row.week8actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
-                                            <TableCell align="left">{row.week9points}</TableCell>
-                                            <TableCell align="left">{(row.week9actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
-                                            <TableCell align="left">{row.week10points}</TableCell>
-                                            <TableCell align="left">{(row.week10actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
-                                            <TableCell align="left">{row.week11points}</TableCell>
-                                            <TableCell align="left">{(row.week11actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
-                                            <TableCell align="left">{row.week12points}</TableCell>
-                                            <TableCell align="left">{(row.week12actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
-                                            <TableCell align="left">{row.week13points}</TableCell>
-                                            <TableCell align="left">{(row.week13actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
-                                            <TableCell align="left">{row.week14points}</TableCell>
-                                            <TableCell align="left">{(row.week14actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long} style={{display: "table-cell", paddingLeft: "10px", fontWeight: "bold", color: (row.status === "on") ? 'white' : 'red'}} className={classes.firstCell}>{row.name}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long} ><img src={row.imageLink} width="100" alt={row.nameLink}/></TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{row.age}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{row.job}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{row.totalpoints}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{row.week1points}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{(row.week1actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{row.week2points}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{(row.week2actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{row.week3points}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{(row.week3actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{row.week4points}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{(row.week4actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{row.week5points}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{(row.week5actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{row.week6points}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{(row.week6actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{row.week7points}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{(row.week7actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{row.week8points}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{(row.week8actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{row.week9points}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{(row.week9actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{row.week10points}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{(row.week10actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{row.week11points}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{(row.week11actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{row.week12points}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{(row.week12actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{row.week13points}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{(row.week13actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{row.week14points}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{(row.week14actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
                                         </TableRow>
                                     );
                                 }
