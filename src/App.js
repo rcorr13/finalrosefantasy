@@ -22,6 +22,8 @@ import HowTo from "./components/HowTo";
 import ScoringRules from "./components/ScoringRules";
 import DeleteContestant from "./components/DeleteContestant";
 import CreateContestant from "./components/CreateContestant";
+import {spacing} from "@material-ui/system";
+import SeasonGraphs from "./components/SeasonGraphs";
 
 if(localStorage.jwtToken) {
     setAuthToken(localStorage.jwtToken);
@@ -43,21 +45,22 @@ class App extends Component {
                 <Router>
                     <div>
                         <NavBar />
-                        <Route exact path="/" component={ Home } />
-                        <div className="container">
-                            <Route exact path="/register" component={ Register } />
-                            <Route exact path="/login" component={ Login } />
-                            <Route exact path="/pickcontestants" component={ PickContestants } />
-                            <Route exact path="/scoreform" component={ContestantScoreForm} />
-                            <Route exact path="/admin" component={AdminPage} />
-                            <Route exact path="/changepassword" component={ChangePassword} />
-                            <Route exact path="/howto" component={HowTo} />
-                            <Route exact path="/createcontestant" component={CreateContestant} />
-                            <Route exact path="/deletecontestant" component={DeleteContestant} />
-                            <Route path="/scoringrules/:season" component={ ScoringRules } />
-                            <Route path="/contestantslist/:season" component={ ContestantsList } />
-                            <Route path="/standings/:season" component={Standings} />
-                        </div>
+                            <Route exact path="/" component={ Home } />
+                            <div className="links">
+                                <Route exact path="/register" component={ Register } />
+                                <Route exact path="/login" component={ Login } />
+                                <Route exact path="/pickcontestants" component={ PickContestants } />
+                                <Route exact path="/scoreform" component={ContestantScoreForm} />
+                                <Route exact path="/admin" component={AdminPage} />
+                                <Route exact path="/changepassword" component={ChangePassword} />
+                                <Route exact path="/howto" component={HowTo} />
+                                <Route exact path="/createcontestant" component={CreateContestant} />
+                                <Route exact path="/deletecontestant" component={DeleteContestant} />
+                                <Route path="/scoringrules/:season" component={ ScoringRules } />
+                                <Route path="/contestantslist/:season" component={ ContestantsList } />
+                                <Route path="/standings/:season" component={Standings} />
+                                <Route path="/graphs/:season" component={SeasonGraphs} />
+                            </div>
                     </div>
                 </Router>
             </Provider>
