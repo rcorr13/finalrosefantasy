@@ -184,10 +184,13 @@ EnhancedTableHead.propTypes = {
 const useStyles = makeStyles((theme) => ({
     root: {
         marginTop: "20px",
+        width: "50%",
+        marginLeft: "25px",
+        marginRight: "25px",
     },
     paper: {
         height: "85vh",
-        width: "90vw",
+        width: "95vw",
         position: 'absolute',
         overflow: 'scroll',
     },
@@ -201,7 +204,6 @@ const useStyles = makeStyles((theme) => ({
     firstCell: {
         //position: '-webkit-sticky',
         position: 'sticky',
-        left: 0,
         zIndex: 1,
         backgroundColor: "#343a40",
         color: "white",
@@ -219,6 +221,7 @@ const useStyles = makeStyles((theme) => ({
         width: 1,
     },
 }));
+
 
 function removeBachSeason(row) {
     if (typeof row === 'string' || row instanceof String) {
