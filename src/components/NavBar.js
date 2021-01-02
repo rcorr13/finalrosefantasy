@@ -80,11 +80,12 @@ class NavBar extends Component {
         )
 
         const previousSeasons = (
-            <NavDropdownMenu title="Previous Seasons" id="previous-seasons">
+            <NavDropdownMenu title="Previous Seasons" id="previous-seasons" >
                 {this.state.previousSeasons.map(season =>
                 <DropdownSubmenu title={season.replace(/-/gi, ' S')} key={season}>
-                    <NavDropdown.Item href={"/standings/" + season}>Standings</NavDropdown.Item>
                     <NavDropdown.Item href={"/contestantslist/" + season}>Contestants</NavDropdown.Item>
+                    <NavDropdown.Item href={"/standings/" + season}>Standings</NavDropdown.Item>
+                    <NavDropdown.Item href={"/graphs/" + season}>Graphs</NavDropdown.Item>
                     <NavDropdown.Item href={"/scoringrules/" + season}>Rules</NavDropdown.Item>
                 </DropdownSubmenu>
                 )}
@@ -92,7 +93,7 @@ class NavBar extends Component {
         )
 
         return(
-            <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark">
+            <Navbar collapseOnSelect className="sticky-nav" sticky="top" expand="md" bg="dark" variant="dark" style={{zIndex: '10'}}>
                 <Navbar.Brand href="/">
                     <Navbar.Brand>
                         <img src="/logo512.png" width="30" height="30" className="d-inline-block align-top"
@@ -103,10 +104,14 @@ class NavBar extends Component {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link href={"/standings/" + this.state.currentSeason}>Standings</Nav.Link>
+
                         <Nav.Link href={"/contestantslist/" + this.state.currentSeason}>Contestants</Nav.Link>
                         <Nav.Link href={"/scoringrules/" + this.state.currentSeason}>Scoring Rules</Nav.Link>
                         <Nav.Link href="/howto">How To</Nav.Link>
+                        <NavDropdown alignRight title='Standings' id="collasible-nav-dropdown">
+                            <NavDropdown.Item href={"/standings/" + this.state.currentSeason}>Team Standings</NavDropdown.Item>
+                            <NavDropdown.Item href={"/graphs/" + this.state.currentSeason}>Graphs</NavDropdown.Item>
+                        </NavDropdown>
                         {previousSeasons}
                     </Nav>
                     {isAuthenticated ? authLinks : guestLinks}
