@@ -67,7 +67,10 @@ class NavBar extends Component {
                 <NavDropdown alignRight title={Object.is(user.firstname, undefined) ? 'title' : user.firstname} id="collasible-nav-dropdown">
                     <NavDropdown.Item onClick={this.redirectChangePassword.bind(this)}>Change Password</NavDropdown.Item>
                     <NavDropdown.Item onClick={this.onLogout.bind(this)}>Logout</NavDropdown.Item>
-                    <NavDropdown.Item onClick={this.redirectAdmin.bind(this)}>Admin</NavDropdown.Item>
+                    {(user.id === "5feb78416972daafed8c15c5") && (
+                        <NavDropdown.Item onClick={this.redirectAdmin.bind(this)}>
+                            Admin
+                        </NavDropdown.Item>)}
                 </NavDropdown>
             </Nav>
         )
