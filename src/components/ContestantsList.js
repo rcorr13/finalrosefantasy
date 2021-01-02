@@ -210,6 +210,7 @@ const useStyles = makeStyles((theme) => ({
     firstCell: {
         //position: '-webkit-sticky',
         position: 'sticky',
+        left: 0,
         zIndex: 1,
         backgroundColor: "#343a40",
         color: "white",
