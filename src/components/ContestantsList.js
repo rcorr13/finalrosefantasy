@@ -296,7 +296,7 @@ export default function EnhancedTable() {
                                 (row) => {
                                     return (
                                         <TableRow hover key={row.name}>
-                                            <TableCell align="left" className={classes.cell_long} style={{display: "table-cell", paddingLeft: "10px", fontWeight: "bold", color: (row.status === "on") ? 'white' : 'red'}} className={classes.firstCell}>{row.name}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long} style={{display: "table-cell", paddingLeft: "10px", fontWeight: "bold", color: (row.status === "on") ? 'white' : '#7C0A02'}} className={classes.firstCell}>{row.name}</TableCell>
                                             <TableCell align="left" className={classes.cell_long} ><img src={row.imageLink} width="100" alt={row.nameLink}/></TableCell>
                                             <TableCell align="left" className={classes.cell_long}>{row.age}</TableCell>
                                             <TableCell align="left" className={classes.cell_long}>{row.job}</TableCell>
