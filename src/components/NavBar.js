@@ -109,12 +109,10 @@ class NavBar extends Component {
                     <Nav className="mr-auto">
 
                         <Nav.Link href={"/contestantslist/" + this.state.currentSeason}>Contestants</Nav.Link>
+                        <Nav.Link href={"/standings/" + this.state.currentSeason}>Standings</Nav.Link>
+                        <Nav.Link href={"/graphs/" + this.state.currentSeason}>Graphs</Nav.Link>
                         <Nav.Link href={"/scoringrules/" + this.state.currentSeason}>Scoring Rules</Nav.Link>
                         <Nav.Link href="/howto">How To</Nav.Link>
-                        <NavDropdown alignRight title='Standings' id="collasible-nav-dropdown">
-                            <NavDropdown.Item href={"/standings/" + this.state.currentSeason}>Team Standings</NavDropdown.Item>
-                            <NavDropdown.Item href={"/graphs/" + this.state.currentSeason}>Graphs</NavDropdown.Item>
-                        </NavDropdown>
                         {previousSeasons}
                     </Nav>
                     {isAuthenticated ? authLinks : guestLinks}
