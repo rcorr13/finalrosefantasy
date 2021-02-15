@@ -212,8 +212,8 @@ export default class AdminPage extends React.Component {
                                     break;
                                 } else {
                                     let ContestantUsedNum = (ContestantTimesPicked[idealcontestant] + 1)
-                                    FinalPicks[friend] = FinalPicks[friend].concat([idealcontestant]);
                                     if (ContestantUsedNum <= 3) {
+                                        FinalPicks[friend] = FinalPicks[friend].concat([idealcontestant]);
                                         (users).forEach(user => {
                                             let friendName = user.firstname;
                                             if (friend != friendName && (this.isArrayContentSame(FinalPicks[friend], FinalPicks[friendName])) && (FinalPicks[friend].length === lastWeekTeam.length)) {
@@ -225,6 +225,8 @@ export default class AdminPage extends React.Component {
                                             ContestantTimesPicked[idealcontestant] = ContestantUsedNum;
                                             break
                                         }
+                                    } else {
+                                        console.log('Contestant ' + idealcontestant + ' on too many teams - skipping');
                                     }
                                 }
                             }
