@@ -9,6 +9,10 @@ export default class SeasonGraphs extends Component {
         //const { datasets } = this.refs.chart.chartInstance.data
         //console.log(datasets[0].data);
     }
+   
+    async LogisticsInfo() {
+        return (await axios.get(GetBaseURL() + '/logistics')).data
+    }
 
     async fetchContestants() {
         let master = await this.MasterInfo();
@@ -16,7 +20,9 @@ export default class SeasonGraphs extends Component {
         let currentWeek = master[0].currentWeek;
         let currentSeason = master[0].currentSeason;
         if (currentSeason != usingSeason) {
-            currentWeek = 13;
+            let logistics = await this.LogisticsInfo();
+            let currentLogistics = logistics.filter(option => option.season === this.props.match.params.season)[0];
+            currentWeek = currentLogistics.lastWeek;        
         }
 
         let users = await this.allUsers();
