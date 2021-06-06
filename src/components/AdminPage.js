@@ -80,9 +80,9 @@ export default class AdminPage extends React.Component {
     pickTeamsWeek1 = () => {
 
         const week1pickorder = [
-            ['Hope', 'Rachel', 'Rebecca', 'Julia', 'Davis', 'Shannon', 'Erik'],
-            ['Julia', 'Davis', 'Shannon', 'Erik', 'Hope', 'Rachel', 'Rebecca'],
-            ['Erik', 'Rebecca', 'Shannon', 'Rachel', 'Davis', 'Hope', 'Julia']
+            ['Shannon', 'Rebecca', 'Julia', 'Rachel', 'Erik', 'Hope', 'Davis'],	
+            ['Rachel', 'Erik', 'Hope', 'Davis', 'Shannon', 'Rebecca', 'Julia'],	
+            ['Davis', 'Julia', 'Hope', 'Rebecca', 'Erik', 'Shannon', 'Rachel']
         ]
 
         let Preferences = this.state.allCurrentPicks;
