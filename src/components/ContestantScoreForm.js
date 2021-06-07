@@ -67,7 +67,7 @@ export default class ContestantScoreForm extends React.Component {
 
         this.setState({
             contestants: currentContestants,
-            contestantsOrder: currentContestants.map(contestant => contestant.nameLink),
+            contestantsOrder: currentContestants.map(contestant => contestant.nameLink).sort(),
             currentWeek: currentWeek,
             weekActionsName: 'week' + currentWeek + 'actions',
             weekPointsName: 'week' + currentWeek + 'points',
