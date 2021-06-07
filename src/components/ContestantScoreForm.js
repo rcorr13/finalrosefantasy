@@ -244,7 +244,7 @@ export default class ContestantScoreForm extends React.Component {
             <div>
                 <h3>Current Week: {this.state.currentWeek}</h3>
                 <Grid container direction="row" justify="center" alignItems="center">
-                    {this.state.contestants.map(contestant => {
+                    {this.state.contestants.sort((a,b)=>a.nameLink.localeCompare(b.nameLink)).map(contestant => {
                             return (
                                 <ContainerContestant key={contestant.name} onClick={this.pickSubject(contestant)}>
                                     <ContainerContestantPicture><Image src={contestant.imageLink} width="40" roundedCircle/></ContainerContestantPicture>
