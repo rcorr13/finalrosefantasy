@@ -193,6 +193,7 @@ export default class AdminPage extends React.Component {
 
         (users).forEach(user => {
             let lastWeekTeam = user[lastWeekTeamColumnName];
+            console.log(lastWeekTeam)
             let friend = user.firstname;
             let friendPicks = Preferences[friend]
                 .map(contestantLink => this.state.contestants.find(contestant => contestant.nameLink === contestantLink))
