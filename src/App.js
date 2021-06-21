@@ -15,6 +15,7 @@ import ContestantScoreForm from "./components/ContestantScoreForm";
 import AdminPage from "./components/AdminPage";
 import ContestantsList from "./components/ContestantsList";
 import Standings from "./components/Standings";
+import CurrentPicks from "./components/CurrentPicks";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ChangePassword from "./components/ChangePassword";
@@ -60,6 +61,7 @@ class App extends Component {
                                 <Route path="/contestantslist/:season" component={ ContestantsList } />
                                 <Route path="/standings/:season" component={Standings} />
                                 <Route path="/graphs/:season" component={SeasonGraphs} />
+                                <Route path="/picks/:season/:week" component={CurrentPicks} />
                             </div>
                     </div>
                 </Router>
