@@ -471,7 +471,7 @@ export default class AdminPage extends React.Component {
     }
 
     seeCurrentPicks = ()=> {
-        this.props.history.push('/picks/'+this.state.currentSeason+"/"+this.state.currentWeek)
+        this.props.history.push("/picks/"+this.state.currentSeason+"/"+this.state.currentWeek)
     }
 
     render() {
