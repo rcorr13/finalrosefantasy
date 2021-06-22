@@ -248,17 +248,16 @@ export default function EnhancedTable() {
     console.log(rows)
     rows.forEach(row => {
         (row.totalpoints = parseInt(row.totalpoints));
-        (row.pick1 = removeBachSeason(row.picks)[1]);
-        (row.pick2 = removeBachSeason(row.picks)[2]);
-        (row.pick3 = removeBachSeason(row.picks)[3]);
-        (row.pick4 = removeBachSeason(row.picks)[4]);
-        (row.pick5 = removeBachSeason(row.picks)[5]);
-        (row.pick6 = removeBachSeason(row.picks)[6]);
-        (row.pick7 = removeBachSeason(row.picks)[7]);
-        (row.pick8 = removeBachSeason(row.picks)[8]);
-        (row.pick9 = removeBachSeason(row.picks)[9]);
-        (row.pick10 = removeBachSeason(row.picks)[10]);
-        (row.pick10 = removeBachSeason(row.picks)[10]);
+        (row.pick1 = removeBachSeason(row.picks)[0]);
+        (row.pick2 = removeBachSeason(row.picks)[1]);
+        (row.pick3 = removeBachSeason(row.picks)[2]);
+        (row.pick4 = removeBachSeason(row.picks)[3]);
+        (row.pick5 = removeBachSeason(row.picks)[4]);
+        (row.pick6 = removeBachSeason(row.picks)[5]);
+        (row.pick7 = removeBachSeason(row.picks)[6]);
+        (row.pick8 = removeBachSeason(row.picks)[7]);
+        (row.pick9 = removeBachSeason(row.picks)[8]);
+        (row.pick10 = removeBachSeason(row.picks)[9]);
         (row.currentTeam = removeBachSeason(row.week2team))
     })
 
