@@ -470,6 +470,10 @@ export default class AdminPage extends React.Component {
         this.props.history.push('/deletecontestant')
     }
 
+    seeCurrentPicks = ()=> {
+        this.props.history.push('/picks/'+this.state.currentSeason+"/"+this.state.currentWeek)
+    }
+
     render() {
         let weekOptions = ['1','2','3','4','5','6','7','8','9','10','11','12'];
         return (
@@ -479,11 +483,14 @@ export default class AdminPage extends React.Component {
                 <h3>Current Week: {this.state.currentWeek}</h3>
                 <br />
                 <Container key="createdelete">
-                    <Button variant="warning" style={{width: "180px", margin: "4px"}} onClick={this.createContestantLink}>
+                    <Button variant="warning" style={{width: "120px", margin: "4px"}} onClick={this.createContestantLink}>
                         Create Contestant
                     </Button>
-                    <Button variant="warning" style={{width: "180px", margin: "4px"}} onClick={this.deleteContestantLink}>
+                    <Button variant="warning" style={{width: "120px", margin: "4px"}} onClick={this.deleteContestantLink}>
                         Delete Contestant
+                    </Button>
+                    <Button variant="warning" style={{width: "120px", margin: "4px"}} onClick={this.seeCurrentPicks}>
+                        Current Picks
                     </Button>
                 </Container>
                 {weekOptions.map(week => {
