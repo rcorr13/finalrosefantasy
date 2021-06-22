@@ -220,7 +220,7 @@ function removeBachSeason(row) {
 
 export default function EnhancedTable() {
     const fullPath = useLocation().pathname.split('/')
-    const week = fullPath.pop();
+    const currentWeek = fullPath.pop();
     const season = fullPath.pop();
 
     const [rows, setUsers] = useState([])
@@ -258,7 +258,7 @@ export default function EnhancedTable() {
         (row.pick8 = removeBachSeason(row.picks)[7]);
         (row.pick9 = removeBachSeason(row.picks)[8]);
         (row.pick10 = removeBachSeason(row.picks)[9]);
-        (row.currentTeam = removeBachSeason(row.week2team))
+        (row.currentTeam = removeBachSeason(row[['week',currentWeek,'team'].join('')]))
     })
 
     const classes = useStyles();
