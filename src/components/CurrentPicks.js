@@ -216,6 +216,33 @@ function removeBachSeason(row) {
     }
 }
 
+function colorContestant(pick, currentTeam, contestants) {
+    let textcolor = 'black'
+    let textdecoration = 'none'
+
+    try {
+        const fullPath = useLocation().pathname.split('/')
+        const currentWeek = fullPath.pop();
+        const season = fullPath.pop();
+        console.log(contestants)
+        const namelink = pick.replace(/\s+/g, '-') + "-" + season;
+        let contestantrow = contestants.filter(contestant => ((contestant.nameLink === namelink) && (contestant.season === season)))[0];
+        //console.log(contestantrow.status)
+        //console.log(currentTeam)
+        if (contestantrow.status != "on") {
+            textcolor = 'red'
+            textdecoration = 'line-through'
+        }
+        if (currentTeam.includes(pick)) {
+            textcolor = 'green'
+        }
+
+        return ({color: textcolor, textDecoration: textdecoration, textDecorationColor: 'red'})
+    } catch(error) {
+        return({color: textcolor})
+    }
+    //return({color: 'blue', textDecoration: 'line-through'})
+}
 
 
 export default function EnhancedTable() {
@@ -245,7 +272,24 @@ export default function EnhancedTable() {
         getUsers();
     }, []);
 
+    const [contestants, setContestants] = useState([])
+
+    useEffect(function() {
+        async function getContestants() {
+            try {
+                //const response = await axios.get("http://localhost:5000/contestants");
+                const response = await axios.get(GetBaseURL() +  '/contestants');
+                const contestants = response.data;
+                setContestants(contestants.filter(contestant => contestant.season === season));
+            } catch(error) {
+                console.log('error', error);
+            }
+        }
+        getContestants();
+    }, []);
+
     console.log(rows)
+
     rows.forEach(row => {
         (row.totalpoints = parseInt(row.totalpoints));
         (row.pick1 = removeBachSeason(row.picks)[0]);
@@ -289,16 +333,16 @@ export default function EnhancedTable() {
                                         <TableRow hover key={row.firstname}>
                                             <TableCell  align="left" style={{display: "table-cell", paddingLeft: "10px", fontWeight: "bold"}} className={classes.firstCell}>{row.firstname}</TableCell>
                                             <TableCell  align="left">{row.totalpoints}</TableCell>
-                                            <TableCell  align="left" style={{color: (row.currentTeam.includes(row.pick1)) ? 'green' : 'black'}} className={classes.cell_long}>{(row.pick1)}</TableCell>
-                                            <TableCell  align="left" style={{color: (row.currentTeam.includes(row.pick2)) ? 'green' : 'black'}} className={classes.cell_long}>{(row.pick2)}</TableCell>
-                                            <TableCell  align="left" style={{color: (row.currentTeam.includes(row.pick3)) ? 'green' : 'black'}} className={classes.cell_long}>{(row.pick3)}</TableCell>
-                                            <TableCell  align="left" style={{color: (row.currentTeam.includes(row.pick4)) ? 'green' : 'black'}} className={classes.cell_long}>{(row.pick4)}</TableCell>
-                                            <TableCell  align="left" style={{color: (row.currentTeam.includes(row.pick5)) ? 'green' : 'black'}} className={classes.cell_long}>{(row.pick5)}</TableCell>
-                                            <TableCell  align="left" style={{color: (row.currentTeam.includes(row.pick6)) ? 'green' : 'black'}} className={classes.cell_long}>{(row.pick6)}</TableCell>
-                                            <TableCell  align="left" style={{color: (row.currentTeam.includes(row.pick7)) ? 'green' : 'black'}} className={classes.cell_long}>{(row.pick7)}</TableCell>
-                                            <TableCell  align="left" style={{color: (row.currentTeam.includes(row.pick8)) ? 'green' : 'black'}} className={classes.cell_long}>{(row.pick8)}</TableCell>
-                                            <TableCell  align="left" style={{color: (row.currentTeam.includes(row.pick9)) ? 'green' : 'black'}} className={classes.cell_long}>{(row.pick9)}</TableCell>
-                                            <TableCell  align="left" style={{color: (row.currentTeam.includes(row.pick10)) ? 'green' : 'black'}} className={classes.cell_long}>{(row.pick10)}</TableCell>
+                                            <TableCell  align="left" style={colorContestant(row.pick1, row.currentTeam, contestants)} className={classes.cell_long}>{(row.pick1)}</TableCell>
+                                            <TableCell  align="left" style={colorContestant(row.pick2, row.currentTeam, contestants)} className={classes.cell_long}>{(row.pick2)}</TableCell>
+                                            <TableCell  align="left" style={colorContestant(row.pick3, row.currentTeam, contestants)} className={classes.cell_long}>{(row.pick3)}</TableCell>
+                                            <TableCell  align="left" style={colorContestant(row.pick4, row.currentTeam, contestants)} className={classes.cell_long}>{(row.pick4)}</TableCell>
+                                            <TableCell  align="left" style={colorContestant(row.pick5, row.currentTeam, contestants)} className={classes.cell_long}>{(row.pick5)}</TableCell>
+                                            <TableCell  align="left" style={colorContestant(row.pick6, row.currentTeam, contestants)} className={classes.cell_long}>{(row.pick6)}</TableCell>
+                                            <TableCell  align="left" style={colorContestant(row.pick7, row.currentTeam, contestants)} className={classes.cell_long}>{(row.pick7)}</TableCell>
+                                            <TableCell  align="left" style={colorContestant(row.pick8, row.currentTeam, contestants)} className={classes.cell_long}>{(row.pick8)}</TableCell>
+                                            <TableCell  align="left" style={colorContestant(row.pick9, row.currentTeam, contestants)} className={classes.cell_long}>{(row.pick9)}</TableCell>
+                                            <TableCell  align="left" style={colorContestant(row.pick10, row.currentTeam, contestants)} className={classes.cell_long}>{(row.pick10)}</TableCell>
                                         </TableRow>
                                     );
                                 }
