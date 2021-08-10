@@ -56,7 +56,7 @@ export default class AdminPage extends React.Component {
         super(props);
         this.state = {
             currentWeek: "1",
-            currentSeason: "Bachelorette-17",
+            currentSeason: "BiP-17",
             users: {},
             allCurrentPicks: {},
             finalContestants: {},
@@ -79,10 +79,17 @@ export default class AdminPage extends React.Component {
 
     pickTeamsWeek1 = () => {
 
+        /*
         const week1pickorder = [
             ['Shannon', 'Rebecca', 'Julia', 'Rachel', 'Erik', 'Hope', 'Davis'],	
             ['Rachel', 'Erik', 'Hope', 'Davis', 'Shannon', 'Rebecca', 'Julia'],	
             ['Davis', 'Julia', 'Hope', 'Rebecca', 'Erik', 'Shannon', 'Rachel']
+        ]
+        */
+        
+        const week1pickorder = [
+            ['Erik', 'Hope', 'Rachel', 'Shannon', 'Davis', 'Julia', 'Rebecca'],
+            ['Rebecca', 'Julia', 'Davis', 'Shannon', 'Rachel', 'Hope', 'Erik'],
         ]
 
         let Preferences = this.state.allCurrentPicks;
