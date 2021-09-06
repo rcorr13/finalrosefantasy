@@ -23,90 +23,20 @@ This web applicaiton uses a MERN stack (MongoDB, Express, React, NodeJS).
 
 Other dependencies can be found in in [`package.json`](package.json).
 
-## API Documentation
+## Features
 
+### Contestant Picker
 ![ContestantPicker](https://github.com/rcorr13/finalrosefantasy/blob/main/public/ContestantPicker.gif)
+A drag-and-drop tool that allows users to pick which contestants they want on their team and in what priority order.
 
+### Scoring 
+![ScoringExample](https://github.com/rcorr13/finalrosefantasy/blob/main/public/ScoringExample.gif)
+Interface for recording contestant actions during each episoode
 
-### Users
+### Standings and Contestants Tables
+![TableSort](https://github.com/rcorr13/finalrosefantasy/blob/main/public/TableSort.gif)
+Tables displaying the current league standings and contestant actions/points that allow you to sort by any column values
 
-Register User:
- * URL: https://finalrosefantasy.herokuapp.com/register
- * Type: POST
- * Request Body: Array with user firstname, lastname, email, password, and confirmed password
- * Response: JSON with user information
-  
-Login User:
- * URL: https://finalrosefantasy.herokuapp.com/login
- * Type: POST
- * Request Body: Array with user email and password
- * Response: JSON with JWT token
-
-Update Password:
- * URL: https://finalrosefantasy.herokuapp.com/updatepassword
- * Type: PUT
- * Request Body: Array with user information, old password, new passowrd, and confirmed new password
- * Response: JSON with updated user
-  
-Update User:
- * URL: https://finalrosefantasy.herokuapp.com/updateuser/:_id
- * Type: PUT
- * Request Body: Array with updated user information
- * Request Params: User ID
- * Response: JSON of users (with updated user)
-  
-Get Users:  
- * URL: https://finalrosefantasy.herokuapp.com/users
- * Type: GET
- * Request: None
- * Response: JSON with all users
-  
-### Contestants
-  
-Get Contestants:  
- * URL: https://finalrosefantasy.herokuapp.com/contestants
- * Type: GET
- * Request: None
- * Response: JSON with all contestants
-
-Add Contestant:  
- * URL: https://finalrosefantasy.herokuapp.com/addcontestant
- * Type: POST
- * Request Body: Array with contestant name, nameLink, age, job, city, stateUS, status, imageLink, and totalpoints
- * Response: Response status code
-
-Update Contestant:  
- * URL: https://finalrosefantasy.herokuapp.com/updatecontestant/:nameLink
- * Type: PUT
- * Request Body: Array with updated contestant information
- * Request Params: Contestant nameLink
- * Response: JSON with all contestants (with updated contestant)
-  
-Delete Contestant:  
- * URL: https://finalrosefantasy.herokuapp.com/delete/:nameLink
- * Type: DELETE
- * Request Params: nameLink of contestant to be deleted
- * Response: JSON with all contestants (without deleted contestant)
-  
-### Logistics 
-(includes contestants eliminated a given week, and array of firsts that have occurred)  <br>
-
-Get Logistics:  
- * URL: https://finalrosefantasy.herokuapp.com/logistics
- * Type: GET
- * Request: None
- * Response: JSON with all logistic information
-
-Update Logistics:  
- * URL: https://finalrosefantasy.herokuapp.com/updatelogistics
- * Type: PUT
- * Request: Array with updated logistics information
- * Response: JSON with updated logistics
-
-Set Current Week:  
- * URL: https://finalrosefantasy.herokuapp.com/setCurrentWeek/:currentWeek
- * Type: PUT
- * Request Body: Current logistics information
- * Request Params: Week to set as currentWeek
- * Response: JSON with updated logistics
-  
+### Points + Standings Graphs
+![StandingsGraph](https://github.com/rcorr13/finalrosefantasy/blob/main/public/StandingsGraph.png)
+Graphs displaying the changes in league points/standings
