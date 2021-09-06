@@ -25,6 +25,9 @@ Other dependencies can be found in in [`package.json`](package.json).
 
 ## API Documentation
 
+![ContestantPicker](https://github.com/rcorr13/finalrosefantasy/blob/main/public/ContestantPicker.gif)
+
+
 ### Users
 
 Register User:
