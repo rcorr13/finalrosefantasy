@@ -59,8 +59,8 @@ export const logoutUser = (history) => dispatch => {
     setAuthToken(false);
     dispatch(setCurrentUser({}));
     //history.push('/login');
-    console.log('yay this fix worked')
-    history.push('/');
+    console.log('no push worked?')
+    //history.push('/');
 };
 
 export const changePassword = (updatedUser, history) => dispatch => {
