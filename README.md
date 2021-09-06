@@ -26,17 +26,17 @@ Other dependencies can be found in in [`package.json`](package.json).
 ## Features
 
 ### Contestant Picker
-![ContestantPicker](https://github.com/rcorr13/finalrosefantasy/blob/main/public/ContestantPicker.gif)
+![ContestantPicker](https://github.com/rcorr13/finalrosefantasy/blob/main/public/ContestantPicker.gif)<br>
 A drag-and-drop tool that allows users to pick which contestants they want on their team and in what priority order.
 
 ### Scoring 
-![ScoringExample](https://github.com/rcorr13/finalrosefantasy/blob/main/public/ScoringExample.gif)
+![ScoringExample](https://github.com/rcorr13/finalrosefantasy/blob/main/public/ScoringExample.gif)<br>
 Interface for recording contestant actions during each episoode
 
 ### Standings and Contestants Tables
-![TableSort](https://github.com/rcorr13/finalrosefantasy/blob/main/public/TableSort.gif)
+![TableSort](https://github.com/rcorr13/finalrosefantasy/blob/main/public/TableSort.gif)<br>
 Tables displaying the current league standings and contestant actions/points that allow you to sort by any column values
 
 ### Points + Standings Graphs
-![StandingsGraph](https://github.com/rcorr13/finalrosefantasy/blob/main/public/StandingsGraph.png)
+![StandingsGraph](https://github.com/rcorr13/finalrosefantasy/blob/main/public/StandingsGraph.png)<br>
 Graphs displaying the changes in league points/standings
