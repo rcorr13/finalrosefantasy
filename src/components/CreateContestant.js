@@ -92,7 +92,7 @@ export default class CreateContestant extends Component {
         console.log(`Name: ${this.state.name}`);
 
         const newContestant = {
-            nameLink: this.state.nameLink,
+            nameLink: [this.state.nameLink,this.state.season].join("-"),
             name: this.state.name,
             age: this.state.age,
             job: this.state.job,
