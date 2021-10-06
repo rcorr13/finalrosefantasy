@@ -56,7 +56,7 @@ export default class AdminPage extends React.Component {
         super(props);
         this.state = {
             currentWeek: "1",
-            currentSeason: "BiP-7",
+            currentSeason: "Bachelorette-18",
             users: {},
             allCurrentPicks: {},
             finalContestants: {},
@@ -85,12 +85,27 @@ export default class AdminPage extends React.Component {
             ['Rachel', 'Erik', 'Hope', 'Davis', 'Shannon', 'Rebecca', 'Julia'],	
             ['Davis', 'Julia', 'Hope', 'Rebecca', 'Erik', 'Shannon', 'Rachel']
         ]
-        */
+        
+        const week1pickorder = [
+            ['7', '6', '5', '4', '3', '2', '1'],	
+            ['4', '3', '2', '1', '7', '6', '5'],	
+            ['1', '5', '2', '6', '3', '7', '4']
+        ]
+        
         
         const week1pickorder = [
             ['Erik', 'Hope', 'Rachel', 'Shannon', 'Davis', 'Julia', 'Rebecca'],
             ['Rebecca', 'Julia', 'Davis', 'Shannon', 'Rachel', 'Hope', 'Erik'],
         ]
+        
+        */
+        
+        const week1pickorder = [
+            ['Rebecca', 'Erik', 'Shannon', 'Hope', 'Julia', 'Davis', 'Rachel'],	
+            ['Hope', 'Julia', 'Davis', 'Rachel', 'Rebecca', 'Erik', 'Shannon'],	
+            ['Rachel', 'Shannon', 'Davis', 'Erik', 'Julia', 'Rebecca', 'Hope']
+        ]
+        
 
         let Preferences = this.state.allCurrentPicks;
         let FinalPicks =  {};
@@ -368,7 +383,7 @@ export default class AdminPage extends React.Component {
         (this.state.contestants).forEach(contestant => {
             let weekActions = (contestant[weekActionsColumnName]).map(action => action.key);
             console.log(weekActions);
-            if (weekActions.includes("Does not advance / Eliminated") || weekActions.includes("Contestant leaves (no point penalty)")) {
+            if (weekActions.includes("Does not advance / Eliminated") || weekActions.includes("Contestant leaves (no point penalty)" || weekActions.includes("Contestant leaves of their own accord/not sent home by the Bachelorette (unless for emergency reasons)")) {
                 eliminatedLinks.push(contestant.nameLink);
                 const updatedContestant = {
                     ...contestant,
