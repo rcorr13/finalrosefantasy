@@ -35,7 +35,7 @@ export default class CreateContestant extends Component {
     onChangeName(e) {
         this.setState({
             name: e.target.value,
-            nameLink: (e.target.value).replace(/\s+/g, '-').toLowerCase(),
+            nameLink: (e.target.value).replace(/\s+/g, '-'),
         });
     }
 
