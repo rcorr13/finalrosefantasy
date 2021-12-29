@@ -47,6 +47,8 @@ const headCells = [
     { id: 'image', numeric: false, label: 'Image', maxWidth: 70 },
     { id: 'age', label: 'Age', minWidth: 50 },
     { id: 'job', numeric: false, label: 'Job', minWidth: 50 },
+    { id: 'city', numeric: false, label: 'City', minWidth: 50 },
+    { id: 'stateUS', numeric: false, label: 'State', minWidth: 50 },
     { id: 'totalpoints', numeric: true, label: 'Total Points', minWidth: 100 },
     { id: 'week1points', numeric: true, label: 'Week 1 Points', minWidth: 700 },
     { id: 'week1actions', numeric: false, label: 'Week 1 Actions', minWidth: 150 },
@@ -301,6 +303,8 @@ export default function EnhancedTable() {
                                             <TableCell align="left" className={classes.cell_long} ><img src={row.imageLink} width="100" alt={row.nameLink}/></TableCell>
                                             <TableCell align="left" className={classes.cell_long}>{row.age}</TableCell>
                                             <TableCell align="left" className={classes.cell_long}>{row.job}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{row.city}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{row.stateUS}</TableCell>
                                             <TableCell align="left" className={classes.cell_long}>{row.totalpoints}</TableCell>
                                             <TableCell align="left" className={classes.cell_long}>{row.week1points}</TableCell>
                                             <TableCell align="left" className={classes.cell_long}>{(row.week1actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
