@@ -229,6 +229,9 @@ function removeBachSeason(row) {
         return row
     } else {
         let newRow = [];
+        if (row.includes(null) == true) {
+            row = row.map(item => item === null ? 'MISSING CONTESTANT-Bachelor-00' : item);
+        };
         row.forEach(nameLink => newRow.push(nameLink.split('-').slice(-4, -2).join(' ')));
         return (newRow.join(', '))
     }
