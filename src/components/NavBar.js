@@ -107,12 +107,12 @@ class NavBar extends Component {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">
-
                         <Nav.Link href={"/contestantslist/" + this.state.currentSeason}>Contestants</Nav.Link>
                         <Nav.Link href={"/standings/" + this.state.currentSeason}>Standings</Nav.Link>
                         <Nav.Link href={"/graphs/" + this.state.currentSeason}>Graphs</Nav.Link>
                         <Nav.Link href={"/scoringrules/" + this.state.currentSeason}>Scoring Rules</Nav.Link>
                         <Nav.Link href="/howto">How To</Nav.Link>
+                        <Nav.Link href="/leaderboard">All-Time Leaderboard</Nav.Link>
                         {previousSeasons}
                     </Nav>
                     {isAuthenticated ? authLinks : guestLinks}

@@ -25,6 +25,7 @@ import DeleteContestant from "./components/DeleteContestant";
 import CreateContestant from "./components/CreateContestant";
 import {spacing} from "@material-ui/system";
 import SeasonGraphs from "./components/SeasonGraphs";
+import Leaderboard from "./components/Leaderboard";
 
 if(localStorage.jwtToken) {
     setAuthToken(localStorage.jwtToken);
@@ -55,6 +56,7 @@ class App extends Component {
                                 <Route exact path="/admin" component={AdminPage} />
                                 <Route exact path="/changepassword" component={ChangePassword} />
                                 <Route exact path="/howto" component={HowTo} />
+                                <Route exact path="/leaderboard" component={Leaderboard} />
                                 <Route exact path="/createcontestant" component={CreateContestant} />
                                 <Route exact path="/deletecontestant" component={DeleteContestant} />
                                 <Route path="/scoringrules/:season" component={ ScoringRules } />
