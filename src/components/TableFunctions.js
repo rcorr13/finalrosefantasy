@@ -110,6 +110,7 @@ export const useStyles = makeStyles((theme) => ({
         backgroundColor: "#343a40",
         color: "white",
         width: 100,
+        left: 0,
     },
 
     visuallyHidden: {
