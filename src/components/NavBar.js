@@ -112,7 +112,7 @@ class NavBar extends Component {
                         <Nav.Link href={"/graphs/" + this.state.currentSeason}>Graphs</Nav.Link>
                         <Nav.Link href={"/scoringrules/" + this.state.currentSeason}>Scoring Rules</Nav.Link>
                         <Nav.Link href="/howto">How To</Nav.Link>
-                        <Nav.Link href="/leaderboard">Leaderboard</Nav.Link>
+                        <Nav.Link href="/leaderboard">All-Time Leaderboard</Nav.Link>
                         {previousSeasons}
                     </Nav>
                     {isAuthenticated ? authLinks : guestLinks}
