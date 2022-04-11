@@ -143,7 +143,7 @@ export default function EnhancedTable() {
                                     return (
                                         <TableRow hover key={row.firstname}>
                                             <TableCell  align="left" style={{display: "table-cell", paddingLeft: "10px", fontWeight: "bold"}} className={classes.firstCell}>{row.firstname}</TableCell>
-                                            <TableCell  align="left">{row.totalpoints}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_short}>{row.totalpoints}</TableCell>
                                             <TableCell  align="left" className={classes.cell_long}>{(row.week1team)}</TableCell>
                                             <TableCell  align="left" className={classes.cell_long}>{row.week1total}</TableCell>
                                             <TableCell  align="left" className={classes.cell_long}>{(row.week2team)}</TableCell>

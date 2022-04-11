@@ -100,8 +100,11 @@ export const useStyles = makeStyles((theme) => ({
         width: 200,
         minWidth: 120,
     },
+    cell_short: {
+        width: 100,
+        minWidth: 80,
+    },
     firstCell: {
-        //position: '-webkit-sticky',
         position: 'sticky',
         zIndex: 1,
         backgroundColor: "#343a40",
