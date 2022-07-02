@@ -26,8 +26,12 @@ export default function Leaderboard() {
             try {
                 const response1 = await axios.get(GetBaseURL() +  '/logistics');
                 const logistics = response1.data;
-                const seasonsList = logistics.map(seasonInfo => seasonInfo.season);
-
+                const seasonsList = logistics.reduce((seasonsList, seasonInfo) => {
+                    if (seasonInfo.status == "Done") {
+                        seasonsList.push(seasonInfo.season);
+                    }
+                    return seasonsList;
+                }, []);
                 const response = await axios.get(GetBaseURL() + "/users");
                 const users = response.data;
 
