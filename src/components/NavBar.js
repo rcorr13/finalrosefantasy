@@ -77,7 +77,7 @@ class NavBar extends Component {
                         <NavDropdown.Item onClick={this.redirectAdmin.bind(this)}>Admin</NavDropdown.Item>
                     )}
                     {(user.id === "5feb78416972daafed8c15c5") && (
-                        <NavDropdown.Item href={"/picks/" + this.state.currentSeason() + "/" + this.state.currentWeek()}>Picks</NavDropdown.Item>
+                        <NavDropdown.Item href={"/picks/" + this.currentSeason() + "/" + this.currentWeek()}>Picks</NavDropdown.Item>
                     )}
                 </NavDropdown>
             </Nav>
