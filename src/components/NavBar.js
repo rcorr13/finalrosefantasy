@@ -59,6 +59,11 @@ class NavBar extends Component {
         e.preventDefault();
         this.props.history.push('/admin');
     }
+    
+    redirectPicks(e) {
+        e.preventDefault();
+        this.props.history.push("/picks/" + this.state.currentSeason + "/" + this.state.currentWeek);
+    }
 
     redirectChangePassword(e) {
         e.preventDefault();
@@ -75,7 +80,6 @@ class NavBar extends Component {
                     <NavDropdown.Item onClick={this.onLogout.bind(this)}>Logout</NavDropdown.Item>
                     {(user.id === "5feb78416972daafed8c15c5") && (
                         <NavDropdown.Item onClick={this.redirectAdmin.bind(this)}>Admin</NavDropdown.Item>
-                        <NavDropdown.Item href={"/picks/" + this.state.currentSeason + "/" + this.state.currentWeek}>Picks</NavDropdown.Item>
                     )}
                 </NavDropdown>
             </Nav>
