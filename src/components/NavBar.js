@@ -24,12 +24,17 @@ class NavBar extends Component {
 
         this.setState({
             currentSeason: currentSeason,
+            currentWeek: currentWeek,
             previousSeasons: previousSeasonList,
         });
     }
 
     async currentSeason() {
         return (await axios.get(GetBaseURL() + '/masters')).data[0].currentSeason
+    }
+    
+    async currentWeek() {
+        return (await axios.get(GetBaseURL() + '/masters')).data[0].currentWeek
     }
 
     async LogisticsInfo() {
@@ -40,6 +45,7 @@ class NavBar extends Component {
         super(props);
         this.state = {
             currentSeason: "0",
+            currentWeek: "1",
             previousSeasons: [],
         };
     }
@@ -68,9 +74,9 @@ class NavBar extends Component {
                     <NavDropdown.Item onClick={this.redirectChangePassword.bind(this)}>Change Password</NavDropdown.Item>
                     <NavDropdown.Item onClick={this.onLogout.bind(this)}>Logout</NavDropdown.Item>
                     {(user.id === "5feb78416972daafed8c15c5") && (
-                        <NavDropdown.Item onClick={this.redirectAdmin.bind(this)}>
-                            Admin
-                        </NavDropdown.Item>)}
+                        <NavDropdown.Item onClick={this.redirectAdmin.bind(this)}>Admin</NavDropdown.Item>
+                        <NavDropdown.Item href={"/picks/" + this.state.currentSeason + "/" + this.state.currentWeek}>Picks</NavDropdown.Item>
+                    )}
                 </NavDropdown>
             </Nav>
         )
