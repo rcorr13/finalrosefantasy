@@ -45,7 +45,7 @@ export default class AdminPage extends React.Component {
     }
 
     async UserInfo() {
-        return (await axios.get(GetBaseURL() + '/users/' + this.state.currentSeason)).data
+        return (await axios.get(GetBaseURL() + '/users/' + this.state.currentSeason)).data.filter((this.state.logistics.users).includes(user.id))
     }
 
     async allContestants() {
@@ -101,9 +101,9 @@ export default class AdminPage extends React.Component {
         */
         
         const week1pickorder = [
-            ['Shannon', 'Rachel', 'Hope', 'Rebecca', 'Julia', 'Erik', 'Davis'],
-            ['Rebecca', 'Julia', 'Erik', 'Davis', 'Shannon', 'Rachel', 'Hope'],
-            ['Davis', 'Hope', 'Erik', 'Rachel', 'Julia', 'Shannon', 'Rebecca']
+            ['Sarah', 'Julia', 'Rebecca', 'Rachel', 'Erik', 'Davis', 'Hope'],
+            ['Rachel', 'Erik', 'Davis', 'Hope', 'Sarah', 'Julia', 'Rebecca'],
+            ['Hope', 'Rebecca', 'Davis', 'Julia', 'Erik', 'Sarah', 'Rachel']
         ]
         
 
@@ -208,7 +208,8 @@ export default class AdminPage extends React.Component {
             let friend = user.firstname;
             let lastWeekRemaining = (lastWeekTeam
                 .map(contestantLink => this.state.contestants.find(contestant => contestant.nameLink === contestantLink))
-                .filter(contestant => contestant.status === "on"))
+                .
+                                     (contestant => contestant.status === "on"))
             FinalPicks[friend] = lastWeekRemaining.map(contestant => contestant.nameLink);
         })
         console.log(FinalPicks);
