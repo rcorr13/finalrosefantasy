@@ -44,8 +44,13 @@ export default function Leaderboard() {
                     const seasonObj = new Object();
                     users.forEach(user => {
                         seasonObj[user.firstname] = {};
-                        seasonObj[user.firstname].seasonpoints = parseInt(user.picksAndTeams.filter(info => info.season === season)[0].totalpoints);
-                        rankingsTotal[user.firstname].sumpoints += seasonObj[user.firstname].seasonpoints;
+                        if ((logistics.filter(option => option.season === season)[0]).users.includes(user.firstname)) {
+                            seasonObj[user.firstname].seasonpoints = parseInt(user.picksAndTeams.filter(info => info.season === season)[0].totalpoints);
+                            rankingsTotal[user.firstname].sumpoints += seasonObj[user.firstname].seasonpoints;
+                        } else {
+                            seasonObj[user.firstname].seasonpoints = 0;
+                        };
+                        console.log(seasonObj)
                     })
 
                     let scores = new Set(Object.keys(seasonObj).map(function (key) {
