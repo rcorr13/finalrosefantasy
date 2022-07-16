@@ -20,8 +20,9 @@ export default class AdminPage extends React.Component {
         let currentWeek = master[0].currentWeek;
         let currentSeason = master[0].currentSeason;
         let logistics = await this.LogisticsInfo();
-        logistics = logistics.filter(option => option.season === currentSeason);
+        logistics = logistics.filter(option => option.season === currentSeason)[0];
         let users = await this.UserInfo();
+        users = users.filter(user => logistics.users.includes(user.firstname))
         let contestants = await this.allContestants();
         let currentPicks = {};
         users.map(user => {currentPicks[user.firstname] = user.picks});
@@ -31,13 +32,14 @@ export default class AdminPage extends React.Component {
             currentSeason: currentSeason,
             users: users,
             allCurrentPicks: currentPicks,
-            logistics: logistics[0],
+            logistics: logistics,
             contestants: contestants,
         });
     }
 
     async LogisticsInfo() {
-        return (await axios.get(GetBaseURL() + '/logistics')).data
+        let logistics = (await axios.get(GetBaseURL() + '/logistics'))
+        return logistics.data
     }
 
     async MasterInfo() {
@@ -45,7 +47,8 @@ export default class AdminPage extends React.Component {
     }
 
     async UserInfo() {
-        return (await axios.get(GetBaseURL() + '/users/' + this.state.currentSeason)).data
+        let users = (await axios.get(GetBaseURL() + '/users/' + this.state.currentSeason))
+        return users.data
     }
 
     async allContestants() {
@@ -91,19 +94,19 @@ export default class AdminPage extends React.Component {
             ['4', '3', '2', '1', '7', '6', '5'],	
             ['1', '5', '2', '6', '3', '7', '4']
         ]
-        
-        
+
+
         const week1pickorder = [
             ['Erik', 'Hope', 'Rachel', 'Shannon', 'Davis', 'Julia', 'Rebecca'],
             ['Rebecca', 'Julia', 'Davis', 'Shannon', 'Rachel', 'Hope', 'Erik'],
         ]
-        
+
         */
         
         const week1pickorder = [
-            ['Shannon', 'Rachel', 'Hope', 'Rebecca', 'Julia', 'Erik', 'Davis'],
-            ['Rebecca', 'Julia', 'Erik', 'Davis', 'Shannon', 'Rachel', 'Hope'],
-            ['Davis', 'Hope', 'Erik', 'Rachel', 'Julia', 'Shannon', 'Rebecca']
+            ['Sarah', 'Julia', 'Rebecca', 'Rachel', 'Erik', 'Davis', 'Hope'],
+            ['Rachel', 'Erik', 'Davis', 'Hope', 'Sarah', 'Julia', 'Rebecca'],
+            ['Hope', 'Rebecca', 'Davis', 'Julia', 'Erik', 'Sarah', 'Rachel']
         ]
         
 
