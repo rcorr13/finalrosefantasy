@@ -66,9 +66,17 @@ export default function EnhancedTable() {
     useEffect(function() {
         async function getUsers() {
             try {
-                const response = await axios.get(GetBaseURL() + "/users");
+                const logisticsAwait = await axios.get(GetBaseURL() + '/logistics');
+                let logistics = logisticsAwait.data
+                logistics = logistics.filter(option => option.season === season)[0];
+
+                const usersAwait = await axios.get(GetBaseURL() + "/users");
+                let users = usersAwait.data
+                users = users.filter(user => logistics.users.includes(user.firstname))
+
                 let tableData = [];
-                response.data.forEach(user => {
+                users.forEach(user => {
+                    //console.log(logistics)
                     let rowData = (user.picksAndTeams.filter(seasonInfo => seasonInfo.season === season)[0]);
                     let row = Object.assign({firstname: user.firstname}, rowData);
                     if (Object.keys(row).length > 3) {
