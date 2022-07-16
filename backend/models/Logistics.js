@@ -8,7 +8,6 @@ const LogisticsSchema = new Schema({
         required: true,
         default: "Bachelor"
     },
-
     seasonKey: {
         type: "array",
         items: {
@@ -225,6 +224,22 @@ const LogisticsSchema = new Schema({
         type: String,
         default: "13"
     },
+    status: {
+        type: String,
+        default: "Done"
+    },
+    users: {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string"
+                }
+            }
+        }
+    },
+
 });
 
 const Logistics = mongoose.model('logistics', LogisticsSchema);
