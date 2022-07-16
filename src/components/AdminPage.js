@@ -22,7 +22,6 @@ export default class AdminPage extends React.Component {
         let logistics = await this.LogisticsInfo();
         logistics = logistics.filter(option => option.season === currentSeason)[0];
         let users = await this.UserInfo();
-        users = users.filter(user => logistics.users.includes(user.firstname))
         let contestants = await this.allContestants();
         let currentPicks = {};
         users.map(user => {currentPicks[user.firstname] = user.picks});
@@ -59,7 +58,7 @@ export default class AdminPage extends React.Component {
         super(props);
         this.state = {
             currentWeek: "1",
-            currentSeason: "Bachelor-26",
+            currentSeason: "Bachelorette-19",
             users: {},
             allCurrentPicks: {},
             finalContestants: {},

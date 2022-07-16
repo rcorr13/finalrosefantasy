@@ -167,7 +167,8 @@ export default class SeasonGraphs extends Component {
                 Davis: {r: 0, g: 128, b: 0},
                 Erik: {r: 0, g: 0, b: 255},
                 Rebecca: {r: 75, g: 0, b: 130},
-                Julia: {r: 238, g: 130, b: 238}
+                Julia: {r: 238, g: 130, b: 238},
+                Sarah: {r: 172, g: 229, b: 238}
             },
             weekPoints: [],
             weekRankings: []

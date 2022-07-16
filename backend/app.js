@@ -224,56 +224,62 @@ app.get('/logistics', async (req, res) => {
 
 app.get('/users/:season', async (req, res) => {
     let seasonUsers = []
-    User.find({})
-        .then(users => {
-            users.forEach(user => {
-                let picksAndTeamsAll = user.picksAndTeams
-                let seasonData = picksAndTeamsAll.filter(item => item.season === req.params.season)[0]
-                const userRow = {
-                    id: user.id,
-                    firstname: user.firstname,
-                    lastname: user.lastname,
-                    email: user.email,
-                    password: user.password,
-                    season: req.params.season,
-                    totalpoints: seasonData.totalpoints,
-                    picks: seasonData.picks,
-                    week1total: seasonData.week1total,
-                    week1team: seasonData.week1team,
-                    week2total: seasonData.week2total,
-                    week2team: seasonData.week2team,
-                    week3total: seasonData.week3total,
-                    week3team: seasonData.week3team,
-                    week4total: seasonData.week4total,
-                    week4team: seasonData.week4team,
-                    week5total: seasonData.week5total,
-                    week5team: seasonData.week5team,
-                    week6total: seasonData.week6total,
-                    week6team: seasonData.week6team,
-                    week7total: seasonData.week7total,
-                    week7team: seasonData.week7team,
-                    week8total: seasonData.week8total,
-                    week8team: seasonData.week8team,
-                    week9team: seasonData.week9team,
-                    week9total: seasonData.week9total,
-                    week10total: seasonData.week10total,
-                    week10team: seasonData.week10team,
-                    week11total: seasonData.week11total,
-                    week11team: seasonData.week11team,
-                    week12total: seasonData.week12total,
-                    week12team: seasonData.week12team,
-                    week13total: seasonData.week13total,
-                    week13team: seasonData.week13team,
-                    week14total: seasonData.week14total,
-                    week14team: seasonData.week14team,
-                }
-                seasonUsers.push(userRow)
-            })
-            res.json(seasonUsers)
-        })
-            .catch(err => {
-                res.json(err);
-            });
+    Logistics.findOne({ season: req.params.season})
+        .then(logistics => {
+            User.find({"firstname" : { $in : logistics.users}})
+                .then(users => {
+                    users.forEach(user => {
+                        let picksAndTeamsAll = user.picksAndTeams
+                        let seasonData = picksAndTeamsAll.filter(item => item.season === req.params.season)[0]
+                        const userRow = {
+                            id: user.id,
+                            firstname: user.firstname,
+                            lastname: user.lastname,
+                            email: user.email,
+                            password: user.password,
+                            season: req.params.season,
+                            totalpoints: seasonData.totalpoints,
+                            picks: seasonData.picks,
+                            week1total: seasonData.week1total,
+                            week1team: seasonData.week1team,
+                            week2total: seasonData.week2total,
+                            week2team: seasonData.week2team,
+                            week3total: seasonData.week3total,
+                            week3team: seasonData.week3team,
+                            week4total: seasonData.week4total,
+                            week4team: seasonData.week4team,
+                            week5total: seasonData.week5total,
+                            week5team: seasonData.week5team,
+                            week6total: seasonData.week6total,
+                            week6team: seasonData.week6team,
+                            week7total: seasonData.week7total,
+                            week7team: seasonData.week7team,
+                            week8total: seasonData.week8total,
+                            week8team: seasonData.week8team,
+                            week9team: seasonData.week9team,
+                            week9total: seasonData.week9total,
+                            week10total: seasonData.week10total,
+                            week10team: seasonData.week10team,
+                            week11total: seasonData.week11total,
+                            week11team: seasonData.week11team,
+                            week12total: seasonData.week12total,
+                            week12team: seasonData.week12team,
+                            week13total: seasonData.week13total,
+                            week13team: seasonData.week13team,
+                            week14total: seasonData.week14total,
+                            week14team: seasonData.week14team,
+                        }
+                        seasonUsers.push(userRow)
+                    })
+                    res.json(seasonUsers)
+                })
+                .catch(err => {
+                    res.json(err);
+                })
+        .catch(err => {
+            res.json(err);
+        });
+        });
 });
 
 app.put('/updatelogistics', (req, res) => {
