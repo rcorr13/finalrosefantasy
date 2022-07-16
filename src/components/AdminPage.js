@@ -46,9 +46,9 @@ export default class AdminPage extends React.Component {
 
     async UserInfo() {
         users = (await axios.get(GetBaseURL() + '/users/' + this.state.currentSeason)).data
-        console.log(users)
+        print(users)
         users = users.filter((this.state.logistics.users).includes(user.id))
-        console.log(users)
+        print(users)
     }
 
     async allContestants() {
