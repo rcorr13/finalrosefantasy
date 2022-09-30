@@ -58,7 +58,7 @@ export default class AdminPage extends React.Component {
         super(props);
         this.state = {
             currentWeek: "1",
-            currentSeason: "Bachelorette-19",
+            currentSeason: "BiP-8",
             users: {},
             allCurrentPicks: {},
             finalContestants: {},
@@ -385,7 +385,7 @@ export default class AdminPage extends React.Component {
         (this.state.contestants).forEach(contestant => {
             let weekActions = (contestant[weekActionsColumnName]).map(action => action.key);
             console.log(weekActions);
-            if (weekActions.includes("Does not advance / Eliminated") || weekActions.includes("Leaves for extenuating circumstances (no point penalty)") || weekActions.includes("Leaves of their own accord/not sent home by the Bachelor (unless for emergency reasons)") || weekActions.includes("Production staff sends contestant home")) {
+            if (weekActions.includes("Does not advance / Eliminated") || weekActions.includes("Leaves for extenuating circumstances (no point penalty)") || weekActions.includes("Leaves of their own accord/not sent home by the Bachelorette (unless for emergency reasons)") || weekActions.includes("Leaves of their own accord/not sent home by the Bachelor (unless for emergency reasons)") || weekActions.includes("Production staff sends contestant home")) {
                 eliminatedLinks.push(contestant.nameLink);
                 const updatedContestant = {
                     ...contestant,
