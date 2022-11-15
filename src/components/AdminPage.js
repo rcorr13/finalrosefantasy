@@ -445,7 +445,7 @@ export default class AdminPage extends React.Component {
                 weekTotal += parseInt(contestant[weekPointsColumnName]);
             })
 
-            let totalTotal = (parseInt(user.week1total) + parseInt(user.week2total) + parseInt(user.week3total) + parseInt(user.week4total) + parseInt(user.week5total) + parseInt(user.week6total) + parseInt(user.week7total) + parseInt(user.week8total) + parseInt(user.week9total) + parseInt(user.week10total) + parseInt(user.week11total) + parseInt(user.week12total) + weekTotal).toString()
+            let totalTotal = (parseInt(user.week1total) + parseInt(user.week2total) + parseInt(user.week3total) + parseInt(user.week4total) + parseInt(user.week5total) + parseInt(user.week6total) + parseInt(user.week7total) + parseInt(user.week8total) + parseInt(user.week9total) + parseInt(user.week10total) + parseInt(user.week11total) + parseInt(user.week12total) + parseInt(user.week13total)+ parseInt(user.week14total) + parseInt(user.week15total) + parseInt(user.week16total) + weekTotal).toString()
 
             const updatedUser = {
                 ...user,
@@ -499,7 +499,7 @@ export default class AdminPage extends React.Component {
     }
 
     render() {
-        let weekOptions = ['1','2','3','4','5','6','7','8','9','10','11','12'];
+        let weekOptions = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16'];
         return (
             <div style={{margin: "8px", display: "inline-flex", flexDirection: "column", alignItems: 'center',
                 justifyContent: 'center', justifyItems: "center"}}>
