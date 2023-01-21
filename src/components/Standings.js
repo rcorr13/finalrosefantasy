@@ -41,6 +41,10 @@ const headCells = [
     { id: 'week13total', numeric: true, label: 'Week 13 Points', minWidth: 150 },
     { id: 'week14team', numeric: false, label: 'Week 14 Team', minWidth: 150 },
     { id: 'week14total', numeric: true, label: 'Week 14 Points', minWidth: 150 },
+    { id: 'week15team', numeric: false, label: 'Week 15 Team', minWidth: 150 },
+    { id: 'week15total', numeric: true, label: 'Week 15 Points', minWidth: 150 },
+    { id: 'week16team', numeric: false, label: 'Week 16 Team', minWidth: 150 },
+    { id: 'week16total', numeric: true, label: 'Week 16 Points', minWidth: 150 },
 ];
 
 function removeBachSeason(row) {
@@ -97,6 +101,8 @@ export default function EnhancedTable() {
         (row.week12team = removeBachSeason(row.week12team));
         (row.week13team = removeBachSeason(row.week13team));
         (row.week14team = removeBachSeason(row.week14team));
+        (row.week15team = removeBachSeason(row.week15team));
+        (row.week16team = removeBachSeason(row.week16team));
         (row.week1total = parseInt(row.week1total));
         (row.week2total = parseInt(row.week2total));
         (row.week3total = parseInt(row.week3total));
@@ -111,6 +117,8 @@ export default function EnhancedTable() {
         (row.week12total = parseInt(row.week12total));
         (row.week13total = parseInt(row.week13total));
         (row.week14total = parseInt(row.week14total));
+        (row.week15total = parseInt(row.week15total));
+        (row.week16total = parseInt(row.week16total));
     })
 
     const classes = useStyles();
@@ -170,6 +178,11 @@ export default function EnhancedTable() {
                                             <TableCell  align="left" className={classes.cell_long}>{row.week13total}</TableCell>
                                             <TableCell  align="left" className={classes.cell_long}>{(row.week14team)}</TableCell>
                                             <TableCell  align="left" className={classes.cell_long}>{row.week14total}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{(row.week15team)}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{row.week15total}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{(row.week16team)}</TableCell>
+                                            <TableCell  align="left" className={classes.cell_long}>{row.week16total}</TableCell>
+
                                         </TableRow>
                                     );
                                 }

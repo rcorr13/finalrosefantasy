@@ -22,7 +22,7 @@ export default class AdminPage extends React.Component {
         let logistics = await this.LogisticsInfo();
         logistics = logistics.filter(option => option.season === currentSeason)[0];
         let users = await this.UserInfo();
-        let contestants = await this.allContestants();
+        let contestants = await this.seasonContestants();
         let currentPicks = {};
         users.map(user => {currentPicks[user.firstname] = user.picks});
 
@@ -52,6 +52,10 @@ export default class AdminPage extends React.Component {
 
     async allContestants() {
         return (await axios.get(GetBaseURL() + '/contestants')).data
+    }
+
+    async seasonContestants() {
+        return (await axios.get(GetBaseURL() + '/contestants')).data.filter(contestant => contestant.season === this.state.currentSeason)
     }
 
     constructor(props) {
@@ -384,8 +388,9 @@ export default class AdminPage extends React.Component {
         console.log(this.state.contestants);
         (this.state.contestants).forEach(contestant => {
             let weekActions = (contestant[weekActionsColumnName]).map(action => action.key);
+            console.log(contestant.nameLink);
             console.log(weekActions);
-            if (weekActions.includes("Does not advance / Eliminated") || weekActions.includes("Leaves for extenuating circumstances (no point penalty)") || weekActions.includes("Leaves of their own accord/not sent home by the Bachelorette (unless for emergency reasons)") || weekActions.includes("Leaves of their own accord/not sent home by the Bachelor (unless for emergency reasons)") || weekActions.includes("Production staff sends contestant home")) {
+            if (weekActions.includes("Does not advance / Eliminated") || weekActions.includes("Leaves for extenuating circumstances (no point penalty)") || weekActions.includes("Leaves of their own accord/not sent home by the Bachelorette (unless for emergency reasons)") || weekActions.includes("Leaves of their own accord/not sent home by the Bachelor (unless for emergency reasons)") || weekActions.includes("Production staff sends contestant home") || weekActions.includes("Leaves of their own accord/not sent home during rose ceremony (unless for emergency reasons)")) {
                 eliminatedLinks.push(contestant.nameLink);
                 const updatedContestant = {
                     ...contestant,
@@ -404,13 +409,14 @@ export default class AdminPage extends React.Component {
         })
 
         console.log(updatedLogistics)
+        console.log("eliminatedLinks")
         console.log(eliminatedLinks)
         let updateAllEliminated = [];
 
         if (eliminatedLinks.length > 0) {
             updateAllEliminated = (updatedLogistics.alleliminated).concat(eliminatedLinks);
             updatedLogistics.alleliminated = [...new Set(updateAllEliminated)];
-            for (let i=(parseInt(value)+1); i<=10; i++) {
+            for (let i=(parseInt(value)+1); i<=16; i++) {
                 let weekEliminatedColumnName = "week" + (i).toString() + "eliminated";
                 let updatedEliminated = (updatedLogistics[weekEliminatedColumnName]).concat(eliminatedLinks)
                 updatedLogistics[weekEliminatedColumnName] = [...new Set(updatedEliminated)];

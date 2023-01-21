@@ -7,7 +7,6 @@ const UserSeasonSchema = new Schema({
         type: String,
         required: true
     },
-
     picks: {
         type: "array",
         items: {
@@ -240,6 +239,38 @@ const UserSeasonSchema = new Schema({
         default: []
     },
     week14total: {
+        type: String,
+        default: '0'
+    },
+    week15team: {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string"
+                }
+            }
+        },
+        default: []
+    },
+    week15total: {
+        type: String,
+        default: '0'
+    },
+    week16team: {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string"
+                }
+            }
+        },
+        default: []
+    },
+    week16total: {
         type: String,
         default: '0'
     },

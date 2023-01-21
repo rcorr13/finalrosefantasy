@@ -267,6 +267,38 @@ const ContestantBackendSchema = new Schema({
             }
         }
     },
+    week15points: {
+        type: String,
+        required: true,
+        default: "0"
+    },
+    week15actions: {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string"
+                }
+            }
+        }
+    },
+    week16points: {
+        type: String,
+        required: true,
+        default: "0"
+    },
+    week16actions: {
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string"
+                }
+            }
+        }
+    },
     oneTimeActions: {
         type: "array",
         items: {

@@ -268,6 +268,10 @@ app.get('/users/:season', async (req, res) => {
                             week13team: seasonData.week13team,
                             week14total: seasonData.week14total,
                             week14team: seasonData.week14team,
+                            week15total: seasonData.week15total,
+                            week15team: seasonData.week15team,
+                            week16total: seasonData.week16total,
+                            week16team: seasonData.week16team,
                         }
                         seasonUsers.push(userRow)
                     })
@@ -346,7 +350,11 @@ app.put('/updateuser/:season/:_id', (req, res) => {
         week13team: seasonData.week13team,
         week14total: seasonData.week14total,
         week14team: seasonData.week14team,
-        totalpoints: (parseInt(seasonData.week1total)+parseInt(seasonData.week2total)+parseInt(seasonData.week3total)+parseInt(seasonData.week4total)+parseInt(seasonData.week5total)+parseInt(seasonData.week6total)+parseInt(seasonData.week7total)+parseInt(seasonData.week8total)+parseInt(seasonData.week9total)+parseInt(seasonData.week10total)+parseInt(seasonData.week11total)+parseInt(seasonData.week12total)+parseInt(seasonData.week13total)+parseInt(seasonData.week14total)),
+        week15total: seasonData.week15total,
+        week15team: seasonData.week15team,
+        week16total: seasonData.week16total,
+        week16team: seasonData.week16team,
+        totalpoints: (parseInt(seasonData.week1total)+parseInt(seasonData.week2total)+parseInt(seasonData.week3total)+parseInt(seasonData.week4total)+parseInt(seasonData.week5total)+parseInt(seasonData.week6total)+parseInt(seasonData.week7total)+parseInt(seasonData.week8total)+parseInt(seasonData.week9total)+parseInt(seasonData.week10total)+parseInt(seasonData.week11total)+parseInt(seasonData.week12total)+parseInt(seasonData.week13total)+parseInt(seasonData.week14total)+parseInt(seasonData.week15total)+parseInt(seasonData.week16total))
     }
     //console.log(updatedSeasonData)
     User.findOne({ _id: req.params._id})

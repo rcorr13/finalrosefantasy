@@ -46,6 +46,11 @@ const headCells = [
     { id: 'week13actions', numeric: false, label: 'Week 13 Actions', minWidth: 150 },
     { id: 'week14points', numeric: true, label: 'Week 14 Points', minWidth: 100 },
     { id: 'week14actions', numeric: false, label: 'Week 14 Actions', minWidth: 150 },
+    { id: 'week15points', numeric: true, label: 'Week 15 Points', minWidth: 100 },
+    { id: 'week15actions', numeric: false, label: 'Week 15 Actions', minWidth: 150 },
+    { id: 'week16points', numeric: true, label: 'Week 16 Points', minWidth: 100 },
+    { id: 'week16actions', numeric: false, label: 'Week 16 Actions', minWidth: 150 },
+
 ];
 
 export default function EnhancedTable() {
@@ -82,7 +87,8 @@ export default function EnhancedTable() {
         (row.week12points = parseInt(row.week12points));
         (row.week13points = parseInt(row.week13points));
         (row.week14points = parseInt(row.week14points));
-
+        (row.week15points = parseInt(row.week15points));
+        (row.week16points = parseInt(row.week16points));
     })
 
     const classes = useStyles();
@@ -149,6 +155,10 @@ export default function EnhancedTable() {
                                             <TableCell align="left" className={classes.cell_long}>{(row.week13actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
                                             <TableCell align="left" className={classes.cell_long}>{row.week14points}</TableCell>
                                             <TableCell align="left" className={classes.cell_long}>{(row.week14actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{row.week15points}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{(row.week15actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{row.week16points}</TableCell>
+                                            <TableCell align="left" className={classes.cell_long}>{(row.week16actions).map((action, index) => <div key={action.key + index}>{action.key}</div>)}</TableCell>
                                         </TableRow>
                                     );
                                 }
