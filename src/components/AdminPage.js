@@ -223,6 +223,7 @@ export default class AdminPage extends React.Component {
             let lastWeekTeam = user[lastWeekTeamColumnName];
             console.log(lastWeekTeam)
             let friend = user.firstname;
+            console.log(Preferences[friend])
             let friendPicks = Preferences[friend]
                 .map(contestantLink => this.state.contestants.find(contestant => contestant.nameLink === contestantLink))
                 .filter(contestant => contestant.status === "on")
