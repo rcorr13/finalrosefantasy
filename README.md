@@ -4,7 +4,6 @@
 Yes, there are other Bachelor/Bachelorette fantasy leagues that are well established where you can earn or lose points for contestants on your "team" completing actions like getting a rose or going on a horseback riding date or being shirtless on camera. However, most of these leagues will penalize you if your contestant behaves poorly. I believe that the drama is often the best part of this guilty-pleasure TV show and have created a new fantasy league that will reward you if your contestant cries (+10) or vomits (+12) or gets a word bleeped out (+7). Contestants on the "most dramatic season ever" deserve to earn points for causing drama, and this fantasy league website allows you to pick your team using our handy "Pick Contestant" tool, and the website (and its dedicated host) will take care of the rest.
 
 ## Links
-  Demo Webpage: https://finalrosefantasydemo.herokuapp.com/ <br>
   Explanatory Video: https://youtu.be/9Sw10J6ol-I  <br>
   Original Webpage: https://finalrosefantasy.herokuapp.com/  <br>
 
