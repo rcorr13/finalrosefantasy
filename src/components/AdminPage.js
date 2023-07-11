@@ -62,7 +62,7 @@ export default class AdminPage extends React.Component {
         super(props);
         this.state = {
             currentWeek: "1",
-            currentSeason: "Bachelor-27",
+            currentSeason: "Bachelorette-20",
             users: {},
             allCurrentPicks: {},
             finalContestants: {},
