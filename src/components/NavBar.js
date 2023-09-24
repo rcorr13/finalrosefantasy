@@ -5,6 +5,7 @@ import { logoutUser } from '../actions/authentication';
 import { withRouter } from 'react-router-dom';
 
 import{ Navbar, Nav, NavDropdown}  from "react-bootstrap";
+import Form from "react-bootstrap/Form";
 import { DropdownSubmenu, NavDropdownMenu} from "react-bootstrap-submenu";
 import axios from "axios";
 import GetBaseURL from "./GetBaseURL";
@@ -23,14 +24,20 @@ class NavBar extends Component {
             .filter(seasonInfo => seasonInfo.season != currentSeason)
             .map(seasonInfo => seasonInfo.season)
 
+        let currentSeasonList = logistics
+            .filter(seasonInfo => seasonInfo.status == "On")
+            .map(seasonInfo => seasonInfo.season)
+
         this.setState({
             currentSeason: currentSeason,
             currentWeek: currentWeek,
             previousSeasons: previousSeasonList,
+            currentSeasons: currentSeasonList,
         });
     }
 
     async currentSeason() {
+        window.sessionStorage.setItem("key", "value");
         return (await axios.get(GetBaseURL() + '/masters')).data[0].currentSeason
     }
     
@@ -48,6 +55,7 @@ class NavBar extends Component {
             currentSeason: "0",
             currentWeek: "1",
             previousSeasons: [],
+            currentSeasons: [],
         };
     }
 
@@ -68,6 +76,7 @@ class NavBar extends Component {
 
     render() {
         const {isAuthenticated, user} = this.props.auth;
+
         const authLinks = (
             <Nav className="ml-auto">
                 <Nav.Link href="/pickcontestants">Pick Contestants</Nav.Link>
@@ -104,6 +113,25 @@ class NavBar extends Component {
             </NavDropdownMenu>
         )
 
+        const currentSeasons = (
+            <Form inline>
+                <Form.Group controlId="formSelectSeason">
+                    <Form.Control
+                    as="select"
+                    onChange={e => {
+                        window.sessionStorage.setItem("currentSeason", e.target.value);
+                        console.log("e.target.value", e.target.value);
+                    }}
+                    >
+                    {this.state.currentSeasons.map(season =>
+                        <option key={season} value={season}>{season.replace(/-/gi, ' S')}</option>
+                    )}
+                    </Form.Control>
+                </Form.Group>
+            </Form>
+        )
+
+
         return(
             <Navbar collapseOnSelect className="sticky-nav" sticky="top" expand="md" bg="dark" variant="dark" style={{zIndex: '10'}}>
                 <Navbar.Brand href="/">
@@ -123,6 +151,7 @@ class NavBar extends Component {
                         <Nav.Link href="/howto">How To</Nav.Link>
                         <Nav.Link href="/leaderboard">All-Time Leaderboard</Nav.Link>
                         {previousSeasons}
+                        {currentSeasons}
                     </Nav>
                     {isAuthenticated ? authLinks : guestLinks}
                 </Navbar.Collapse>
