@@ -419,7 +419,7 @@ if (process.env.NODE_ENV === "production") {
     app.use(express.static("../build"));
 }
 
-let usingHeroku = true;
+let usingHeroku = false;
 
 if (usingHeroku) {
     app.get('*', (req, res) => res.sendFile(path.resolve('../build', 'index.html')));

@@ -2,7 +2,7 @@ import React from "react";
 
 export default function (GetBaseURL) {
 
-    let usingHeroku = true;
+    let usingHeroku = false;
     let baseURL = 'https://finalrosefantasy.herokuapp.com';
 
     if (!usingHeroku) {
