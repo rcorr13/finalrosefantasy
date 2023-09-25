@@ -23,7 +23,6 @@ import HowTo from "./components/HowTo";
 import ScoringRules from "./components/ScoringRules";
 import DeleteContestant from "./components/DeleteContestant";
 import CreateContestant from "./components/CreateContestant";
-import {spacing} from "@material-ui/system";
 import SeasonGraphs from "./components/SeasonGraphs";
 import Leaderboard from "./components/Leaderboard";
 
@@ -51,8 +50,8 @@ class App extends Component {
                             <div className="links">
                                 <Route exact path="/register" component={ Register } />
                                 <Route exact path="/login" component={ Login } />
-                                <Route exact path="/pickcontestants" component={ PickContestants } />
-                                <Route exact path="/scoreform" component={ContestantScoreForm} />
+                                <Route exact path="/pickcontestants/:season" component={ PickContestants } />
+                                <Route exact path="/scoreform/:season" component={ContestantScoreForm} />
                                 <Route exact path="/admin" component={AdminPage} />
                                 <Route exact path="/changepassword" component={ChangePassword} />
                                 <Route exact path="/howto" component={HowTo} />

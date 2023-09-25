@@ -261,7 +261,11 @@ const LogisticsSchema = new Schema({
             }
         }
     },
-
+    currentWeek: {
+        type: String,
+        required: false,
+        default: ""
+    },
 });
 
 const Logistics = mongoose.model('logistics', LogisticsSchema);

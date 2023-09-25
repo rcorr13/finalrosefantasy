@@ -7,15 +7,13 @@ const MasterSchema = new Schema({
         type: String,
         required: true,
         unique: true,
-        default: "Bachelor25"
+        default: "BiP-9"
     },
-
     currentWeek: {
         type: String,
         required: true,
         default: "1"
     },
-
 });
 
 const Master = mongoose.model('master', MasterSchema);

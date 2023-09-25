@@ -57,11 +57,10 @@ export default class ContestantScoreForm extends React.Component {
     async fetchContestants() {
         let contestants = await this.allContestants();
         let logistics = await this.LogisticsInfo();
-        let master = await this.MasterInfo();
-        let currentWeek = master[0].currentWeek;
-        let currentSeason = master[0].currentSeason;
-        let weekEliminatedName = 'week' + currentWeek + 'eliminated';
+        let currentSeason = window.sessionStorage.getItem("currentSeason");
         let currentLogistics = logistics.filter(option => option.season === currentSeason)[0];
+        let currentWeek = currentLogistics.currentWeek;
+        let weekEliminatedName = 'week' + currentWeek + 'eliminated';
         let eliminatedContestants = (currentLogistics)[weekEliminatedName];
         let currentContestants = contestants.filter(contestant => (!(eliminatedContestants.includes(contestant.nameLink)) && (contestant.season === currentSeason)));
 
@@ -83,10 +82,6 @@ export default class ContestantScoreForm extends React.Component {
 
     async LogisticsInfo() {
         return (await axios.get(GetBaseURL() + '/logistics')).data
-    }
-
-    async MasterInfo() {
-        return (await axios.get(GetBaseURL() + '/masters')).data
     }
 
     constructor(props) {
