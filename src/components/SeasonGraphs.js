@@ -15,15 +15,11 @@ export default class SeasonGraphs extends Component {
     }
 
     async fetchContestants() {
-        let master = await this.MasterInfo();
-        const usingSeason = this.props.match.params.season;
-        let currentWeek = master[0].currentWeek;
-        let currentSeason = master[0].currentSeason;
-        if (currentSeason != usingSeason) {
-            let logistics = await this.LogisticsInfo();
-            let currentLogistics = logistics.filter(option => option.season === this.props.match.params.season)[0];
-            currentWeek = currentLogistics.lastWeek;        
-        }
+        let currentSeason = window.sessionStorage.getItem("currentSeason");
+        let logistics = await this.LogisticsInfo();
+        let currentLogistics = logistics.filter(option => option.season === this.props.match.params.season)[0];
+        let currentWeek = currentLogistics.lastWeek;        
+        
 
         let users = await this.allUsers();
 
@@ -148,10 +144,6 @@ export default class SeasonGraphs extends Component {
 
     async allUsers() {
         return (await axios.get(GetBaseURL() + '/users/' + this.props.match.params.season)).data
-    }
-
-    async MasterInfo() {
-        return (await axios.get(GetBaseURL() + '/masters')).data
     }
 
     constructor(props) {

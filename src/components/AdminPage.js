@@ -16,11 +16,10 @@ export default class AdminPage extends React.Component {
     }
 
     async fetchLogistics() {
-        let master = await this.MasterInfo();
-        let currentWeek = master[0].currentWeek;
-        let currentSeason = master[0].currentSeason;
+        let currentSeason = window.sessionStorage.getItem("currentSeason");
         let logistics = await this.LogisticsInfo();
         logistics = logistics.filter(option => option.season === currentSeason)[0];
+        let currentWeek = logistics.currentWeek;
         let users = await this.UserInfo();
         let contestants = await this.seasonContestants();
         let currentPicks = {};
@@ -41,10 +40,6 @@ export default class AdminPage extends React.Component {
         return logistics.data
     }
 
-    async MasterInfo() {
-        return (await axios.get(GetBaseURL() + '/masters')).data
-    }
-
     async UserInfo() {
         let users = (await axios.get(GetBaseURL() + '/users/' + this.state.currentSeason))
         return users.data
@@ -61,8 +56,8 @@ export default class AdminPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentWeek: "1",
-            currentSeason: "Bachelorette-20",
+            currentWeek: "",
+            currentSeason: window.sessionStorage.getItem("currentSeason"),
             users: {},
             allCurrentPicks: {},
             finalContestants: {},
@@ -107,9 +102,9 @@ export default class AdminPage extends React.Component {
         */
         
         const week1pickorder = [
-            ['Sarah', 'Julia', 'Rebecca', 'Rachel', 'Erik', 'Davis', 'Hope'],
-            ['Rachel', 'Erik', 'Davis', 'Hope', 'Sarah', 'Julia', 'Rebecca'],
-            ['Hope', 'Rebecca', 'Davis', 'Julia', 'Erik', 'Sarah', 'Rachel']
+            ['Shannon', 'Sarah', 'Rebecca', 'Rachel', 'Hope', 'Julia', 'Davis', 'Erik'],
+            ['Erik', 'Davis', 'Julia', 'Hope', 'Rachel', 'Rebecca', 'Sarah', 'Shannon'],
+            ['Hope', 'Shannon', 'Rachel', 'Rebecca', 'Davis', 'Julia', 'Sarah', 'Erik']
         ]
         
 
@@ -467,14 +462,17 @@ export default class AdminPage extends React.Component {
     }
 
     setCurrentWeek = value => {
-        const updatedMaster = {
-            'currentSeason': this.state.currentSeason,
-            'currentWeek': value,
+        let currentWeek = value;
+        let currentLogistics = this.state.logistics;
+
+        const updatedLogistics = {
+            ...currentLogistics,
+            'currentWeek': currentWeek,
         };
 
-        axios.put((GetBaseURL() + '/updatemaster'), {
-            updatedMaster}).then(res => console.log(res.data))
-        this.setState({currentWeek: value})
+        axios.put((GetBaseURL() + '/updatelogistics'), {
+            updatedLogistics}).then(res => console.log(res.data))
+            this.setState({'logistics': updatedLogistics, currentWeek: value})
     };
 
     setScoreWeek = value => {
@@ -490,7 +488,7 @@ export default class AdminPage extends React.Component {
             updatedLogistics}).then(res => console.log(res.data))
         this.setState({'logistics': updatedLogistics, currentWeek: updatedLogistics.currentWeek})
 
-        this.props.history.push('/scoreform')
+        this.props.history.push('/scoreform/'+this.state.currentSeason)
     };
 
     createContestantLink=()=> {
@@ -511,6 +509,7 @@ export default class AdminPage extends React.Component {
             <div style={{margin: "8px", display: "inline-flex", flexDirection: "column", alignItems: 'center',
                 justifyContent: 'center', justifyItems: "center"}}>
                 <br />
+                <h3>Current Season: {this.state.currentSeason}</h3>
                 <h3>Current Week: {this.state.currentWeek}</h3>
                 <br />
                 <Container key="createdelete">

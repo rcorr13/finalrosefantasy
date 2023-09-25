@@ -82,9 +82,10 @@ class ContestantPicker extends React.Component {
     }
 
     async fetchContestants() {
-        let master = await this.MasterInfo();
-        let currentWeek = master[0].currentWeek;
-        let currentSeason = master[0].currentSeason;
+        let currentSeason = window.sessionStorage.getItem("currentSeason");
+        let logistics = await this.LogisticsInfo();
+        logistics = logistics.filter(option => option.season === currentSeason)[0];
+        let currentWeek = logistics.currentWeek;
 
         let users = await this.allUsers();
         const {isAuthenticated, user} = this.props.auth;
@@ -132,8 +133,8 @@ class ContestantPicker extends React.Component {
         return (await axios.get(GetBaseURL() + '/users')).data
     }
 
-    async MasterInfo() {
-        return (await axios.get(GetBaseURL() + '/masters')).data
+    async LogisticsInfo() {
+        return (await axios.get(GetBaseURL() + '/logistics')).data
     }
 
     constructor(props) {

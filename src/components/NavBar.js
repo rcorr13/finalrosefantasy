@@ -18,10 +18,12 @@ class NavBar extends Component {
 
     async fetchInfo() {
         let currentSeason = await this.currentSeason();
-        let currentWeek = await this.currentWeek();
         let logistics = await this.LogisticsInfo();
+        let currentLogistics = logistics.filter(option => option.season === currentSeason)[0];
+        let currentWeek = currentLogistics.currentWeek;
+
         let previousSeasonList = logistics
-            .filter(seasonInfo => seasonInfo.season != currentSeason)
+            .filter(seasonInfo => seasonInfo.status != "On")
             .map(seasonInfo => seasonInfo.season)
 
         let currentSeasonList = logistics
@@ -37,7 +39,10 @@ class NavBar extends Component {
     }
 
     async currentSeason() {
-        window.sessionStorage.setItem("key", "value");
+        let currentSeason = window.sessionStorage.getItem("currentSeason")
+        if (currentSeason) {
+            return currentSeason
+        }
         return (await axios.get(GetBaseURL() + '/masters')).data[0].currentSeason
     }
     
@@ -79,7 +84,7 @@ class NavBar extends Component {
 
         const authLinks = (
             <Nav className="ml-auto">
-                <Nav.Link href="/pickcontestants">Pick Contestants</Nav.Link>
+                <Nav.Link href={"/pickcontestants/" + this.state.currentSeason}>Pick Contestants</Nav.Link>
                 <NavDropdown alignRight title={Object.is(user.firstname, undefined) ? 'title' : user.firstname} id="collasible-nav-dropdown">
                     <NavDropdown.Item onClick={this.redirectChangePassword.bind(this)}>Change Password</NavDropdown.Item>
                     <NavDropdown.Item onClick={this.onLogout.bind(this)}>Logout</NavDropdown.Item>
@@ -118,9 +123,17 @@ class NavBar extends Component {
                 <Form.Group controlId="formSelectSeason">
                     <Form.Control
                     as="select"
+                    value={this.state.currentSeason}
                     onChange={e => {
                         window.sessionStorage.setItem("currentSeason", e.target.value);
-                        console.log("e.target.value", e.target.value);
+                        this.setState({currentSeason: e.target.value});
+                        console.log("currentSeason: ", e.target.value);
+                        let currentPath = window.location.pathname;
+                        let currentPathSplit = currentPath.split("/");
+                        if (currentPathSplit.length == 3) {
+                            let newPath = "/" + currentPathSplit[1] + "/" + e.target.value;
+                            window.location.href = newPath;
+                        }
                     }}
                     >
                     {this.state.currentSeasons.map(season =>
@@ -130,7 +143,6 @@ class NavBar extends Component {
                 </Form.Group>
             </Form>
         )
-
 
         return(
             <Navbar collapseOnSelect className="sticky-nav" sticky="top" expand="md" bg="dark" variant="dark" style={{zIndex: '10'}}>
