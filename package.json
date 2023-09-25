@@ -43,7 +43,7 @@
     "validator": "^13.1.17"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cd ./backend && node app.js",
     "heroku-postbuild": "npm run build",
     "build": "react-scripts build",
     "test": "react-scripts test",
