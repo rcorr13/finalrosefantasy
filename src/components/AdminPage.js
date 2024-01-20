@@ -135,7 +135,7 @@ export default class AdminPage extends React.Component {
         let FinalPicks =  {};
         let firstNames = Object.keys(Preferences);
         firstNames.map(firstname => {FinalPicks[firstname] = []})
-        if (length(Preferences) > 0) {
+        if (Preferences.length > 0) {
             let ContestantTimesPicked = {};
             for (let roundnum = 0; roundnum < week1pickorder.length; roundnum++) {
                 let roundorder = week1pickorder[roundnum];
