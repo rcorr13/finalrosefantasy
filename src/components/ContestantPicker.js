@@ -82,8 +82,8 @@ class ContestantPicker extends React.Component {
     }
 
     async fetchContestants() {
-        let currentSeason = window.sessionStorage.getItem("currentSeason");
         let logistics = await this.LogisticsInfo();
+        let currentSeason = window.sessionStorage.getItem("currentSeason");
         logistics = logistics.filter(option => option.season === currentSeason)[0];
         let currentWeek = logistics.currentWeek;
 
