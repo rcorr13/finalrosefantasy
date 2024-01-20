@@ -28,10 +28,8 @@ class NavBar extends Component {
             .map(seasonInfo => seasonInfo.season)
 
         let currentSeason = await this.currentSeason(currentSeasonList);
-
         let currentLogistics = logistics.filter(option => option.season === currentSeason)[0];
         let currentWeek = currentLogistics.currentWeek;
-    
         this.setState({
             currentSeason: currentSeason,
             currentWeek: currentWeek,
@@ -42,9 +40,9 @@ class NavBar extends Component {
 
     async currentSeason(currentSeasonList) {
         if (currentSeasonList.length < 1.5) {
-            let currentSeason = await axios.get(GetBaseURL() + '/masters').data[0].currentSeason
-            window.sessionStorage.setItem("currentSeason", currentSeason);
-            return currentSeason
+            let awaitCurrentSeason = (await axios.get(GetBaseURL() + '/masters')).data[0].currentSeason
+            window.sessionStorage.setItem("currentSeason", awaitCurrentSeason);
+            return awaitCurrentSeason
         }
         let currentSeason = window.sessionStorage.getItem("currentSeason")
         if (currentSeason) {
