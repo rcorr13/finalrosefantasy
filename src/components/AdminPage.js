@@ -93,9 +93,6 @@ export default class AdminPage extends React.Component {
             ['1', '5', '2', '6', '3', '7', '4']
         ]
 
-        const week1pickorder =
-
-
         const week1pickorder = [
             ['Erik', 'Hope', 'Rachel', 'Shannon', 'Davis', 'Julia', 'Rebecca'],
             ['Rebecca', 'Julia', 'Davis', 'Shannon', 'Rachel', 'Hope', 'Erik'],
