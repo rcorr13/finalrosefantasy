@@ -93,19 +93,47 @@ export default class AdminPage extends React.Component {
             ['1', '5', '2', '6', '3', '7', '4']
         ]
 
+        const week1pickorder =
+
 
         const week1pickorder = [
             ['Erik', 'Hope', 'Rachel', 'Shannon', 'Davis', 'Julia', 'Rebecca'],
             ['Rebecca', 'Julia', 'Davis', 'Shannon', 'Rachel', 'Hope', 'Erik'],
         ]
-
-        */
         
         const week1pickorder = [
             ['Shannon', 'Sarah', 'Rebecca', 'Rachel', 'Hope', 'Julia', 'Davis', 'Erik'],
             ['Erik', 'Davis', 'Julia', 'Hope', 'Rachel', 'Rebecca', 'Sarah', 'Shannon'],
             ['Hope', 'Shannon', 'Rachel', 'Rebecca', 'Davis', 'Julia', 'Sarah', 'Erik']
         ]
+
+        */
+        
+        const draftOrder8 = [
+            ['8', '7', '6', '5', '4', '3', '2', '1'],
+            ['4', '3', '2', '1', '8', '7', '6', '5'],
+            ['2', '4', '6', '8', '1', '3', '5', '7'],
+        ];
+        
+        const lastSeasonPlaces = {
+            '1': 'Julia',
+            '2': 'Rachel',
+            '3': 'Erik',
+            '4': 'Davis',
+            '5': 'Shannon',
+            '6': 'Rebecca',
+            '7': 'Hope',
+            '8': 'Sarah'
+        }
+        
+        // Function to replace names with numbers
+        function replaceNamesWithNumbers(array) {
+            return array.map(row => row.map(name => lastSeasonPlaces[name]));
+        }
+        
+        // Apply the substitutions to the week1pickorder array
+        const week1pickorder = replaceNamesWithNumbers(draftOrder8);
+        
         
 
         let Preferences = this.state.allCurrentPicks;

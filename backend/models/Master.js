@@ -7,7 +7,7 @@ const MasterSchema = new Schema({
         type: String,
         required: true,
         unique: true,
-        default: "BiP-9"
+        default: "Bachelor-28"
     },
     currentWeek: {
         type: String,

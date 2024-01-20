@@ -46,10 +46,6 @@ class NavBar extends Component {
         return (await axios.get(GetBaseURL() + '/masters')).data[0].currentSeason
     }
     
-    async currentWeek() {
-        return (await axios.get(GetBaseURL() + '/masters')).data[0].currentWeek
-    }
-
     async LogisticsInfo() {
         return (await axios.get(GetBaseURL() + '/logistics')).data
     }
