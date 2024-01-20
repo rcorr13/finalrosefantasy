@@ -42,7 +42,9 @@ class NavBar extends Component {
 
     async currentSeason(currentSeasonList) {
         if (currentSeasonList.length < 1.5) {
-            return (await axios.get(GetBaseURL() + '/masters')).data[0].currentSeason
+            let currentSeason = await axios.get(GetBaseURL() + '/masters').data[0].currentSeason
+            window.sessionStorage.setItem("currentSeason", currentSeason);
+            return currentSeason
         }
         let currentSeason = window.sessionStorage.getItem("currentSeason")
         if (currentSeason) {
