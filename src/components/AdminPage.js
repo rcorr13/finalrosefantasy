@@ -131,13 +131,11 @@ export default class AdminPage extends React.Component {
         // Apply the substitutions to the week1pickorder array
         const week1pickorder = replaceNamesWithNumbers(draftOrder8);
         
-        
-
         let Preferences = this.state.allCurrentPicks;
         let FinalPicks =  {};
         let firstNames = Object.keys(Preferences);
         firstNames.map(firstname => {FinalPicks[firstname] = []})
-        if (!(Preferences === {})) {
+        if (length(Preferences) > 0) {
             let ContestantTimesPicked = {};
             for (let roundnum = 0; roundnum < week1pickorder.length; roundnum++) {
                 let roundorder = week1pickorder[roundnum];
